@@ -18,4 +18,4 @@ class BaseModel:
 
     def __init__(self, args, **kwargs):
         if not kwargs:
-            self.id = datetime.now()
+            self.id = uuid4()
