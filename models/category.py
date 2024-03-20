@@ -7,4 +7,4 @@ from sqlalchemy import Column, String, ForeignKey
 
 class Category(BaseModel, Base):
     """ Defining the class category for the expenses """
-    na
+    name = Column(String(60), )
