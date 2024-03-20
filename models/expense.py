@@ -7,4 +7,5 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 
 class Expense(BaseModel, Base):
     """ Defining the Expense Class """
-    __table
+    __tablename__ = 'expenses'
+    category_id = Column()
