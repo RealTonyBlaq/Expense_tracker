@@ -8,6 +8,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 class Expense(BaseModel, Base):
     """ Defining the Expense Class """
     __tablename__ = 'expenses'
-    category_id = Column(String(60), ForeignKey('categories.id'), nullable=False)
+    category_id = Column(String(60), ForeignKey('categories.id'),
+                         nullable=False)
     amount = Column(Integer, nullable=False)
-    description = Column(String(128))
+    description = Column(String(128), nullable=True)
