@@ -11,4 +11,4 @@ Base = declarative_base()
 
 class BaseModel:
     """ Defines the BaseModel class """
-    id = Column(String(60), primary_key=True, nullable=)
+    id = Column(String(60), primary_key=True, nullable=False)
