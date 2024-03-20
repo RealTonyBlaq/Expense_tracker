@@ -6,4 +6,4 @@ from sqlalchemy import String, Integer
 
 
 class User(BaseModel, Base):
-    ""
+    """ Defining the User class """
