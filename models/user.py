@@ -3,3 +3,7 @@
 
 from models.base import Base, BaseModel
 from sqlalchemy import String, Integer
+
+
+class User(BaseModel, Base):
+    ""
