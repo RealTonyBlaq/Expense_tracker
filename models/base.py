@@ -3,7 +3,7 @@
 
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, String, DateTime
 from uuid import uuid4
 
 
@@ -20,4 +20,4 @@ class BaseModel:
         if not kwargs:
             self.id = str(uuid4())
             self.created_at = datetime.now()
-            self.updated_at = 
+            self.updated_at = self.created_at
