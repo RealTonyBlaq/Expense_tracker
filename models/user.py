@@ -2,8 +2,9 @@
 """ The User Model """
 
 from models.base import Base, BaseModel
-from sqlalchemy import String, Integer
+from sqlalchemy import String, Integer, Column
 
 
 class User(BaseModel, Base):
     """ Defining the User class """
+    first_name = 
