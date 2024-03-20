@@ -3,6 +3,7 @@
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
+from uuid import uuid4
 
 
 Base = declarative_base()
