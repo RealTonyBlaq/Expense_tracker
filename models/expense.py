@@ -9,3 +9,4 @@ class Expense(BaseModel, Base):
     """ Defining the Expense Class """
     __tablename__ = 'expenses'
     category_id = Column(String(60), ForeignKey('categories.id'), nullable=False)
+    amount = Column(Integer, )
