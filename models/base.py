@@ -16,4 +16,6 @@ class BaseModel:
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
 
-    def __init__(self,):
+    def __init__(self, args, **kwargs):
+        if not kwargs:
+            
