@@ -2,7 +2,9 @@
 """ The Category Model """
 
 from models.base import BaseModel, Base
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, ForeignKey
 
 
-class Category(BaseModel, Base)
+class Category(BaseModel, Base):
+    """ Defining the class category for the expenses """
+    na
