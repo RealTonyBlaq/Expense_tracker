@@ -8,4 +8,5 @@ from sqlalchemy import Column, Integer, String
 Base = declarative_base()
 
 class BaseModel:
+    """ Defines the BaseModel class """
     
