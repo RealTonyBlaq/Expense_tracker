@@ -3,3 +3,6 @@
 
 from models.base import Base, BaseModel
 from sqlalchemy import Column, Integer, String, ForeignKey
+
+
+class Expense(BaseModel, Base)
