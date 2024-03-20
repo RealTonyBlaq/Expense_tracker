@@ -14,4 +14,4 @@ class BaseModel:
     """ Defines the BaseModel class """
     id = Column(String(60), primary_key=True, nullable=False)
     created_at = Column(DateTime, nullable=False)
-    updated_at
+    updated_at = Column(DateTime, nullable=False)
