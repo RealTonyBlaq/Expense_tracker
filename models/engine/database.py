@@ -22,3 +22,4 @@ class Database:
                                                                      PASSWORD,
                                                                      HOST,
                                                                      DB))
+        
