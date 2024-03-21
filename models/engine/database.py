@@ -23,4 +23,5 @@ class Database:
                                                                      HOST,
                                                                      DB))
 
-    def reload()
+    def reload(self):
+        
