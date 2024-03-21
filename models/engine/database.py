@@ -6,4 +6,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 
-class Database()
+class Database:
+    """ Defining the Database storage Model """
+    
