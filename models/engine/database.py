@@ -26,4 +26,5 @@ class Database:
     def reload(self):
         """ Reloads data from the database """
         Base.metadata.create_all(self.__engine)
-        sess = 
+        sess = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session = scoped_session
