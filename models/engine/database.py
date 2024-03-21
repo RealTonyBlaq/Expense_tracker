@@ -14,5 +14,6 @@ class Database:
 
     def __init__(self):
         """ Initializing attributes """
-        USER = getenv('')
+        USER = getenv('ET_DB_USER')
+        PASSWORD = getenv('ET_')
         self.__engine = create_engine('mysqldb://{}:{}@{}/{}'.format())
