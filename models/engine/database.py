@@ -13,4 +13,5 @@ class Database:
 
     def __init__(self):
         """ Initializing attributes """
-        self.__engine = create_engine('mysqldb://{}:')
+        
+        self.__engine = create_engine('mysqldb://{}:{}@{}/{}'.format())
