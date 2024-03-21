@@ -13,5 +13,5 @@ class Database:
 
     def __init__(self):
         """ Initializing attributes """
-        
+        USER = getenv('')
         self.__engine = create_engine('mysqldb://{}:{}@{}/{}'.format())
