@@ -22,4 +22,5 @@ class Database:
                                                                      PASSWORD,
                                                                      HOST,
                                                                      DB))
-        
+
+    def reload()
