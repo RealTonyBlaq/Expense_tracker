@@ -8,4 +8,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 class Database:
     """ Defining the Database storage Model """
-    
+    __engine = None
+    __session = None
+
+    def __init__(self):
