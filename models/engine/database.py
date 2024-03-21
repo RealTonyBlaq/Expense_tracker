@@ -24,4 +24,4 @@ class Database:
                                                                      DB))
 
     def reload(self):
-        
+        """ Reloads data from the """
