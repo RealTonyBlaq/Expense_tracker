@@ -2,6 +2,7 @@
 """ Storage Model """
 
 from models.base import Base
+from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
