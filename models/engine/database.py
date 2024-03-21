@@ -12,3 +12,4 @@ class Database:
     __session = None
 
     def __init__(self):
+        """ Initializing attributes """
