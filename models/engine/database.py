@@ -17,5 +17,5 @@ class Database:
         USER = getenv('ET_DB_USER')
         PASSWORD = getenv('ET_DB_PWD')
         HOST = getenv('ET_DB_HOST')
-        DB = getenv
+        DB = getenv('ET_DB')
         self.__engine = create_engine('mysqldb://{}:{}@{}/{}'.format())
