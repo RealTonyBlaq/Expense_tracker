@@ -25,4 +25,5 @@ class Database:
 
     def reload(self):
         """ Reloads data from the database """
-        Base.metadata.create_all
+        Base.metadata.create_all(self.__engine)
+        sess = 
