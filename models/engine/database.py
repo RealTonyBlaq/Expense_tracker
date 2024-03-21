@@ -24,4 +24,5 @@ class Database:
                                                                      DB))
 
     def reload(self):
-        """ Reloads data from the """
+        """ Reloads data from the database """
+        Base.metadata.create_all
