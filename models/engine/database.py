@@ -30,6 +30,7 @@ class Database:
         session = scoped_session(sess)
         self.__session = session
 
-    def all(self, cls):
+    def all(self, cls=None):
         """ Retrieves all objs of a class from storage """
+        objs = {}
         ins = self.__session.query(cls)
