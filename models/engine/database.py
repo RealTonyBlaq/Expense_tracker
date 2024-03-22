@@ -4,10 +4,13 @@
 from models.base import Base
 from models.category import Category
 from models.expense import Expense
-from m
+from models.user import User
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+
+
+classes = [Category, Expense, User]
 
 
 class Database:
