@@ -45,4 +45,6 @@ class Database:
                 objs['{}.{}'.format(cls.__name__, row.id)] = row
         else:
             for clas in classes:
-                ins = self.__
+                ins = self.__session.query(clas)
+                for row in ins:
+                    objs['{}'.format]
