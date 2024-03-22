@@ -49,3 +49,5 @@ class Database:
                 for row in ins:
                     objs['{}.{}'.format(clas.__name__, row.id)] = row
         return objs
+
+    def add()
