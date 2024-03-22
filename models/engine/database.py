@@ -56,4 +56,4 @@ class Database:
             self.__session.add(obj)
 
     def save(self, obj):
-        """ Saves """
+        """ Saves an object to db, updates the updated_at elem """
