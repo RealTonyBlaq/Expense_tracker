@@ -47,4 +47,5 @@ class Database:
             for clas in classes:
                 ins = self.__session.query(clas)
                 for row in ins:
-                    objs['{}.{}'.format(clas.__name__, row.id)] = r
+                    objs['{}.{}'.format(clas.__name__, row.id)] = row
+        return objs
