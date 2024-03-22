@@ -51,8 +51,9 @@ class Database:
         return objs
 
     def add(self, obj):
-        """ Adds a new object to storage """
+        """ Adds a new object to the current session  """
         if obj:
             self.__session.add(obj)
 
-    def save()
+    def save(self, obj):
+        """ Saves """
