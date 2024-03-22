@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Storage Model """
 
+from datetime import datetime
 from models.base import Base
 from models.category import Category
 from models.expense import Expense
@@ -57,4 +58,5 @@ class Database:
 
     def save(self, obj):
         """ Saves an object to db, updates the updated_at elem """
-        
+        if obj:
+            obj.updated
