@@ -57,3 +57,4 @@ class Database:
 
     def save(self, obj):
         """ Saves an object to db, updates the updated_at elem """
+        
