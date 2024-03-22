@@ -24,4 +24,5 @@ class BaseModel:
         if kwargs:
             for key, value in kwargs.items():
                 if key not in ['id', 'created_at', 'updated_at']:
-                    
+                    setattr(self, key, value)
+            
