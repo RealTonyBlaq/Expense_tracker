@@ -50,4 +50,6 @@ class Database:
                     objs['{}.{}'.format(clas.__name__, row.id)] = row
         return objs
 
-    def add()
+    def add(self, obj):
+        """ Adds a new object to storage """
+        self.__session.add()
