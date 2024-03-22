@@ -32,4 +32,4 @@ class Database:
 
     def get(self, cls, id):
         """ Gets an obj from storage """
-        self.__session.query
+        ins = self.__session.query(cls)
