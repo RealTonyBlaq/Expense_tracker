@@ -59,4 +59,5 @@ class Database:
     def save(self, obj):
         """ Saves an object to db, updates the updated_at elem """
         if obj:
-            obj.updated
+            obj.updated_at = datetime.now()
+            self.__session.commit()
