@@ -30,5 +30,3 @@ class BaseModel:
         """ Returns a string representation of the Object """
         return "[{}].{} ({})".format(self.__class__.__name__, self.id,
                                      self.__dict__)
-
-    def to_dict()
