@@ -31,4 +31,5 @@ class Database:
         self.__session = session
 
     def get(self, cls, id):
-        """ Returns an """
+        """ Gets an obj from storage """
+        
