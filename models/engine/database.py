@@ -52,4 +52,7 @@ class Database:
 
     def add(self, obj):
         """ Adds a new object to storage """
-        self.__session.add()
+        if obj:
+            self.__session.add(obj)
+
+    def save()
