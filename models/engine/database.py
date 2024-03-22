@@ -44,4 +44,5 @@ class Database:
             for row in ins:
                 objs['{}.{}'.format(cls.__name__, row.id)] = row
         else:
-            
+            for clas in classes:
+                ins = self.__
