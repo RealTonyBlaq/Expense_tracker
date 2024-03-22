@@ -26,5 +26,6 @@ class BaseModel:
                 if key not in ['id', 'created_at', 'updated_at']:
                     setattr(self, key, value)
 
-    def __str__(self) -> str:
-        pass
+    def __str__(self):
+        """ Returns a string representation of the Object """
+        return ""
