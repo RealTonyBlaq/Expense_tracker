@@ -17,7 +17,9 @@ class BaseModel:
     updated_at = Column(DateTime, nullable=False)
 
     def __init__(self, args, **kwargs):
-        if not kwargs:
-            self.id = str(uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = self.created_at
+        """ """
+        self.id = str(uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = self.created_at
+        if kwargs:
+            for key, value in kwargs.items():
