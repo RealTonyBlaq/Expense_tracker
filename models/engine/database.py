@@ -33,4 +33,7 @@ class Database:
     def all(self, cls=None):
         """ Retrieves all objs of a class from storage """
         objs = {}
-        ins = self.__session.query(cls)
+        if cls:
+            ins = self.__session.query(cls)
+            for row in ins:
+                o
