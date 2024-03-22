@@ -31,5 +31,5 @@ class Database:
         self.__session = session
 
     def all(self, cls):
-        """ Retrieves an obj from storage """
+        """ Retrieves all objs of a class from storage """
         ins = self.__session.query(cls)
