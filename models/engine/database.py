@@ -29,3 +29,6 @@ class Database:
         sess = sessionmaker(bind=self.__engine, expire_on_commit=False)
         session = scoped_session(sess)
         self.__session = session
+
+    def get(self, cls, id):
+        """ Returns an """
