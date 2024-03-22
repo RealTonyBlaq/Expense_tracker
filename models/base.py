@@ -23,3 +23,4 @@ class BaseModel:
         self.updated_at = self.created_at
         if kwargs:
             for key, value in kwargs.items():
+                if key not in ['id', 'created_at', ]
