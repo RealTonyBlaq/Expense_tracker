@@ -28,4 +28,5 @@ class BaseModel:
 
     def __str__(self):
         """ Returns a string representation of the Object """
-        return "[{}].{} ({})".format(self.__class__.__name__,)
+        return "[{}].{} ({})".format(self.__class__.__name__, self.id,
+                                     self.__dict__)
