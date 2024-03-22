@@ -36,4 +36,4 @@ class Database:
         if cls:
             ins = self.__session.query(cls)
             for row in ins:
-                objs['{}.{}'.format(row)]
+                objs['{}.{}'.format(cls.__name__, row.id)] = row
