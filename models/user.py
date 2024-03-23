@@ -28,7 +28,8 @@ class User(BaseModel, Base):
         categories = storage.all(Category)
         user_dict = {}
         for key, value in self.__dict__.items():
-            
+            if key != "password":
+                user_dict[key] = value
         for category in categories.values():
             if category.user_id == self.id:
                 
