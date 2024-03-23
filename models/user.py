@@ -26,4 +26,4 @@ class User(BaseModel, Base):
         """
         from models import storage
         categories = storage.all(Category)
-        for category in categories.all
+        for category in categories.values()
