@@ -16,7 +16,7 @@ class User(BaseModel, Base):
     categories = relationship("Category", backref="users",
                               cascade="all, delete, delete-orphan")
 
-    def details():
+    def details(self):
         """
         Returns a dictionary containing information about a user
         including a list of dictionaries with <category.name>.<category.id>
