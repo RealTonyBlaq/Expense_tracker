@@ -18,4 +18,5 @@ class Expense(BaseModel, Base):
         Returns a dictionary containing key-value pairs of
         the attributes an expense object
         """
-        for key, value in 
+        expense 
+        for key, value in self.__dict__.items():
