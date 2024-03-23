@@ -26,6 +26,7 @@ class User(BaseModel, Base):
         """
         from models import storage
         categories = storage.all(Category)
+        expenses = storage.all(Expense)
         user_dict = {}
         for key, value in self.__dict__.items():
             if key != "password":
@@ -35,4 +36,4 @@ class User(BaseModel, Base):
             if category.user_id == self.id:
                 key = "{}.{}".format(category.name, category.id)
                 new = {key: []}
-                for 
+                for expense in expenses.val
