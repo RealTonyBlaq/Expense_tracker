@@ -15,3 +15,6 @@ class User(BaseModel, Base):
     password = Column(String(60), nullable=False)
     categories = relationship("Category", backref="users",
                               cascade="all, delete, delete-orphan")
+
+    def details():
+        """ Returns a dictionary containing information about a user"""
