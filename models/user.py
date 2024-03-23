@@ -34,4 +34,5 @@ class User(BaseModel, Base):
         for category in categories.values():
             if category.user_id == self.id:
                 key = "{}.{}".format(category.name, category.id)
-                new = {}
+                new = {key: []}
+                for 
