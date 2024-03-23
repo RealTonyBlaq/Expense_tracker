@@ -40,3 +40,4 @@ class User(BaseModel, Base):
                     if expense.category_id == category.id:
                         new[key].append(expense.to_dict())
                 user_dict["expenses"].append(new)
+        return user_dict
