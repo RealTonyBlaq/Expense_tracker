@@ -3,7 +3,7 @@
 
 from models.base import Base, BaseModel
 from sqlalchemy import String, Column
-
+from sqlalchemy
 
 class User(BaseModel, Base):
     """ Defining the User class """
