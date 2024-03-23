@@ -25,7 +25,7 @@ class Database:
         PASSWORD = getenv('ET_DB_PWD')
         HOST = getenv('ET_DB_HOST')
         DB = getenv('ET_DB')
-        self.__engine = create_engine('mysqldb://{}:{}@{}/{}'.format(USER,
+        self.__engine = create_engine('mysql://{}:{}@{}:3306/{}'.format(USER,
                                                                      PASSWORD,
                                                                      HOST,
                                                                      DB))
@@ -56,8 +56,6 @@ class Database:
         if obj:
             self.__session.add(obj)
 
-    def save(self, obj):
+    def save(self):
         """ Saves an object to db, updates the updated_at elem """
-        if obj:
-            obj.updated_at = datetime.now()
-            self.__session.commit()
+        self.__session.commit()
