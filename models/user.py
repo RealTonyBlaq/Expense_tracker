@@ -37,4 +37,4 @@ class User(BaseModel, Base):
                 key = "{}.{}".format(category.name, category.id)
                 new = {key: []}
                 for expense in expenses.values():
-                    
+                    if expense.category
