@@ -27,6 +27,7 @@ class User(BaseModel, Base):
         from models import storage
         categories = storage.all(Category)
         user_dict = {}
+        for key, value in 
         for category in categories.values():
             if category.user_id == self.id:
                 
