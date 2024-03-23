@@ -20,5 +20,6 @@ class User(BaseModel, Base):
         """
         Returns a dictionary containing information about a user
         including a list of dictionaries with <category.name>.<category.id>
-        as key 
+        as key and a list of expenses as the value pair
         """
+        
