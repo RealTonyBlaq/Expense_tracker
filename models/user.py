@@ -30,6 +30,7 @@ class User(BaseModel, Base):
         for key, value in self.__dict__.items():
             if key != "password":
                 user_dict[key] = value
+        
         for category in categories.values():
             if category.user_id == self.id:
                 
