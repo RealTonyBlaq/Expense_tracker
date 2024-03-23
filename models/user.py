@@ -3,7 +3,8 @@
 
 from models.base import Base, BaseModel
 from sqlalchemy import String, Column
-from sqlalchemy
+from sqlalchemy.orm import relationship
+
 
 class User(BaseModel, Base):
     """ Defining the User class """
@@ -12,3 +13,4 @@ class User(BaseModel, Base):
     last_name = Column(String(60), nullable=False)
     email = Column(String(60), nullable=False)
     password = Column(String(60), nullable=False)
+    
