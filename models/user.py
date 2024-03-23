@@ -24,4 +24,3 @@ class User(BaseModel, Base):
         including a list of dictionaries with <category.name>.<category.id>
         as key and a list of expenses as the value pair
         """
-        
