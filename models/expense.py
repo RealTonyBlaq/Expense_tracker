@@ -14,5 +14,8 @@ class Expense(BaseModel, Base):
     description = Column(String(128), nullable=True)
 
     def to_dict(self):
-        """ Returns a dictionary containing key-value pairs of
-        the attributes an expense object"""
+        """
+        Returns a dictionary containing key-value pairs of
+        the attributes an expense object
+        """
+        for key, value in 
