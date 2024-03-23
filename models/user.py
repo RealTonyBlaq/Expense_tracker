@@ -17,4 +17,7 @@ class User(BaseModel, Base):
                               cascade="all, delete, delete-orphan")
 
     def details():
-        """ Returns a dictionary containing information about a user"""
+        """
+        Returns a dictionary containing information about a user
+        including 
+        """
