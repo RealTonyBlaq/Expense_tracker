@@ -25,4 +25,5 @@ class User(BaseModel, Base):
         as key and a list of expenses as the value pair
         """
         from models import storage
-        categories = storage.all()
+        categories = storage.all(Category)
+        for category in categories.all
