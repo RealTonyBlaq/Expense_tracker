@@ -19,5 +19,5 @@ class User(BaseModel, Base):
     def details():
         """
         Returns a dictionary containing information about a user
-        including a list of dictionaries with <category.name>.<>
+        including a list of dictionaries with <category.name>.<expense_dict>
         """
