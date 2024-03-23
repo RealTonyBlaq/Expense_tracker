@@ -26,4 +26,5 @@ class User(BaseModel, Base):
         """
         from models import storage
         categories = storage.all(Category)
-        for category in categories.values()
+        for category in categories.values():
+            if category.user_id == 
