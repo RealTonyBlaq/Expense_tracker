@@ -2,7 +2,7 @@
 """ The User Model """
 
 from models.base import Base, BaseModel
-from model
+from models.category import Category
 from models.expense import Expense
 from sqlalchemy import String, Column
 from sqlalchemy.orm import relationship
