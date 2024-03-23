@@ -2,6 +2,8 @@
 """ The User Model """
 
 from models.base import Base, BaseModel
+from model
+from models.expense import Expense
 from sqlalchemy import String, Column
 from sqlalchemy.orm import relationship
 
@@ -22,4 +24,3 @@ class User(BaseModel, Base):
         including a list of dictionaries with <category.name>.<category.id>
         as key and a list of expenses as the value pair
         """
-        
