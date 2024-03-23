@@ -21,3 +21,4 @@ class Expense(BaseModel, Base):
         expense_dict = {}
         for key, value in self.__dict__.items():
             expense_dict[key] = value
+        return expense_dict
