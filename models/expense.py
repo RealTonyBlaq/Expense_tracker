@@ -12,3 +12,7 @@ class Expense(BaseModel, Base):
                          nullable=False)
     amount = Column(Integer, nullable=False)
     description = Column(String(128), nullable=True)
+
+    def to_dict(self):
+        """ Returns a dictionary containing key-value pairs of
+        the attributes an expense object"""
