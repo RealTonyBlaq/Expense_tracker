@@ -13,4 +13,5 @@ class User(BaseModel, Base):
     last_name = Column(String(60), nullable=False)
     email = Column(String(60), nullable=False)
     password = Column(String(60), nullable=False)
-    categories = relationship("")
+    categories = relationship("Category", backref="users",
+                              cascade="all, delete, delete-orphan")
