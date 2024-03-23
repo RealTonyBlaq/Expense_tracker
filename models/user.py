@@ -33,4 +33,4 @@ class User(BaseModel, Base):
 
         for category in categories.values():
             if category.user_id == self.id:
-                new 
+                new = {"{}.{}".format(category.nam)}
