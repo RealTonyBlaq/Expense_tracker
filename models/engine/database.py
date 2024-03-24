@@ -11,7 +11,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 
-classes = [Category, Expense, User]
+classes = [User, Category, Expense]
 
 
 class Database:
