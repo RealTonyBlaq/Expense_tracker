@@ -25,8 +25,6 @@ class BaseModel:
             for key, value in kwargs.items():
                 if key not in ['id', 'created_at', 'updated_at']:
                     setattr(self, key, value)
-        if '_sa_instance_state' in self.__dict__:
-            del self.__dict__['_sa_instance_state']
 
     def __str__(self):
         """ Returns a string representation of the Object """
@@ -37,7 +35,8 @@ class BaseModel:
         """ Returns a dictionary of the object's key-value pairs """
         obj_dict = {}
         for key, value in self.__dict__.items():
-            obj_dict[key] = value
+            if key != '_sa_instance_state':
+                obj_dict[key] = value
         return obj_dict
 
     def save(self):
