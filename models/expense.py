@@ -13,13 +13,19 @@ class Expense(BaseModel, Base):
     amount = Column(Integer, nullable=False)
     description = Column(String(128), nullable=True)
 
-    def increase_by(self, value:int):
+    def increase_by(self, value):
         """ Increases the amount of an Expense """
         if isinstance(value, int):
             self.amount += value
         else:
             raise TypeError('Value must be an Integer')
 
-    def decrease_by(self, value:int):
+    def decrease_by(self, value):
         """ Decreases the amount of an expense by a value """
-        self.amount -= value
+        if isinstance(value, int):
+            if value <= self.amount:
+                self.amount -= value
+            else:
+                raise ValueError('Value must be <= {}'.format(self.amount))
+        else:
+            raise TypeError('Value must be an Integer')
