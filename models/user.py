@@ -29,10 +29,12 @@ class User(BaseModel, Base):
         expenses = storage.all(Expense)
         user_dict = {}
         for key, value in self.__dict__.items():
-            if key != "password":
+            if key not in ["password", 'categories', '_sa_instance_state']:
                 user_dict[key] = value
+        user_dict['categories'] = []
         user_dict['expenses'] = []
         for category in categories.values():
+            user_dict["categories"].append(category.about())
             if category.user_id == self.id:
                 key = "{}.{}".format(category.name, category.id)
                 new = {key: []}
