@@ -7,7 +7,7 @@ from models import storage
 
 
 app = Flask(__name__)
-app.register_blueprint()
+app.register_blueprint(ETapp)
 
 
 @app.teardown_appcontext
@@ -20,6 +20,9 @@ def shutdown(error=None):
 def not_found():
     """ Returns a JSON if a request route wasn't found """
     return jsonify({'error': 'Not Found'})
+
+
+
 
 
 if __name__ == '__main__':
