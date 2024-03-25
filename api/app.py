@@ -24,7 +24,10 @@ def not_found():
 
 @app.route('/stats', strict_slashes=False)
 def stats():
-    """ Returns a count of """
+    """ Returns a count of User, Category and Expense objects """
+
+
+@app.route
 
 
 if __name__ == '__main__':
