@@ -27,7 +27,9 @@ def stats():
     """ Returns a count of User, Category and Expense objects """
 
 
-@app.route
+@app.route('/status', strict_slashes=False)
+def status():
+    
 
 
 if __name__ == '__main__':
