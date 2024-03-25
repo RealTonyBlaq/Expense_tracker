@@ -39,3 +39,5 @@ def delete(id):
 
 @ETapp.route('/users', methods=['POST'],
              strict_slashes=False)
+def create():
+    """ Creates a new User object """
