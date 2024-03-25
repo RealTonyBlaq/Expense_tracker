@@ -16,5 +16,4 @@ def retrieve(id=None):
     for obj in objs.values():
         if id:
             if obj.id == id:
-                user = obj.about().copy()
-                
+                user = obj.details()
