@@ -57,3 +57,7 @@ class Database:
     def save(self):
         """ Saves an object to db, updates the updated_at elem """
         self.__session.commit()
+
+    def close(self):
+        """ Calls the remove() on the database session """
+        self.__session.remove()
