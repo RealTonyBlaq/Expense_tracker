@@ -14,3 +14,6 @@ def retrieve(id=None):
     """
     objs = storage.all(User)
     for obj in objs.values():
+        if id:
+            if obj.id == id:
+                
