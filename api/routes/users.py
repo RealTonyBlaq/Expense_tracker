@@ -6,4 +6,4 @@ from models import storage
 from models.user import User
 
 
-ETapp.route('/user')
+ETapp.route('/users')
