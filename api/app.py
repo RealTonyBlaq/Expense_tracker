@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Expense Tracker Flask App """
 
-from flask import abort, Flask, jsonify
+from flask import Flask, jsonify
 from models import storage
 
 
