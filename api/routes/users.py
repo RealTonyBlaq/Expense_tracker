@@ -11,7 +11,7 @@ ETapp.route('/users', strict_slashes=False)
 ETapp.route('/users/<id>', strict_slashes=False)
 def retrieve(id=None):
     """
-    Returns a dict with all user objects or a single user if id is not None
+    Returns a dict/list with all user objects or a single user if id is not None
     """
     if id:
         obj = storage.find(User, id)
