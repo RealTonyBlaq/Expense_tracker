@@ -18,4 +18,4 @@ def retrieve(id=None):
         if id:
             if obj.id == id:
                 user = obj.details()
-                return 
+                return jsonify(user)
