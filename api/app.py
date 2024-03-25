@@ -22,7 +22,9 @@ def not_found():
     return jsonify({'error': 'Not Found'})
 
 
-@app.route('/stats', str)
+@app.route('/stats', strict_slashes=False)
+def stats():
+    """ Returns a count of """
 
 
 if __name__ == '__main__':
