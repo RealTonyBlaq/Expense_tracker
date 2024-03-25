@@ -28,8 +28,8 @@ def not_found():
 @app.route('/stats', strict_slashes=False)
 def stats():
     """ Returns a count of User, Category and Expense objects """
-    obj_stats = {'Users': len(storage.all(User)),
-                 }
+    obj_stats = {'users': len(storage.all(User)),
+                 'categories': len(storage.all(Category))}
 
 
 @app.route('/status', strict_slashes=False)
