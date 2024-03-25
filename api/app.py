@@ -31,7 +31,7 @@ def stats():
     obj_stats = {'users': len(storage.all(User)),
                  'categories': len(storage.all(Category)),
                  'expenses': len(storage.all(Expense))}
-    return jsonify()
+    return jsonify(obj_stats)
 
 
 @app.route('/status', strict_slashes=False)
