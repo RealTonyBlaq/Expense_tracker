@@ -13,6 +13,7 @@ def shutdown(error=None):
     """ Closes a Database session """
     storage.close()
 
+
 @app.errorhandler(404)
 def not_found():
     """ Returns a JSON if a request route wasn't found """
@@ -20,4 +21,4 @@ def not_found():
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0')
+    app.run('0.0.0.0', 5000)
