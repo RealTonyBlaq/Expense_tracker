@@ -2,7 +2,7 @@
 """ Module for API route for the User """
 
 from api import ETapp
-from flask import abort, jso
+from flask import abort, jsonify, make_response
 from models import storage
 from models.user import User
 
