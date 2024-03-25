@@ -51,4 +51,5 @@ def create():
             abort(400, 'email missing')
         if 'password' not in data:
             abort(400, 'password missing')
-        user = User()
+        user = User(**data)
+        user
