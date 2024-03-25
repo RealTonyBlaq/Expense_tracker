@@ -52,4 +52,5 @@ def create():
         if 'password' not in data:
             abort(400, 'password missing')
         user = User(**data)
-        user
+        user.save()
+        return make_response(jsonify())
