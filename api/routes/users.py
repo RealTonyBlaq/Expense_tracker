@@ -7,4 +7,5 @@ from models.user import User
 
 
 ETapp.route('/users', strict_slashes=False)
-def re
+ETapp.route('/users/<id>', strict_slashes=False)
+def retrieve(id=None)
