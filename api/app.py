@@ -22,7 +22,7 @@ def not_found():
     return jsonify({'error': 'Not Found'})
 
 
-
+@app.route('/stats', str)
 
 
 if __name__ == '__main__':
