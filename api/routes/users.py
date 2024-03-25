@@ -41,3 +41,4 @@ def delete(id):
              strict_slashes=False)
 def create():
     """ Creates a new User object """
+    
