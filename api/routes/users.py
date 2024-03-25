@@ -2,3 +2,8 @@
 """ Module for API route for the User """
 
 from api import ETapp
+from models import storage
+from models.user import User
+
+
+ET
