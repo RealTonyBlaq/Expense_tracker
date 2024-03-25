@@ -29,7 +29,9 @@ def not_found():
 def stats():
     """ Returns a count of User, Category and Expense objects """
     obj_stats = {'users': len(storage.all(User)),
-                 'categories': len(storage.all(Category))}
+                 'categories': len(storage.all(Category)),
+                 'expenses': len(storage.all(Expense))}
+    return jsonify()
 
 
 @app.route('/status', strict_slashes=False)
