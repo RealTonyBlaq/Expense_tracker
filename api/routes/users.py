@@ -16,7 +16,7 @@ def retrieve(id=None):
     if id:
         obj = storage.find(User, id)
         if obj:
-            return jsonify(obj.details())
+            return make_response(jsonify(obj.details()), 200)
         abort(404)
     else:
         users = []
@@ -34,4 +34,4 @@ def delete(id):
     if user:
         storage.delete(user)
         return make_response(jsonify({}), 200)
-    
+    abort(404)
