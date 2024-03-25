@@ -13,4 +13,4 @@ def retrieve(id=None):
     Returns a dict with all user objects or a single user if id is not None
     """
     objs = storage.all(User)
-    for obj in objs
+    for obj in objs.values():
