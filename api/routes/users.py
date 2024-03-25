@@ -43,4 +43,5 @@ def create():
     """ Creates a new User object """
     if request.is_json is True:
         data = request.get_json()
-        if ''
+        if 'first_name' not in data:
+            abort(400, )
