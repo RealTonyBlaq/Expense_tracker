@@ -43,3 +43,4 @@ def create():
     """ Creates a new User object """
     if request.is_json is True:
         data = request.get_json()
+        
