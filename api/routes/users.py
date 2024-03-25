@@ -30,4 +30,4 @@ def retrieve(id=None):
              strict_slashes=False)
 def delete(id):
     """ Deletes a User object if id exists """
-    
+    user
