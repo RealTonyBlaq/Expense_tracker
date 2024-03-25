@@ -17,3 +17,7 @@ def shutdown(error=None):
 def not_found():
     """ Returns a JSON if a request route wasn't found """
     return jsonify({'error': 'Not Found'})
+
+
+if __name__ == '__main__':
+    app.run()
