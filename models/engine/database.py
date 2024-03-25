@@ -55,9 +55,23 @@ class Database:
             self.__session.add(obj)
 
     def save(self):
-        """ Saves an object to db, updates the updated_at elem """
+        """ Commits all added objects to storage """
         self.__session.commit()
 
     def close(self):
         """ Calls the remove() on the database session """
         self.__session.remove()
+
+    def find(self, cls, id):
+        """ Retrieves an obj from storage based on its id and class """
+        if cls and id:
+            for obj in self.all(cls).values():
+                if obj.id == id:
+                    return obj
+        return None
+
+    def delete(self, obj):
+        """ Deletes an object and calls save """
+        if obj:
+            self.__session.delete(obj)
+            self.save()
