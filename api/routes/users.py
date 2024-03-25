@@ -12,4 +12,4 @@ def retrieve(id=None):
     """
     Returns a dict with all user objects or a single user if id is not None
     """
-    if
+    objs = storage.all(User)
