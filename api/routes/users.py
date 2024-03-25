@@ -44,4 +44,5 @@ def create():
     if request.is_json is True:
         data = request.get_json()
         if 'first_name' not in data:
-            abort(400, )
+            abort(400, 'first_name missing')
+        if 'last_name' not in data
