@@ -14,4 +14,5 @@ def shutdown(error=None):
     storage.close()
 
 @app.errorhandler(404)
-def error
+def not_found():
+    """ Returns a JSON if a"""
