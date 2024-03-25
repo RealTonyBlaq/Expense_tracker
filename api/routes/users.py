@@ -22,4 +22,5 @@ def retrieve(id=None):
         users = []
         for obj in storage.all(User).values():
             users.append(obj.details())
-        
+
+        return jsonify(users)
