@@ -26,4 +26,4 @@ def retrieve(id=None):
         return jsonify(users)
 
 
-@ETapp.route('/users')
+@ETapp.route('/users/<id>', methods)
