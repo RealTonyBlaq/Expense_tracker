@@ -47,4 +47,6 @@ def create():
             abort(400, 'first_name missing')
         if 'last_name' not in data:
             abort(400, 'last_name missing')
-        if 'email' not 
+        if 'email' not in data:
+            abort(400, 'email missing')
+        if 'password' not in data
