@@ -24,3 +24,6 @@ def retrieve(id=None):
             users.append(obj.details())
 
         return jsonify(users)
+
+
+@ETapp.route('/users')
