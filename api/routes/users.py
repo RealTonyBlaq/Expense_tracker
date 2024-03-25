@@ -23,7 +23,7 @@ def retrieve(id=None):
         for obj in storage.all(User).values():
             users.append(obj.details())
 
-        return jsonify(users)
+        return make_response(jsonify(users), 200)
 
 
 @ETapp.route('/users/<id>', methods=['DELETE'],
@@ -35,3 +35,6 @@ def delete(id):
         storage.delete(user)
         return make_response(jsonify({}), 200)
     abort(404)
+
+
+@ETapp.route()
