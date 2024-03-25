@@ -21,4 +21,5 @@ def retrieve(id=None):
     else:
         users = []
         for obj in storage.all(User).values():
-            
+            users.append(obj.details())
+        
