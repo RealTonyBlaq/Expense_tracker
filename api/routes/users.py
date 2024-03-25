@@ -13,9 +13,12 @@ def retrieve(id=None):
     """
     Returns a dict with all user objects or a single user if id is not None
     """
-    objs = storage.all(User)
-    for obj in objs.values():
-        if id:
-            if obj.id == id:
-                user = obj.details()
-                return jsonify(user)
+    if id:
+        obj = storage.find(User, id)
+        if obj:
+            return jsonify(obj.details())
+        abort(404)
+    else:
+        users = []
+        for obj in storage.all(User).values():
+            
