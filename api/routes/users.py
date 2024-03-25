@@ -33,4 +33,5 @@ def delete(id):
     user = storage.find(User, id)
     if user:
         storage.delete(user)
-        return make_response(jsonify({}), )
+        return make_response(jsonify({}), 200)
+    
