@@ -25,7 +25,7 @@ def not_found():
 @app.route('/stats', strict_slashes=False)
 def stats():
     """ Returns a count of User, Category and Expense objects """
-    pass
+    obj
 
 
 @app.route('/status', strict_slashes=False)
