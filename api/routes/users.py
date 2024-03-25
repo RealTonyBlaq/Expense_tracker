@@ -2,6 +2,7 @@
 """ Module for API route for the User """
 
 from api import ETapp
+from flask import abort, jso
 from models import storage
 from models.user import User
 
@@ -17,3 +18,4 @@ def retrieve(id=None):
         if id:
             if obj.id == id:
                 user = obj.details()
+                return 
