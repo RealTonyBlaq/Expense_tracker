@@ -12,3 +12,6 @@ app = Flask(__name__)
 def shutdown(error=None):
     """ Closes a Database session """
     storage.close()
+
+@app.errorhandler(404)
+def error
