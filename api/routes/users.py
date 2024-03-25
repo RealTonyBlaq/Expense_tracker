@@ -37,4 +37,5 @@ def delete(id):
     abort(404)
 
 
-@ETapp.route()
+@ETapp.route('/users', methods=['POST'],
+             strict_slashes=False)
