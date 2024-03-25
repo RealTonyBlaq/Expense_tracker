@@ -26,4 +26,7 @@ def retrieve(id=None):
         return jsonify(users)
 
 
-@ETapp.route('/users/<id>', methods)
+@ETapp.route('/users/<id>', methods=['DELETE'],
+             strict_slashes=False)
+def delete(id):
+    """ Deletes a """
