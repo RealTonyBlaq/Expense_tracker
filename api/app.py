@@ -32,5 +32,6 @@ def status():
     """ Returns a dict to show that the API is active """
     return jsonify({'status': 'Active'})
 
+
 if __name__ == '__main__':
     app.run('0.0.0.0', 5000)
