@@ -29,8 +29,8 @@ def stats():
 
 @app.route('/status', strict_slashes=False)
 def status():
-    
-
+    """ Returns a dict to show that the API is active """
+    return 
 
 if __name__ == '__main__':
     app.run('0.0.0.0', 5000)
