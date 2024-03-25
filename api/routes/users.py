@@ -53,5 +53,6 @@ def create():
             abort(400, 'password missing')
         user = User(**data)
         user.save()
-        dic = user.
+        dic = user.about().copy()
+        del dic['password']
         return make_response(jsonify(user.details()), 201)
