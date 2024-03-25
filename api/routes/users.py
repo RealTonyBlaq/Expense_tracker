@@ -29,4 +29,5 @@ def retrieve(id=None):
 @ETapp.route('/users/<id>', methods=['DELETE'],
              strict_slashes=False)
 def delete(id):
-    """ Deletes a """
+    """ Deletes a User object if id exists """
+    
