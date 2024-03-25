@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Expense Tracker Flask App """
 
-from flask import Flask
+from flask import abort, Flask, jsonify
 from models import storage
 
 
@@ -15,4 +15,4 @@ def shutdown(error=None):
 
 @app.errorhandler(404)
 def not_found():
-    """ Returns a JSON if a"""
+    """ Returns a JSON if a request route wasn't found """
