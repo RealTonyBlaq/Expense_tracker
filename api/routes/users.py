@@ -55,4 +55,4 @@ def create():
         user.save()
         dic = user.about().copy()
         del dic['password']
-        return make_response(jsonify(user.details()), 201)
+        return make_response(jsonify(dic), 201)
