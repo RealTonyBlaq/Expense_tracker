@@ -6,4 +6,5 @@ from models import storage
 from models.user import User
 
 
-ETapp.route('/users')
+ETapp.route('/users', strict_slashes=False)
+def re
