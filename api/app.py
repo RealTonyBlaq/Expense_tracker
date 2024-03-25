@@ -6,6 +6,7 @@ from flask import Flask, jsonify
 from models.category import Category
 from models import storage
 
+
 app = Flask(__name__)
 app.register_blueprint(ETapp)
 
