@@ -71,3 +71,5 @@ def update(id):
                     setattr(obj, key, value)
             obj.save()
             return make_response(jsonify(obj.details()), 200)
+        abort(404)
+    abort(400, '')
