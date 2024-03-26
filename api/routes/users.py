@@ -58,4 +58,6 @@ def create():
     abort(400, 'Not a JSON')
 
 
-@ETapp.route('/users/<id>', methods)
+@ETapp.route('/users/<id>', methods=['PUT'],
+             strict_slashes=False)
+def update(id)
