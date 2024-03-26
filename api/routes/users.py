@@ -60,4 +60,6 @@ def create():
 
 @ETapp.route('/users/<id>', methods=['PUT'],
              strict_slashes=False)
-def update(id)
+def update(id):
+    """ Updates a user based on request data """
+    
