@@ -7,7 +7,7 @@ from models import storage
 from models.user import User
 
 
-ETapp.route('/users', strict_slashes=False)
+@ETapp.route('/users', strict_slashes=False)
 ETapp.route('/users/<id>', strict_slashes=False)
 def retrieve(id=None):
     """
@@ -72,4 +72,4 @@ def update(id):
             obj.save()
             return make_response(jsonify(obj.details()), 200)
         abort(404)
-    abort(400, '')
+    abort(400, 'Not a JSON')
