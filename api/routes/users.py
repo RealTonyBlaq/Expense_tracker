@@ -67,4 +67,5 @@ def update(id):
         obj = storage.find(User, id)
         if obj:
             for key, value in data.items():
-                if key not in ['password', 'id', 'crea']
+                if key not in ['password', 'id', 'created_at', 'updated_at']:
+                    setattr(obj)
