@@ -56,3 +56,6 @@ def create():
         user.save()
         return make_response(jsonify(user.details()), 201)
     abort(400, 'Not a JSON')
+
+
+@ETapp.route('/users/<id>', methods)
