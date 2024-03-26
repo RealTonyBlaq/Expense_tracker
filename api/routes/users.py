@@ -70,4 +70,4 @@ def update(id):
                 if key not in ['password', 'id', 'created_at', 'updated_at']:
                     setattr(obj, key, value)
             obj.save()
-            return 
+            return make_response(jsonify(obj.details()), 200)
