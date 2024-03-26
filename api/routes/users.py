@@ -68,4 +68,5 @@ def update(id):
         if obj:
             for key, value in data.items():
                 if key not in ['password', 'id', 'created_at', 'updated_at']:
-                    setattr(obj)
+                    setattr(obj, key, value)
+            
