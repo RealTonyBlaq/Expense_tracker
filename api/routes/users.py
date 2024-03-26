@@ -64,4 +64,6 @@ def update(id):
     """ Updates a user based on request data """
     if request.is_json is True:
         data = request.get_json()
-        
+        obj = storage.find(User, id)
+        if obj:
+            for key, value in 
