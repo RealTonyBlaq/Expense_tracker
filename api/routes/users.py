@@ -62,4 +62,5 @@ def create():
              strict_slashes=False)
 def update(id):
     """ Updates a user based on request data """
-    
+    if request.is_json is True:
+        data = request.get_json()
