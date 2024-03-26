@@ -66,4 +66,5 @@ def update(id):
         data = request.get_json()
         obj = storage.find(User, id)
         if obj:
-            for key, value in 
+            for key, value in data.items():
+                if key not in ['']
