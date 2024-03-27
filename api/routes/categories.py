@@ -16,4 +16,5 @@ def retrieve(id=None):
             return make_response(jsonify(obj.about()), 200)
         abort(404)
     else:
-        categories = [obj.]
+        categories = [obj.about() for obj in storage.all(Category).values()]
+        return 
