@@ -55,4 +55,6 @@ def create(user_id):
 def update(id):
     """ Updates a Category object """
     if request.is_json is True:
-        obj = st
+        obj = storage.find(Category, id)
+        if obj:
+            data = re
