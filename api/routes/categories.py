@@ -25,4 +25,6 @@ def retrieve(id=None):
 def delete(id):
     obj = storage.find(Category, id)
     if obj:
-        storage.delete(ob)
+        storage.delete(obj)
+        return make_response(jsonify({}), 200)
+    abort(404)
