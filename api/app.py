@@ -20,7 +20,7 @@ def shutdown(error=None):
 
 
 @app.errorhandler(404)
-def not_found():
+def not_found(error):
     """ Returns a JSON if a request route wasn't found """
     return jsonify({'error': 'Not Found'})
 
