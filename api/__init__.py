@@ -4,7 +4,7 @@
 from flask import Blueprint
 
 
-ETapp = Blueprint(__name__, url_prefix='/api')
+ETapp = Blueprint('ETapp', __name__, url_prefix='/api')
 
 
 from api.routes.users import *
