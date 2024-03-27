@@ -5,3 +5,6 @@ from flask import Blueprint
 
 
 ETapp = Blueprint(__name__, url_prefix='/api')
+
+
+from api.routes.users import *
