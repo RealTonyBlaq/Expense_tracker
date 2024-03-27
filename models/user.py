@@ -34,8 +34,8 @@ class User(BaseModel, Base):
         user_dict['categories'] = []
         user_dict['expenses'] = []
         for category in categories.values():
-            user_dict["categories"].append(category.about())
             if category.user_id == self.id:
+                user_dict["categories"].append(category.about())
                 key = "{}.{}".format(category.name, category.id)
                 new = {key: []}
                 for expense in expenses.values():
