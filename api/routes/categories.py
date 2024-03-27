@@ -5,6 +5,7 @@ from api import ETapp
 from flask import abort, jsonify, make_response, request
 from models.category import Category
 from models import storage
+from models.user import User
 
 
 @ETapp.route('/categories', strict_slashes=False)
@@ -37,4 +38,4 @@ def delete(id):
 def create(user_id):
     """ Creates a category obj if the user_id passed is valid """
     if request.is_json is True:
-        if 
+        if storage.find()
