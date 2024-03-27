@@ -2,7 +2,7 @@
 """ The Category route """
 
 from api import ETapp
-from flask import abort, make_response, jsonify
+from flask import abort, jsonify
 from models.category import Category
 from models import storage
 
@@ -35,4 +35,5 @@ def delete(id):
 @ETapp.route('/users/<user_id>/categories/', methods=['POST'],
              strict_slashes=False)
 def create(user_id):
-    """ Creates a category obj if the user_id passed is valexists """
+    """ Creates a category obj if the user_id passed is valid """
+    if req
