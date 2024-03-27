@@ -9,4 +9,6 @@ from models import storage
 
 @ETapp.route('/categories', strict_slashes=False)
 @ETapp.route('/categories/<id>', strict_slashes=False)
-def ret
+def retrieve(id=None):
+    if id:
+        obj = storage.find(Category, )
