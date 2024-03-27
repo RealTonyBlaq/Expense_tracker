@@ -45,4 +45,5 @@ def create(user_id):
             data['user_id'] = user_id
             category = Category(**data)
             category.save()
-            return 
+            return make_response(jsonify(category.about()), 201)
+        abort
