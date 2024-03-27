@@ -25,7 +25,7 @@ def not_found(error):
     return jsonify({'error': 'Not Found'})
 
 
-@app.route('/stats', strict_slashes=False)
+@app.route('/api/stats', strict_slashes=False)
 def stats():
     """ Returns a count of User, Category and Expense objects """
     obj_stats = {'users': len(storage.all(User)),
@@ -34,7 +34,7 @@ def stats():
     return jsonify(obj_stats)
 
 
-@app.route('/status', strict_slashes=False)
+@app.route('/api/status', strict_slashes=False)
 def status():
     """ Returns a dict to show that the API is active """
     return jsonify({'status': 'Active'})
