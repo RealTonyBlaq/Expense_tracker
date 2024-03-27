@@ -58,4 +58,4 @@ def update(id):
         obj = storage.find(Category, id)
         if obj:
             data = request.get_json()
-            
+            if 'name' in data:
