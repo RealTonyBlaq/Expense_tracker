@@ -42,5 +42,6 @@ def create(user_id):
             data = request.get_json()
             if 'name' not in data:
                 abort(400, 'Missing name')
-            data
-            category = s
+            data['user_id'] = user_id
+            category = Category(**data)
+            
