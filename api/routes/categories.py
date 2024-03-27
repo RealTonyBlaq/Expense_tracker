@@ -32,4 +32,4 @@ def delete(id):
     abort(404)
 
 
-@ETapp.route()
+@ETapp.route('/categories/<')
