@@ -32,6 +32,6 @@ def delete(id):
     abort(404)
 
 
-@ETapp.route('/users/<>/categories/', methods=['POST'],
+@ETapp.route('/users/<user_id>/categories/', methods=['POST'],
              strict_slashes=False)
 def create(user_id)
