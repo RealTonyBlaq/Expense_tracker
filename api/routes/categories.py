@@ -34,4 +34,5 @@ def delete(id):
 
 @ETapp.route('/users/<user_id>/categories/', methods=['POST'],
              strict_slashes=False)
-def create(user_id)
+def create(user_id):
+    """ Creates a category obj if the user_id passed is valexists """
