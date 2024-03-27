@@ -57,4 +57,5 @@ def update(id):
     if request.is_json is True:
         obj = storage.find(Category, id)
         if obj:
-            data = re
+            data = request.get_json()
+            
