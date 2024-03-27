@@ -62,4 +62,5 @@ def update(id):
                 setattr(obj, 'name', data['name'])
                 obj.save()
                 return make_response(jsonify(obj.about()), 200)
-            abort('Can only update name')
+            abort(400, 'Only name can be updated')
+        
