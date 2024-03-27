@@ -17,4 +17,7 @@ def retrieve(id=None):
         abort(404)
     else:
         categories = [obj.about() for obj in storage.all(Category).values()]
-        return 
+        return make_response(jsonify(categories), 200)
+
+
+@ETapp.route
