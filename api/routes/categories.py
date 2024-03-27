@@ -10,7 +10,7 @@ from models import storage
 @ETapp.route('/categories', strict_slashes=False)
 @ETapp.route('/categories/<id>', strict_slashes=False)
 def retrieve(id=None):
-    """ Retrieves a category object(s) from s"""
+    """ Retrieves a category object(s) from the database """
     if id:
         obj = storage.find(Category, id)
         if obj:
@@ -24,8 +24,12 @@ def retrieve(id=None):
 @ETapp.route('/categories/<id>', methods=['DELETE'],
              strict_slashes=False)
 def delete(id):
+    """ Deletes an object if it exists """
     obj = storage.find(Category, id)
     if obj:
         storage.delete(obj)
         return make_response(jsonify({}), 200)
     abort(404)
+
+
+@ETapp.route()
