@@ -23,4 +23,6 @@ def retrieve(id=None):
 @ETapp.route('/categories/<id>', methods=['DELETE'],
              strict_slashes=False)
 def delete(id):
-    
+    obj = storage.find(Category, id)
+    if obj:
+        
