@@ -20,4 +20,7 @@ def retrieve(id=None):
         return make_response(jsonify(categories), 200)
 
 
-@ETapp.route('/categories/<id>', )
+@ETapp.route('/categories/<id>', methods=['DELETE'],
+             strict_slashes=False)
+def delete(id):
+    
