@@ -44,4 +44,5 @@ def create(user_id):
                 abort(400, 'Missing name')
             data['user_id'] = user_id
             category = Category(**data)
-            
+            category.save()
+            return 
