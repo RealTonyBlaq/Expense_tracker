@@ -14,4 +14,6 @@ def retrieve(id=None):
         obj = storage.find(Category, id)
         if obj:
             return make_response(jsonify(obj.about()), 200)
-        
+        abort(404)
+    else:
+        categories = 
