@@ -11,4 +11,6 @@ from models import storage
 @ETapp.route('/categories/<id>', strict_slashes=False)
 def retrieve(id=None):
     if id:
-        obj = storage.find(Category, )
+        obj = storage.find(Category, id)
+        if obj:
+            return make_response(jsonify(obj.about()))
