@@ -40,4 +40,6 @@ def create(user_id):
     if request.is_json is True:
         if storage.find(User, user_id):
             data = request.get_json()
+            if 'name' not in data:
+                abort(400, 'Missing name')
             
