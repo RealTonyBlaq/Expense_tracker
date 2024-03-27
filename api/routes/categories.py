@@ -10,6 +10,7 @@ from models import storage
 @ETapp.route('/categories', strict_slashes=False)
 @ETapp.route('/categories/<id>', strict_slashes=False)
 def retrieve(id=None):
+    """ Retrieves a category object(s) from s"""
     if id:
         obj = storage.find(Category, id)
         if obj:
