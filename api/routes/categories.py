@@ -63,4 +63,5 @@ def update(id):
                 obj.save()
                 return make_response(jsonify(obj.about()), 200)
             abort(400, 'Only name can be updated')
-        
+        abort(404)
+    abort(400, 'Not a JSON')
