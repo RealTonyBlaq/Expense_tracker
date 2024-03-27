@@ -50,4 +50,4 @@ def create(user_id):
     abort(400, 'Not a JSON')
 
 
-@ETapp.route('/')
+@ETapp.route('/categories/<id>', meth)
