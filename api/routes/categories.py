@@ -59,3 +59,5 @@ def update(id):
         if obj:
             data = request.get_json()
             if 'name' in data:
+                setattr(obj, 'name', data['name'])
+                s
