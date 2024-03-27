@@ -48,3 +48,6 @@ def create(user_id):
             return make_response(jsonify(category.about()), 201)
         abort(404)
     abort(400, 'Not a JSON')
+
+
+@ETapp.route('/')
