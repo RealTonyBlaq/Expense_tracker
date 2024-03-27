@@ -10,7 +10,7 @@ from models.user import User
 
 @ETapp.route('/categories', strict_slashes=False)
 @ETapp.route('/categories/<id>', strict_slashes=False)
-def retrieve(id=None):
+def cat_retrieve(id=None):
     """ Retrieves a category object(s) from the database """
     if id:
         obj = storage.find(Category, id)
@@ -24,7 +24,7 @@ def retrieve(id=None):
 
 @ETapp.route('/categories/<id>', methods=['DELETE'],
              strict_slashes=False)
-def delete(id):
+def cat_delete(id):
     """ Deletes an object if it exists """
     obj = storage.find(Category, id)
     if obj:
@@ -33,9 +33,9 @@ def delete(id):
     abort(404)
 
 
-@ETapp.route('/users/<user_id>/categories/', methods=['POST'],
+@ETapp.route('/users/<user_id>/categories', methods=['POST'],
              strict_slashes=False)
-def create(user_id):
+def cat_create(user_id):
     """ Creates a category obj if the user_id passed is valid """
     if request.is_json is True:
         if storage.find(User, user_id):
@@ -52,7 +52,7 @@ def create(user_id):
 
 @ETapp.route('/categories/<id>', methods=['PUT'],
              strict_slashes=False)
-def update(id):
+def cat_update(id):
     """ Updates a Category object """
     if request.is_json is True:
         obj = storage.find(Category, id)
