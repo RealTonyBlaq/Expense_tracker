@@ -38,4 +38,5 @@ def delete(id):
 def create(user_id):
     """ Creates a category obj if the user_id passed is valid """
     if request.is_json is True:
-        if storage.find()
+        if storage.find(User, user_id):
+            
