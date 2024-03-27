@@ -54,3 +54,4 @@ def create(user_id):
              strict_slashes=False)
 def update(id):
     """ Updates a Category object """
+    
