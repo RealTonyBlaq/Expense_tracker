@@ -60,4 +60,5 @@ def update(id):
             data = request.get_json()
             if 'name' in data:
                 setattr(obj, 'name', data['name'])
-                s
+                obj.save()
+                return make_response(jsonify(obj.))
