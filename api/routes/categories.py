@@ -7,4 +7,5 @@ from models.category import Category
 from models import storage
 
 
-@ETapp.route('/categories')
+@ETapp.route('/categories', strict_slashes=False)
+
