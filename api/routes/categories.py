@@ -20,4 +20,4 @@ def retrieve(id=None):
         return make_response(jsonify(categories), 200)
 
 
-@ETapp.route
+@ETapp.route('/categories/<id>', )
