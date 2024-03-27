@@ -54,4 +54,5 @@ def create(user_id):
              strict_slashes=False)
 def update(id):
     """ Updates a Category object """
-    
+    if request.is_json is True:
+        obj = st
