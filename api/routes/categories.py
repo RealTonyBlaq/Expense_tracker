@@ -25,4 +25,4 @@ def retrieve(id=None):
 def delete(id):
     obj = storage.find(Category, id)
     if obj:
-        
+        storage.delete(ob)
