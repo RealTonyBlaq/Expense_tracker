@@ -50,4 +50,7 @@ def create(user_id):
     abort(400, 'Not a JSON')
 
 
-@ETapp.route('/categories/<id>', meth)
+@ETapp.route('/categories/<id>', methods=['PUT'],
+             strict_slashes=False)
+def update(id):
+    """ Updates a Category object """
