@@ -13,4 +13,5 @@ from models import storage
 def retrieve_expense(id=None):
     """ Returns a dict/list of expense objects using the about() method """
     if id:
-        obj = storage.find()
+        obj = storage.find(Expense, id)
+        if obj:
