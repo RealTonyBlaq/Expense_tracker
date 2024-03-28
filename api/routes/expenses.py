@@ -51,4 +51,4 @@ def create_expense(category_id):
     abort(400, "Not a JSON")
 
 
-@ETapp.route('/expenses/')
+@ETapp.route('/expenses/<id>', methods=['PUT'])
