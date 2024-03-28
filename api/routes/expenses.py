@@ -48,4 +48,7 @@ def create_expense(category_id):
             expense.save()
             return make_response(jsonify(expense.about()), 201)
         abort(404)
-    abort(400)
+    abort(400, "Not a JSON")
+
+
+@ETapp.route()
