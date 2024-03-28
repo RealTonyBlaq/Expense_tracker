@@ -36,4 +36,4 @@ def del_expense(id):
 @ETapp.route('/categories/<category_id>/expenses', methods=['POST'],
              strict_slashes=False)
 def create_expense(category_id):
-    
+    """ Creates a new """
