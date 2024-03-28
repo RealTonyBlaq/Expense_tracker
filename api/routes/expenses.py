@@ -42,4 +42,4 @@ def create_expense(category_id):
         if category:
             data = request.get_json()
             if 'amount' in data:
-                
+                value = 
