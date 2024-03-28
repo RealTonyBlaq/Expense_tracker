@@ -40,4 +40,5 @@ def create_expense(category_id):
     if request.is_json is True:
         category = storage.find(Category, category_id)
         if category:
+            data = request.get_json()
             
