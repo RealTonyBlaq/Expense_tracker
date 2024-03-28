@@ -54,4 +54,5 @@ def create_expense(category_id):
 @ETapp.route('/expenses/<id>', methods=['PUT'])
 def update_expense(id):
     """ Updates an expense object """
-    e
+    if request.is_json is True:
+        obj = 
