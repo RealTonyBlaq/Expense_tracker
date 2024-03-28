@@ -9,4 +9,6 @@ from models import storage
 
 
 @ETapp.route('/expenses', strict_slashes=False)
-@ETapp.route('/expenses/<id>')
+@ETapp.route('/expenses/<id>', strict_slashes=False)
+def retrieve_expense(id=None):
+    
