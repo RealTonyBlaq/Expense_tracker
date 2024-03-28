@@ -20,4 +20,5 @@ def retrieve_expense(id=None):
     else:
         expenses = []
         for obj in storage.all(Expense).values():
-            expenses.append(obj.)
+            expenses.append(obj.about())
+        return make_response(jsonify(expenses))
