@@ -52,3 +52,4 @@ def create_expense(category_id):
 
 
 @ETapp.route('/expenses/<id>', methods=['PUT'])
+def update_expense(id)
