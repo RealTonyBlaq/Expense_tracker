@@ -42,4 +42,5 @@ def create_expense(category_id):
         if category:
             data = request.get_json()
             if 'amount' not in data:
-                abort(400, )
+                abort(400, 'Missing expense amount')
+            
