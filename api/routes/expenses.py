@@ -64,5 +64,5 @@ def update_expense(id):
                 abort(400,
                       "Both increase_by and decrease_by cannot be in request data")
             elif 'increase_by' in data:
-                obj.increase_by()
+                obj.increase_by(data['increase_by'])
                 
