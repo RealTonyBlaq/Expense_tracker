@@ -12,3 +12,5 @@ from models import storage
 @ETapp.route('/expenses/<id>', strict_slashes=False)
 def retrieve_expense(id=None):
     """ Returns a dict/list of expense objects using the about() method """
+    if id:
+        obj = storage.find()
