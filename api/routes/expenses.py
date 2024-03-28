@@ -33,4 +33,6 @@ def del_expense(id):
     abort(404)
 
 
-@ETapp.route('/categories/<category_id>/expenses')
+@ETapp.route('/categories/<category_id>/expenses', methods=['POST'],
+             strict_slashes=False)
+def
