@@ -33,4 +33,4 @@ def del_expense(id):
     abort(404)
 
 
-@ETapp.route('/categories/<')
+@ETapp.route('/categories/<category_id>/expenses')
