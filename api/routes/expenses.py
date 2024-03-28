@@ -20,4 +20,4 @@ def retrieve_expense(id=None):
     else:
         expenses = []
         for obj in storage.all(Expense).values():
-            
+            expenses
