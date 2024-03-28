@@ -19,4 +19,5 @@ def retrieve_expense(id=None):
         abort(404)
     else:
         expenses = []
-        for 
+        for obj in storage.all(Expense).values():
+            
