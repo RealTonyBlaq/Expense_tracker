@@ -41,4 +41,5 @@ def create_expense(category_id):
         category = storage.find(Category, category_id)
         if category:
             data = request.get_json()
-            
+            if 'amount' in data:
+                
