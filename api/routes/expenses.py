@@ -45,4 +45,4 @@ def create_expense(category_id):
                 abort(400, 'Missing expense amount')
             data['category_id'] = category_id
             expense = Expense(**data)
-            
+            expense.save()
