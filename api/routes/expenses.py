@@ -18,4 +18,4 @@ def retrieve_expense(id=None):
             return make_response(jsonify(obj.about()), 200)
         abort(404)
     else:
-        
+        objs = []
