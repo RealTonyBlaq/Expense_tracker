@@ -55,4 +55,6 @@ def create_expense(category_id):
 def update_expense(id):
     """ Updates an expense object """
     if request.is_json is True:
-        obj = 
+        obj = storage.find(Expense, id)
+        if obj:
+            
