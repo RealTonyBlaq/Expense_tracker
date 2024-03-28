@@ -25,4 +25,5 @@ def retrieve_expense(id=None):
 @ETapp.route('/expenses/<id>', methods=['DELETE'],
              strict_slashes=False)
 def del_expense(id):
+    """ Deletes an expense obj from storage """
     
