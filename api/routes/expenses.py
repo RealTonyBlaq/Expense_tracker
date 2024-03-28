@@ -8,4 +8,4 @@ from models.expense import Expense
 from models import storage
 
 
-@ETapp.route('/')
+@ETapp.route('/expenses', strict_slashes=False)
