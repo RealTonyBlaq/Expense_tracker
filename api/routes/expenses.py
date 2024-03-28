@@ -60,4 +60,5 @@ def update_expense(id):
             data = request.get_json()
             if 'amount' in data:
                 obj.amount = data['amount']
-            elif 'action' in data:
+            elif 'decrease' in data:
+                
