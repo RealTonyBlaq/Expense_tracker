@@ -22,4 +22,7 @@ def retrieve_expense(id=None):
         return make_response(jsonify(expenses), 200)
 
 
-@ETapp.route('/expenses/<id>', methods=['DELETE'])
+@ETapp.route('/expenses/<id>', methods=['DELETE'],
+             strict_slashes=False)
+def del_expense(id):
+    
