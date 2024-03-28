@@ -26,4 +26,4 @@ def retrieve_expense(id=None):
              strict_slashes=False)
 def del_expense(id):
     """ Deletes an expense obj from storage """
-    
+    obj = storage.find(Expense, id)
