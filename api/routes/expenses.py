@@ -38,5 +38,6 @@ def del_expense(id):
 def create_expense(category_id):
     """ Creates a new expense obj based on Category """
     if request.is_json is True:
-    category = storage.find(Category, category_id)
-    if category:
+        category = storage.find(Category, category_id)
+        if category:
+            
