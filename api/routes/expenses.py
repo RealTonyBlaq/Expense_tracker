@@ -44,3 +44,4 @@ def create_expense(category_id):
             if 'amount' not in data:
                 abort(400, 'Missing expense amount')
             data['category_id'] = category_id
+            
