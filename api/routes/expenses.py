@@ -29,4 +29,8 @@ def del_expense(id):
     obj = storage.find(Expense, id)
     if obj:
         storage.delete(obj)
-        return make_response(jsonify())
+        return make_response(jsonify({}), 200)
+    abort(404)
+
+
+@ETapp.route('/categories/<')
