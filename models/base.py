@@ -4,6 +4,7 @@
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, DateTime, String
+import hashlib
 from uuid import uuid4
 
 
@@ -23,6 +24,11 @@ class BaseModel:
         self.updated_at = self.created_at
         if kwargs:
             for key, value in kwargs.items():
+                if key == 'password':
+                    password_bytes = value.encode('utf-8')
+                    md5_hash = hashlib.md5()
+                    md5_hash.update(password_bytes)
+                    value = md5_hash.hexdigest()
                 if key not in ['id', 'created_at', 'updated_at']:
                     setattr(self, key, value)
 
