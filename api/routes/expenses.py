@@ -46,4 +46,4 @@ def create_expense(category_id):
             data['category_id'] = category_id
             expense = Expense(**data)
             expense.save()
-            return 
+            return make_response(jsonify(expense.about()), 201)
