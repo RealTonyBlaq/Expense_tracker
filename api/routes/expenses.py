@@ -28,4 +28,5 @@ def del_expense(id):
     """ Deletes an expense obj from storage """
     obj = storage.find(Expense, id)
     if obj:
-        
+        storage.delete(obj)
+        return make_response(jsonify())
