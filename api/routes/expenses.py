@@ -59,9 +59,18 @@ def update_expense(id):
         if obj:
             data = request.get_json()
             if 'decrease_by' in data and 'increase_by' in data:
-                abort(400,
-                      "Both increase_by and decrease_by cannot be in request data")
+                abort(400, "Both increase_by and decrease_by \
+                    cannot be in request data")
             elif 'increase_by' in data:
                 obj.increase_by(data['increase_by'])
             elif 'decrease_by' in data:
-                
+                obj.decrease_by(data['decrease_by'])
+            else:
+                for key, value in data.items():
+                    if key not in ['id', 'created_at', 'updated_it',
+                                   'category_id']:
+                        setattr(obj, key, value)
+            obj.save()
+            return make_response(jsonify(obj.about()), 200)
+        abort(404)
+    abort(400, 'Not a JSON')
