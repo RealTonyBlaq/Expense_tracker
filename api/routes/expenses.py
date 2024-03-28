@@ -47,3 +47,5 @@ def create_expense(category_id):
             expense = Expense(**data)
             expense.save()
             return make_response(jsonify(expense.about()), 201)
+        abort(404)
+        
