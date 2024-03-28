@@ -57,4 +57,5 @@ def update_expense(id):
     if request.is_json is True:
         obj = storage.find(Expense, id)
         if obj:
+            data = request.get_json()
             
