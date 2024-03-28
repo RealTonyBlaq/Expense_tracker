@@ -15,4 +15,7 @@ def retrieve_expense(id=None):
     if id:
         obj = storage.find(Expense, id)
         if obj:
-            return make_response(jsonify(obj.ab))
+            return make_response(jsonify(obj.about()), 200)
+        abort(404)
+    else:
+        
