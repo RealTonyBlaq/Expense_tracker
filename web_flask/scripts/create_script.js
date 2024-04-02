@@ -7,7 +7,7 @@ $(document).ready(function () {
     const password = $('#password').val();
     $.ajax({
       url: 'http://127.0.0.1:5000/api/users',
-      method: "POST",
+      method: 'POST',
       data: JSON.stringify({
         first_name: firstName,
         last_name: lastName,
@@ -15,14 +15,14 @@ $(document).ready(function () {
         password: password
       }),
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       success: function () {
-        alert('New account created successfully');
-        window.location.href = "signin.html";
+        console.log('New account created successfully');
+        window.location.href = 'signin.html';
       },
       error: function (xhr, status, error) {
-        alert(xhr.responseText);
+        console.log(xhr.responseText);
       }
     });
   });
