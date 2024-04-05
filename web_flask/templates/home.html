@@ -16,7 +16,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
 
         <!-- link to my CSS -->
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 <body>
@@ -30,8 +31,8 @@
                 <h1 id="logo">Expense Tracker</h1>
                 <nav>
                     <ul class="nav_links">
-                        <li><a href="signin.html">sign in</a></li>
-                        <li> <a href="create.html"><button> create account</button></a></li>
+                        <li><a href="{{ url_for('signin') }}">sign in</a></li>
+                        <li><a href="{{ url_for('signup') }}"><button>create account</button></a></li>
                     </ul>
                 </nav>
             </header>
@@ -53,7 +54,8 @@
 
                     
                     <div class="img">
-                        <img src="img/image1-removebg-preview.png" alt="expense traker image">
+                        <img src="{{ url_for('static', filename='img/image1-removebg-preview.png') }}" alt="expense tracker image">
+
                     </div>
 
                 </div>

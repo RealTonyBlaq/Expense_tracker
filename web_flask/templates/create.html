@@ -16,7 +16,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
 
         <!-- link to my CSS -->
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   </head>
   <body>
@@ -66,7 +67,7 @@
                 </form>
                 <p>
                     registered?
-                    <a href="signin.html"
+                    <a href="{{ url_for('signin') }}"
                     style="text-decoration: none;">
                     signin to your account         
                     </a>

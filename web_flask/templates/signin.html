@@ -16,7 +16,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
 
         <!-- link to my CSS -->
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 <body>
@@ -53,7 +54,7 @@
                 </form>
                 <p>
                     not registered?
-                    <a href="create.html"
+                    <a href="{{ url_for('signup') }}"
                     style="text-decoration: none;">
                     create an account
                     </a>
