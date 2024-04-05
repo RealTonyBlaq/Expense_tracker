@@ -4,7 +4,7 @@
 from models.base import Base, BaseModel
 from models.category import Category
 from models.expense import Expense
-from sqlalchemy import String, Column
+from sqlalchemy import String, Column, Integer
 from sqlalchemy.orm import relationship
 
 
@@ -15,8 +15,16 @@ class User(BaseModel, Base):
     last_name = Column(String(60), nullable=False)
     email = Column(String(60), nullable=False)
     password = Column(String(60), nullable=False)
+    salary = Column(Integer, default=0)
     categories = relationship("Category", backref="users",
                               cascade="all, delete, delete-orphan")
+
+    def set_salary(self, value):
+        """ Sets the salary for a User """
+        if isinstance(value, int) and value > 0:
+            setattr(self, 'salary', value)
+            self.save()
+        raise TypeError('Salary must be an Integer > 0')
 
     def details(self):
         """
