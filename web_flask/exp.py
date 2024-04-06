@@ -1,8 +1,29 @@
 #!/usr/bin/python3
-from flask import Flask, render_template
-app = Flask(__name__)
+""" Expense Tracker Flask app """
 
+from flask import Flask, jsonify, redirect, request, render_template, url_for
+from api import ETapp
+from models import storage
+from models.category import Category
+from models.expense import Expense
+from models.user import User
+
+
+app = Flask(__name__)
+app.register_blueprint(ETapp)
 app.static_folder = 'static'
+
+
+@app.teardown_appcontext
+def shutdown(error=None):
+    """ Closes a Database session """
+    storage.close()
+
+
+@app.errorhandler(404)
+def not_found(error):
+    """ Returns a JSON if a request route wasn't found """
+    return jsonify({'error': 'Not Found'})
 
 
 @app.route('/')
@@ -21,6 +42,23 @@ def signin():
     return render_template("signin.html")
 
 
-
+@app.route('/submit', methods=['POST'],
+           strict_slashes=False)
+def submit_form():
+    """ Handles the case when the user clicks on submit """
+    first_name = request.form.get('firstName')
+    last_name = request.form.get('lastName')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    data = {
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email,
+        "password": password
+    }
+    new = User(**data)
+    new.save()
+    return redirect(url_for('signin'))
+    
 if __name__ == "__main__":
     app.run(debug=True)
