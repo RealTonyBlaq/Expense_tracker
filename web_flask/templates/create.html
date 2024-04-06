@@ -28,13 +28,13 @@
         </header>
         <div>
             <div class="signin">
-                <form id="accountForm">
+                <form action="/submit" method="post" id="accountForm">
                     <label for="first">
                         first name:
                     </label>
                     <input type="text"
                     id="firstName"
-                    name="first"
+                    name="firstName"
                     placeholder="Enter your first name" required>
 
                     <label for="first">
@@ -42,7 +42,7 @@
                     </label>
                     <input type="text"
                     id="lastName"
-                    name="first"
+                    name="lastName"
                     placeholder="Enter your last name" required>
 
                     <label for="first">
@@ -52,6 +52,7 @@
                     id="email"
                     name="email"
                     placeholder="Enter your email address" required>
+                    <div id="emailAvailability"></div>
 
                     <label for="password">
                         password:
@@ -80,6 +81,31 @@
         </div>
        
     </div>
-    <script type="text/javascript" src="../scripts/create_script.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#email').on('keyup', function() {
+                const email = $(this).val();
+                // Send AJAX request to check email availability
+                $.ajax({
+                    url: `http://127.0.0.1:5000/api/users/email/${email}`,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#emailAvailability').text('email already exists').css('color', 'red');
+                        if (response.status === 404) {
+                            $('#emailAvailability').text('email available').css('color', 'green');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        if (xhr.status === 404) {
+                            $('#emailAvailability').text('email available').css({'color': 'green'});
+                        } else {
+                            $('#emailAvailability').text('Error occurred while checking email availability').css('color', 'red');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
   </body>
 </html>
