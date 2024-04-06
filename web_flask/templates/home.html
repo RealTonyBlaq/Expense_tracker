@@ -28,7 +28,7 @@
 
             <!-- navigation bar -->
             <header>
-                <h1 id="logo">Expense Tracker</h1>
+                <a href="{{ url_for('home') }}" style="text-decoration: none;"><h1 id="logo">Expense Tracker</h1></a>
                 <nav>
                     <ul class="nav_links">
                         <li><a href="{{ url_for('signin') }}">sign in</a></li>
