@@ -6,12 +6,14 @@ from api import ETapp
 from models import storage
 from models.category import Category
 from models.expense import Expense
-from models.user import User
+from models.user import User, confirm_account
+from flask_cors import CORS
 
 
 app = Flask(__name__)
 app.register_blueprint(ETapp)
 app.static_folder = 'static'
+CORS(app)
 
 
 @app.teardown_appcontext
@@ -59,6 +61,19 @@ def submit_form():
     new = User(**data)
     new.save()
     return redirect(url_for('signin'))
-    
+
+
+@app.route('/login', methods=['POST'],
+           strict_slashes=False)
+def login():
+    """ Confirms a User's details and logs them in to their dashboard """
+    email = request.form.get('email')
+    password = request.form.get('password')
+    user = confirm_account(email, password)
+    if user:
+        return jsonify(user.details()), 200
+    return jsonify({}), 404
+
+
 if __name__ == "__main__":
     app.run(debug=True)
