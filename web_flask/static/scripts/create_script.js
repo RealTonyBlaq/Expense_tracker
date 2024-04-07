@@ -1,29 +1,23 @@
 $(document).ready(function () {
-  $('#accountForm').submit(function (event) {
-    event.preventDefault();
-    const firstName = $('#firstName').val();
-    const lastName = $('#lastName').val();
-    const email = $('#email').val();
-    const password = $('#password').val();
-    $.ajax({
-      url: 'http://127.0.0.1:5000/api/users',
-      method: 'POST',
-      data: JSON.stringify({
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        password: password
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      success: function () {
-        console.log('New account created successfully');
-        window.location.href = 'signin.html';
-      },
-      error: function (xhr, status, error) {
-        console.log(xhr.responseText);
-      }
+    $('#email').on('keyup', function() {
+        const email = $(this).val();
+        // Send AJAX request to check email availability
+        $.ajax({
+            url: `http://127.0.0.1:5000/api/users/email/${email}`,
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                $('#emailAvailability').text('email already exists').css('color', 'red');
+                $('#submitBtn').prop('disabled', true);
+            },
+            error: function(xhr, status, error) {
+                if (xhr.status === 404) {
+                    $('#emailAvailability').text('email available').css({'color': 'green'});
+                    $('#submitBtn').prop('disabled', false);
+                } else {
+                    $('#emailAvailability').text('Error occurred while checking email availability').css('color', 'red');
+                }
+            }
+        });
     });
-  });
 });
