@@ -75,3 +75,12 @@ class Database:
         if obj:
             self.__session.delete(obj)
             self.save()
+
+    def get_user(self, email):
+        """ Retrieves a User obj from storage if the email matches """
+        if email:
+            users = self.all(User).values()
+            for user in users:
+                if user.email == email:
+                    return user
+        return None
