@@ -6,6 +6,7 @@ from models.category import Category
 from models.expense import Expense
 from sqlalchemy import String, Column, Integer
 from sqlalchemy.orm import relationship
+from hashlib import md5
 
 
 class User(BaseModel, Base):
@@ -51,3 +52,19 @@ class User(BaseModel, Base):
                         new[key].append(expense.about())
                 user_dict["expenses"].append(new)
         return user_dict
+
+
+def confirm_account(email, password):
+    """ Confirms and retrieves a User account """
+    from models import storage
+    if email and password:
+        user = storage.get_user(email)
+        if user:
+            pb = password.encode('utf-8')
+            pwd_hash = md5()
+            pwd_hash.update(pb)
+            pwd = pwd_hash.hexdigest()
+            if user.password == pwd:
+                return user
+            return None
+    return None    
