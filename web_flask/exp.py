@@ -28,18 +28,18 @@ def not_found(error):
     return jsonify({'error': 'Not Found'})
 
 
-@app.route('/')
-@app.route('/home')
+@app.route('/', strict_slashes=False)
+@app.route('/home', strict_slashes=False)
 def home():
     return render_template('home.html')
 
 
-@app.route('/signup', methods=['GET','POST'])
+@app.route('/signup', strict_slashes=False)
 def signup():
     return render_template("create.html")
 
 
-@app.route('/signin', methods=['GET', 'POST'])
+@app.route('/signin', strict_slashes=False)
 def signin():
     return render_template("signin.html")
 
