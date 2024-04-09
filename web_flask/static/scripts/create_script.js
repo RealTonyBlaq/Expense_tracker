@@ -28,7 +28,13 @@ $(document).ready(function () {
                         });
                         $('#submitBtn').prop('disabled', false);
                     } else {
-                        $('#emailAvailability').text('Error occurred while checking email availability').css('color', 'red');
+                        $('#emailAvailability').html('<i class="fas fa-exclamation-triangle"></i>  Error occurred while checking email availability').css({
+                            'color': 'red',
+                            'border': '1px dashed black',
+                            'font-size': '10px',
+                            'margin-right': '30px',
+                            'border-radius': '10px'
+                          });
                         $('#submitBtn').prop('disabled', true);
                     }
                 }
