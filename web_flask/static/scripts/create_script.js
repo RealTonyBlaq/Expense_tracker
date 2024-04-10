@@ -41,4 +41,92 @@ $(document).ready(function () {
             });
         }
     });
+    $('#password').on('keyup', function () {
+        const pwd = $('#password').val()
+        if (/[a-z]/.test(pwd)) {
+            $('#smallLetter').html('<i class="fas fa-check-circle"></i>  small alphabets').css({
+                'color': 'green',
+                'border': '1px dashed black',
+                'font-size': '12px',
+                'margin-right': '180px',
+                'border-radius': '10px'
+            });
+        } else {
+            $('#smallLetter').html('<i class="fas fa-exclamation-triangle"></i>  Small alphabets').css({
+                'color': 'orange',
+                'border': '1px dashed black',
+                'font-size': '12px',
+                'margin-right': '180px',
+                'border-radius': '10px'
+            });
+        }
+        if (/[A-Z]/.test(pwd)) {
+            $('#capLetter').html('<i class="fas fa-check-circle"></i>  At least one Capital letter').css({
+                'color': 'green',
+                'border': '1px dashed black',
+                'font-size': '12px',
+                'margin-right': '125px',
+                'border-radius': '10px'
+            });
+        } else {
+            $('#capLetter').html('<i class="fas fa-exclamation-triangle"></i>  At least one Capital letter').css({
+                'color': 'orange',
+                'border': '1px dashed black',
+                'font-size': '12px',
+                'margin-right': '125px',
+                'border-radius': '10px'
+            });
+        }
+        if (/[0-9]/.test(pwd)) {
+            $('#number').html('<i class="fas fa-check-circle"></i>  At least one digit').css({
+                'color': 'green',
+                'border': '1px dashed black',
+                'font-size': '12px',
+                'margin-right': '170px',
+                'border-radius': '10px'
+            });
+        } else {
+            $('#number').html('<i class="fas fa-exclamation-triangle"></i>  At least one digit').css({
+                'color': 'orange',
+                'border': '1px dashed black',
+                'font-size': '12px',
+                'margin-right': '170px',
+                'border-radius': '10px'
+            });
+        }
+        if (/[!@#$%^&*()]/.test(pwd)) {
+            $('#specialCharacter').html('<i class="fas fa-check-circle"></i>  At least one special character !,@,#,$,%,^,&,*,(,)').css({
+                'color': 'green',
+                'border': '1px dashed black',
+                'font-size': '12px',
+                //'margin-right': '180px',
+                'border-radius': '10px'
+            });
+        } else {
+            $('#specialCharacter').html('<i class="fas fa-exclamation-triangle"></i>  At least one special character !,@,#,$,%,^,&,*,(,)').css({
+                'color': 'orange',
+                'border': '1px dashed black',
+                'font-size': '12px',
+                //'margin-right': '180px',
+                'border-radius': '10px'
+            });
+        }
+        if (pwd.length >= 8) {
+            $('#pwdLength').html('<i class="fas fa-check-circle"></i>  Password length at least 8 characters').css({
+                'color': 'green',
+                'border': '1px dashed black',
+                'font-size': '12px',
+                'margin-right': '50px',
+                'border-radius': '10px'
+            });
+        } else {
+            $('#pwdLength').html('<i class="fas fa-exclamation-triangle"></i>  Password length at least 8 characters').css({
+                'color': 'orange',
+                'border': '1px dashed black',
+                'font-size': '12px',
+                'margin-right': '50px',
+                'border-radius': '10px'
+            });
+        }
+    });
 });
