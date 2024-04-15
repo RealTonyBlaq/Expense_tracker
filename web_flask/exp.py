@@ -1,25 +1,29 @@
 #!/usr/bin/python3
+
 """ Expense Tracker Flask app """
 
+
+
 from flask import Flask, jsonify, redirect, request, render_template, url_for
-from api import ETapp
+"""from api import ETapp
+
 from models import storage
 from models.category import Category
 from models.expense import Expense
 from models.user import User, confirm_account
-from flask_cors import CORS
+from flask_cors import CORS"""
 
 
 app = Flask(__name__)
-app.register_blueprint(ETapp)
+"""app.register_blueprint(ETapp)"""
 app.static_folder = 'static'
-CORS(app)
+"""CORS(app)"""
 
 
-@app.teardown_appcontext
+"""@app.teardown_appcontext
 def shutdown(error=None):
-    """ Closes a Database session """
-    storage.close()
+    '''Closes a Database session '''
+    storage.close()"""
 
 
 @app.errorhandler(404)
@@ -44,7 +48,23 @@ def signin():
     return render_template("signin.html")
 
 
-@app.route('/submit', methods=['POST'],
+
+@app.route('/')
+def index():
+    return render_template('salary_form.html')
+
+@app.route('/dashboard', methods=['GET', 'POST'], strict_slashes=False)
+def submit_salary():
+    if request.method == 'POST':
+        salary = request.form.get('salary_amount')
+        return render_template('dashboard.html', salary=salary)
+    else:
+        return render_template('dashboard.html')
+
+
+
+
+@app.route('/submit', methods=['POST', 'GET'],
            strict_slashes=False)
 def submit_form():
     """ Handles the case when the user clicks on submit """
@@ -63,7 +83,7 @@ def submit_form():
     return redirect(url_for('signin'))
 
 
-@app.route('/login', methods=['POST'],
+@app.route('/login', methods=['POST', 'GET'],
            strict_slashes=False)
 def login():
     """ Confirms a User's details and logs them in to their dashboard """
