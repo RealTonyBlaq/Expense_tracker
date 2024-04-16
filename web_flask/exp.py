@@ -2,28 +2,25 @@
 
 """ Expense Tracker Flask app """
 
-
-
 from flask import Flask, jsonify, redirect, request, render_template, url_for
-"""from api import ETapp
-
+from api import ETapp
 from models import storage
 from models.category import Category
 from models.expense import Expense
 from models.user import User, confirm_account
-from flask_cors import CORS"""
+from flask_cors import CORS
 
 
 app = Flask(__name__)
-"""app.register_blueprint(ETapp)"""
+app.register_blueprint(ETapp)
 app.static_folder = 'static'
-"""CORS(app)"""
+CORS(app)
 
 
-"""@app.teardown_appcontext
+@app.teardown_appcontext
 def shutdown(error=None):
-    '''Closes a Database session '''
-    storage.close()"""
+    """ Closes a Database session """
+    storage.close()
 
 
 @app.errorhandler(404)
