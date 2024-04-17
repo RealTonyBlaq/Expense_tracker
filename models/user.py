@@ -68,3 +68,17 @@ def confirm_account(email, password):
                 return user
             return None
     return None    
+
+
+def check_string(string):
+    """
+    Checks a string for special characters
+
+    Return: Bool
+    """
+    char_list =  ['!', '@', '#', '.', '$', '%', '^', '&',
+                  '*', '(', ')', '/', '[', ']', '{', '}']
+    for char in char_list:
+        if char in string:
+            return True
+    return False
