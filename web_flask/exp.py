@@ -7,7 +7,7 @@ from api import ETapp
 from models import storage
 from models.category import Category
 from models.expense import Expense
-from models.user import User, confirm_account
+from models.user import User, confirm_account, check_string
 from flask_cors import CORS
 
 
@@ -45,20 +45,14 @@ def signin():
     return render_template("signin.html")
 
 
-
-@app.route('/')
-def index():
-    return render_template('salary_form.html')
-
-@app.route('/dashboard', methods=['GET', 'POST'], strict_slashes=False)
+@app.route('/dashboard', methods=['GET', 'POST'],
+           strict_slashes=False)
 def submit_salary():
     if request.method == 'POST':
         salary = request.form.get('salary_amount')
         return render_template('dashboard.html', salary=salary)
     else:
         return render_template('dashboard.html')
-
-
 
 
 @app.route('/submit', methods=['POST', 'GET'],
