@@ -71,7 +71,7 @@ def submit_form():
     }
     new = User(**data)
     new.save()
-    return redirect(url_for('signin'))
+    return render_template('signin.html', success="Account created successfully.. Please signin")
 
 
 @app.route('/login', methods=['POST', 'GET'],
@@ -82,8 +82,8 @@ def login():
     password = request.form.get('password')
     user = confirm_account(email, password)
     if user:
-        return jsonify(user.details()), 200
-    return jsonify({}), 404
+        return render_template('dashboard.html')
+    return render_template('signin.html', error='Incorrect email or password. Try again!')
 
 
 if __name__ == "__main__":
