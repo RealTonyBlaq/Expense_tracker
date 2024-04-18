@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker - sigin</title>
+    <title>Expense Tracker - signin</title>
 
         <!-- Oswald font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,10 +27,16 @@
         <header class="ex">
             <a href="{{ url_for('home') }}" style="text-decoration: none;"><h1 id="logo">Expense Tracker</h1></a>
         </header>
-        
-        
+
         <div>
             <div class="signin">
+                {% if error %}
+                <div id="signinError" style="color: red;">{{ error }}</div>
+                {% endif %}
+                {% if success %}
+                <div id="signinError" style="color: green;">{{ success }}</div>
+                {% endif %}
+
                 <form action="/login" method="post">
                     <label for="first">
                         email:
@@ -39,7 +45,6 @@
                     id="email"
                     name="email"
                     placeholder="Enter your email" required>
-
 
                     <label for="password">
                         password:
