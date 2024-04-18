@@ -83,7 +83,7 @@ def login():
     user = confirm_account(email, password)
     if user:
         return render_template('dashboard.html')
-    return render_template('signin.html', error='Incorrect email or password. Try again!')
+    return render_template('signin.html', error='Incorrect email or password. Please try again!')
 
 
 if __name__ == "__main__":
