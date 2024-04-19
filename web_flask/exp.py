@@ -82,7 +82,7 @@ def login():
     password = request.form.get('password')
     user = confirm_account(email, password)
     if user:
-        return render_template('dashboard.html')
+        return redirect(url_for('dashboard'))
     return render_template('signin.html', error='Incorrect email or password. Please try again!')
 
 

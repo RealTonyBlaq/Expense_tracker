@@ -31,7 +31,7 @@
         <div>
             <div class="signin">
                 {% if error %}
-                <div id="signinError" style="width: 300px; height: 20px; background-color: rgb(146, 28, 28); color: azure; font-size: 12px;">{{ error }}
+                <div id="signinError" style="width: 300px; height: 20px; background-color: rgb(146, 28, 28); color: azure; font-size: 12px; border-radius: 10px;">{{ error }}
                 <script>
                     $(function () {
                         $("#signinError").slideDown(2000, function()
@@ -48,7 +48,16 @@
                 </script></div>
                 {% endif %}
                 {% if success %}
-                <div id="signinError" style="color: green;">{{ success }}</div>
+                <div id="signinError" style="color: gainsboro; width: 300px; height: 20px; background-color: green; font-size: 12px; border-radius: 10px;">{{ success }}
+                <script>
+                    $(function () {
+                        $("#signinError").slideDown(2000, function()
+                        {
+                            $("#signinError").slideUp(3000);
+                        });
+                    });
+                </script>
+                </div>
                 {% endif %}
 
                 <form action="/login" method="post">
