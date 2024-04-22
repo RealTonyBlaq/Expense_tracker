@@ -1,41 +1,43 @@
 #!/usr/bin/python3
-""" Email Service """
+
 
 import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from google.auth.transport import requests
-from google.oauth2 import service_account
+from email.message import EmailMessage
+from ssl import create_default_context
+import json
+import os
 
 
-credentials = service_account.Credentials.from_service_account_file('credentials.json')
-# Email configuration
-sender_email = 'ifeanyi3797@gmail.com'
-receiver_email = 'ifeanyiikpenyi@yahoo.com'
-subject = 'Hello from Python!'
-message = 'This is the body of the email.'
+def send_email():
+    """ Set up the email message """
+    msg = EmailMessage()
+    msg['Subject'] = 'Third Test Email'
+    msg['From'] = 'ifeanyiikpenyi@yahoo.com'
+    msg['To'] = 'ifeanyi3797@gmail.com'
+    msg.set_content('<h1 style="color: blue;">This is an HTML email content</h1>')
+    #msg.add_alternative('<h1 style="color: blue;">This is an HTML email content</h1>')
 
-# SMTP server configuration
-smtp_server = 'smtp.mail.yahoo.com'
-smtp_port = 465
+    # Set up the SMTP connection
+    smtp_server = 'smtp.mail.yahoo.com'
+    smtp_port = 465
 
-# Create a multipart message and set the headers
-msg = MIMEMultipart()
-msg['From'] = sender_email
-msg['To'] = receiver_email
-msg['Subject'] = subject
+    try:
+        with open('credentials.json') as f:
+            credentials = json.load(f)
+        username = credentials['username']
+        password = credentials['password']
+    except FileNotFoundError as mess:
+        print(mess)
 
-# Attach the message to the MIMEMultipart object
-msg.attach(MIMEText(message, 'plain'))
-
-# Connect to the SMTP server and send the email
-try:
-    with smtplib.SMTP_SSL(smtp_server, smtp_port) as smtp_obj:
-        smtp_obj.starttls()  # Enable TLS encryption
-        smtp_obj.login(sender_email, 'ifeANYI8796')  # Replace with your email password
-
-        # Send the email
-        smtp_obj.sendmail(sender_email, receiver_email, msg.as_string())
+    try:
+        """ Establish a secure connection with the SMTP server """
+        context = create_default_context()
+        with smtplib.SMTP_SSL(smtp_server, smtp_port, context=context) as server:
+            server.login(username, password)
+            server.send_message(msg)
         print('Email sent successfully!')
-except smtplib.SMTPException as e:
-    print('Error occurred while sending the email:', str(e))
+    except Exception as e:
+        print(f'Error sending email: {str(e)}')
+
+# Call the function to send the email
+send_email()
