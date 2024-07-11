@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    height: 100dvh;
+    margin: 0;
+}
+
+.logo {
+    text-decoration: none;
+    border-bottom: solid 1px black;
+}
+
+.box {
+    border: solid 1px red;
+    margin: 10% 22%;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+}
+
+.signin {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    
+}
