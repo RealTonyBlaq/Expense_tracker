@@ -9,7 +9,7 @@ class UserSession(BaseModel, Base):
     """ Defining the user session class """
     __tablename__ = 'user_sessions'
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
-    reset_token = Column(Integer)
+    reset_token = Column(Integer, nullable=True)
 
     def __init__(self, **kwargs: dict) -> None:
         """ Initializes the attributes """
