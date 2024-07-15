@@ -5,6 +5,7 @@ from bcrypt import checkpw, gensalt, hashpw
 from datetime import datetime, timedelta
 from models.engine.database import Database
 import random
+from typing import List
 from auth.user_session import UserSession
 from models.user import User
 
@@ -27,6 +28,28 @@ class Auth:
     def __init__(self) -> None:
         """ Initializing the attributes """
         self._DB = Database()
+
+    def session_cookie(self, request=None) -> str:
+        """ Returns the session id from the request """
+        if request:
+            cookie = request.cookies.get('session_id')
+            return cookie
+        return None
+
+    def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
+        """ Checks if authentication is required for the assessed path """
+        if path and excluded_paths:
+            for excluded_path in excluded_paths:
+                if excluded_path.endswith('*'):
+                    if path.startswith(excluded_path[:-1]):
+                        return False
+            
+            if path[-1] != '/':
+                path += '/'
+            if path in excluded_paths:
+                return False
+            return True
+        return False
 
     def create_session(self, email: str) -> str:
         """ Creates a session_id for a User and returns it """
@@ -63,7 +86,7 @@ class Auth:
         return None
 
     def validate(self, email: str, password: str) -> bool:
-        """ Confirms and retrieves a User account """
+        """ Validates a User account """
         if email and password:
             user = self._DB.get_user(email)
             if user:
@@ -82,10 +105,10 @@ class Auth:
             # check if User email already exists
             try:
                 self._DB.get_user(kwargs['email'])
-                raise ValueError(f'User -> {kwargs['email']} exists')
+                raise ValueError('User -> {} exists'.format(kwargs['email']))
             except ValueError:
                 # If ValueError is raised, it means email is valid
-                for key, value in kwargs.items():
+                for key, value in kwargs.items(): 
                     if key == 'password':
                         kwargs[key] = _hashed_password(value)
                 user = User(**kwargs)
@@ -121,4 +144,12 @@ class Auth:
             if sess_obj.user_id == user.id:
                 self._DB.update_password(user.id, _hashed_password(password))
                 self._DB.delete(sess_obj)
+        return None
+
+    def current_user(self, request) -> User:
+        """ Returns the User object that matches a session id """
+        if request:
+            cookie = self.session_cookie(request)
+            user = self.find_user_by_session_id(cookie)
+            return user
         return None
