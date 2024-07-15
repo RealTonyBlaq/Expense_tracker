@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ The Base Model for other classes/models """
 
-from bcrypt import gensalt, hashpw
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, DateTime, String
