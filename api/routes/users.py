@@ -30,10 +30,11 @@ def retrieve(id=None):
 @ETapp.route('/users/email/<email>', strict_slashes=False)
 def get_by_email(email):
     """ Returns a user object if email matches """
-    user = storage.get_user(email)
-    if user:
+    try:
+        user = storage.get_user(email)
         return make_response(jsonify(user.details()), 200)
-    return make_response(jsonify({'error': 'Not Found'}), 404)
+    except ValueError:
+        return make_response(jsonify({'error': 'Not Found'}), 404)
 
 
 @ETapp.route('/users/<id>', methods=['DELETE'],
