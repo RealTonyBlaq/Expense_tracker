@@ -11,6 +11,7 @@ body {
    
 }
 
+
 .wrapper {
     /* display: flex; */
     /* justify-content: center; */
@@ -221,7 +222,6 @@ form button {
     padding: 100px;
     color: #30293a;
 }
-
 
 fieldset,
 fieldset legend
