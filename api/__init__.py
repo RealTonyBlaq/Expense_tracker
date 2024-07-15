@@ -7,6 +7,6 @@ from flask import Blueprint
 ETapp = Blueprint('ETapp', __name__, url_prefix='/api')
 
 
-from api.routes.categories import *
+# from api.routes.categories import *
 from api.routes.users import *
-from api.routes.expenses import *
+# from api.routes.expenses import *
