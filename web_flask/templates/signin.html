@@ -12,10 +12,11 @@
 
         <!-- Montserrat font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-        <!-- link to my CSS -->
+    <!-- link to my CSS -->
     <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -36,7 +37,7 @@
                     $(function () {
                         $("#signinError").slideDown(2000, function()
                         {
-                            $("#signinError").slideUp(3000);
+                            $("#signinError").slideUp(5000);
                         });
                         $('#email').css({
                             'border': '1px solid red'
@@ -53,14 +54,14 @@
                     $(function () {
                         $("#signinError").slideDown(2000, function()
                         {
-                            $("#signinError").slideUp(3000);
+                            $("#signinError").slideUp(5000);
                         });
                     });
                 </script>
                 </div>
                 {% endif %}
 
-                <form action="/login" method="post">
+                <form action="/signin" method="post">
                     <label for="first">
                         email:
                     </label>
@@ -76,13 +77,15 @@
                     id="password"
                     name="password"
                     placeholder="Enter your password">
+                    <span class="toggle-password" onclick="togglePasswordVisibility()">
+                        <i id="toggleIcon" class="fa fa-eye"></i> <!-- Font Awesome eye icon -->
+                    </span>
         
                     <div class="sign-btn">
                         <button type="submit">
                         submit
                         </button>
                     </div>
-                    
                 </form>
                 <p>
                     not registered?
@@ -91,11 +94,15 @@
                     create an account
                     </a>
                 </p>
+                <p>
+                    Forgot your password?
+                    <a href="{{ url_for('reset_password') }}"
+                    style="text-decoration: none;">
+                    reset it
+                    </a>
+                </p>
             </div>
-           
         </div>
-       
     </div>
-
 </body>
 </html>
