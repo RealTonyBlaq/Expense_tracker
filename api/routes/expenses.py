@@ -3,7 +3,7 @@
 
 from api import ETapp
 from flask import abort, jsonify, make_response, request
-from models.category import Category
+from Expense_tracker.models.income import Category
 from models.expense import Expense
 from models import storage
 
