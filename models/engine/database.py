@@ -3,7 +3,7 @@
 
 from datetime import datetime
 from models.base import Base
-from models.category import Category
+from models.income import Income
 from models.expense import Expense
 from auth.user_session import UserSession
 from models.user import User
@@ -11,15 +11,15 @@ from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.exc import NoResultFound, InvalidRequestError
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm.session import Session
 
 
-classes = [User, Category, Expense]
+classes = [User, Income, Expense]
 
 
 class Database:
     """ Defining the Database storage Model """
     __engine = None
-    __session = None
 
     def __init__(self) -> None:
         """ Initializing attributes """
@@ -27,28 +27,36 @@ class Database:
         PASSWORD = getenv('ET_DB_PWD')
         HOST = getenv('ET_DB_HOST')
         DB = getenv('ET_DB')
-        self.__engine = create_engine('mysql://{}:{}@{}:3306/{}'
-                                      .format(USER, PASSWORD, HOST, DB))
+        #self.__engine = create_engine('mysql://{}:{}@{}:3306/{}'
+        #                              .format(USER, PASSWORD, HOST, DB))
+        self.__engine = create_engine("sqlite:///et.db", echo=False)
+        Base.metadata.create_all(self.__engine)
+        self.__session = None
         if getenv('BUILD_TYPE') == 'test':
             Base.metadata.drop_all(self.__engine)
 
-    def reload(self) -> None:
+    def reload(self) -> Session:
+        """ Returns the query object """
+        return self._session
+
+    @property
+    def _session(self) -> Session:
         """ Reloads data from the database """
-        Base.metadata.create_all(self.__engine)
-        sess = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        session = scoped_session(sess)
-        self.__session = session
+        if self.__session is None:
+            session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+            self.__session = session()
+        return self.__session
 
     def all(self, cls=None) -> dict:
         """ Retrieves all objs of a class from storage """
         objs = {}
         if cls:
-            ins = self.__session.query(cls)
+            ins = self._session.query(cls)
             for row in ins:
                 objs['{}.{}'.format(cls.__name__, row.id)] = row
         else:
             for clas in classes:
-                ins = self.__session.query(clas)
+                ins = self._session.query(clas)
                 for row in ins:
                     objs['{}.{}'.format(clas.__name__, row.id)] = row
         return objs
@@ -56,15 +64,15 @@ class Database:
     def add(self, obj) -> None:
         """ Adds a new object to the current session  """
         if obj:
-            self.__session.add(obj)
+            self._session.add(obj)
 
     def save(self) -> None:
         """ Commits all added objects to storage """
-        self.__session.commit()
+        self._session.commit()
 
     def close(self) -> None:
         """ Calls the remove() on the database session """
-        self.__session.remove()
+        self._session.close_all()
 
     def find(self, cls, id: str):
         """ Retrieves an obj from storage based on its id and class """
@@ -78,7 +86,7 @@ class Database:
     def delete(self, obj) -> None:
         """ Deletes an object and calls save """
         if obj:
-            self.__session.delete(obj)
+            self._session.delete(obj)
             self.save()
 
     def get_user(self, email) -> User:
@@ -106,7 +114,7 @@ class Database:
         """ Returns a UserSession obj if it exists """
         if kwargs:
             try:
-                sess_obj = self.__session.query(UserSession).filter_by(**kwargs).first()
+                sess_obj = self._session.query(UserSession).filter_by(**kwargs).first()
                 return sess_obj
             except (InvalidRequestError, NoResultFound):
                 pass
