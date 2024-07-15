@@ -1,0 +1,125 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0eaea;
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.logo {
+    background-image: url("../static/img/logo.png");
+    background-repeat: no-repeat;
+    width: 45px;
+    height: 40px;
+    margin-right: 10px;
+    border: none;
+}
+
+.box {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(77, 71, 70, 0.1);
+    width: 100%;
+    max-width: 400px;
+    height: 380px;
+}
+
+.signin {
+    font-size: 30px;
+    text-align: center;
+}
+
+.signin a {
+    text-decoration: none;
+    color: black;
+}
+
+.input-container, .password-container {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.input-container input, .password-container input {
+    width: 100%;
+    padding: 10px;
+    padding-right: 40px; /* Reserve space for the icon */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.password-container .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.password-container .toggle-password i {
+    font-size: 14px;
+    color: gray;
+}
+
+#email, #password {
+    border-bottom: 2px solid blue;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.remember-me input {
+    margin-right: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: blue;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: darkblue;
+}
+
+.forgot-password {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.forgot-password a {
+    text-decoration: none;
+    color: blue;
+    font-size: 14px;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
