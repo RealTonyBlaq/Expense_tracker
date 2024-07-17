@@ -45,6 +45,7 @@ body {
 .signin {
     font-size: 30px;
     text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .signin a {
