@@ -18,7 +18,7 @@ body {
     /* align-items: center; */
     min-height: 100vh;
     background-color: #30293a;
-    border:30px solid rgba(221, 157, 98);
+    border:30px solid white;
     border-width: 60px 10px 60px 40px; 
 }
 
