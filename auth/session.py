@@ -88,9 +88,11 @@ class Auth:
     def validate(self, email: str, password: str) -> bool:
         """ Validates a User account """
         if email and password:
-            user = self._DB.get_user(email)
-            if user:
+            try:
+                user = self._DB.get_user(email)
                 return checkpw(password.encode('utf-8'), user.password)
+            except ValueError:
+                pass
         return False
 
     def create_user(self, kwargs: dict) -> str:
