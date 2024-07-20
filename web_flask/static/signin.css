@@ -42,6 +42,17 @@ body {
     height: 380px;
 }
 
+.box-signup {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(77, 71, 70, 0.1);
+    width: 100%;
+    max-width: 400px;
+    height: 560px;
+}
+
 .signin {
     font-size: 30px;
     text-align: center;
@@ -80,8 +91,19 @@ body {
     color: gray;
 }
 
-#email, #password {
+#firstName, #lastName, #email, #password {
     border-bottom: 2px solid blue;
+    border-right: 2px solid;
+}
+
+#password-check {
+    text-align: justify;
+    font-size: 10px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+label {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .remember-me {
@@ -92,6 +114,13 @@ body {
 
 .remember-me input {
     margin-right: 10px;
+}
+
+#redirect {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: green;
+    font-size: 14px;
 }
 
 button {
@@ -110,17 +139,17 @@ button:hover {
     background-color: darkblue;
 }
 
-.forgot-password {
+.link {
     text-align: center;
     margin-top: 20px;
 }
 
-.forgot-password a {
+.link a {
     text-decoration: none;
     color: blue;
     font-size: 14px;
 }
 
-.forgot-password a:hover {
+.link a:hover {
     text-decoration: underline;
 }
