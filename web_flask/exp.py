@@ -81,12 +81,13 @@ def dashboard():
     return redirect(url_for('home'))
 
 
-@app.route('/signup', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/signup', methods=['GET'], strict_slashes=False)
 def signup():
     """ Handles the case when the user clicks on submit """
+    """
     if request.method == 'POST':
-        first_name = request.form.get('firstName')
-        last_name = request.form.get('lastName')
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
         email = request.form.get('email')
         password = request.form.get('password')
 
@@ -97,10 +98,10 @@ def signup():
             "password": password
         }
         auth.create_user(data)
-        return render_template('signin.html',
-                               success="Account created successfully")
-
-    return render_template('create.html')
+        return None
+    else:
+    """
+    return render_template('signup_page.html')
 
 
 @app.route('/signin', methods=['POST', 'GET'], strict_slashes=False)
