@@ -94,7 +94,7 @@ def signup():
 
 @ETapp.route('/login', methods=['POST', 'GET'], strict_slashes=False)
 def login():
-    """ Logs a user in """
+    """ Logs a user in and creates a session"""
     if request.method == 'POST':
         if request.is_json:
             data = request.get_json()
