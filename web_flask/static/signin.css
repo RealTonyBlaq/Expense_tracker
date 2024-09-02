@@ -53,6 +53,17 @@ body {
     height: 560px;
 }
 
+.box-reset {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(77, 71, 70, 0.1);
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+}
+
 .signin {
     font-size: 30px;
     text-align: center;
@@ -73,6 +84,21 @@ body {
     width: 100%;
     padding: 10px;
     padding-right: 40px; /* Reserve space for the icon */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.code-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.code-container input {
+    width: 120%;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;

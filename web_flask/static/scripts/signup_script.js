@@ -19,7 +19,7 @@ $(document).ready(function () {
         const dotcheck = email.split('.')[1].length >= 2;
         if (email.includes('@') && email.includes('.') && dotcheck) {
             $.ajax({
-                url: `http://127.0.0.1:5000/api/users/email/${email}`,
+                url: `http://172.25.180.166:5000/api/users/email/${email}`,
                 method: 'GET',
                 dataType: 'json',
                 success: function (response) {
@@ -87,7 +87,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: 'http://127.0.0.1:5000/api/users',
+            url: 'http://172.25.180.166:5000/api/users',
             type: 'POST',
             contentType: 'application/json',
             dataType: 'json',

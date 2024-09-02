@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkbox Value</title>
+</head>
+<body>
+    <form id="loginForm">
+        <div class="remember-me">
+            <input type="checkbox" name="remember-me" id="rememberMe">
+            <label for="rememberMe">Remember me</label>
+        </div>
+        <button type="button" onclick="checkCheckboxValue()">Check Value</button>
+    </form>
+
+    <script>
+        function checkCheckboxValue() {
+            const checkbox = document.getElementById('rememberMe');
+            if (checkbox.checked) {
+                alert('Checkbox is checked');
+            } else {
+                alert('Checkbox is not checked');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,20 +1,35 @@
 #!/usr/bin/env python3
 """ Expense Tracker Flask app """
 
-from auth.session import Auth
 from flask import (abort, Flask, jsonify, make_response,
                    redirect, request,
                    render_template, url_for)
 from flask_cors import CORS
+from flask_mail import Mail, Message
 from api import ETapp
 import os
 from models import storage
 
-
+# App setup
 app = Flask(__name__)
 app.register_blueprint(ETapp)
 app.static_folder = 'static'
+
+# Flask mail configuration
+app.config['MAIL_SERVER'] = 'smtp.mail.yahoo.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'ifeanyiikpenyi@yahoo.com'
+app.config['MAIL_PASSWORD'] = 'ofmuknhmuclgceeg'
+app.config['MAIL_DEFAULT_SENDER'] = 'ifeanyiikpenyi@yahoo.com'
+
+mail = Mail(app)
+
+# Cross Origin setup
 CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+# Authentication setup
 auth = Auth()
 
 
@@ -121,4 +136,4 @@ def signin():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run('0.0.0.0', 5000)
