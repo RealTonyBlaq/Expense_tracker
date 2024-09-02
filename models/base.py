@@ -29,19 +29,24 @@ class BaseModel:
     def __str__(self) -> str:
         """ Returns a string representation of the Object """
         return "[{}].{} ({})".format(self.__class__.__name__, self.id,
-                                     self.about())
+                                     self.to_dict())
 
-    def about(self) -> dict:
+    def to_dict(self) -> dict:
         """ Returns a dictionary of the object's key-value pairs """
         obj_dict = {}
         for key, value in self.__dict__.items():
-            if key != '_sa_instance_state':
+            if key not in ['_sa_instance_state', 'password', 'token']:
                 obj_dict[key] = value
         return obj_dict
 
     def save(self) -> None:
         """ Save an object to storage """
-        from models import storage
+        from utilities import db
         self.updated_at = datetime.now()
-        storage.add(self)
-        storage.save()
+        db.add(self)
+        db.save()
+
+    def delete(self) -> None:
+        """ Deletes the object from the database """
+        from utilities import db
+        db.delete(self)

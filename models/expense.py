@@ -2,7 +2,7 @@
 """ The Expense Model """
 
 from models.base import Base, BaseModel
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Date
 
 
 class Expense(BaseModel, Base):
@@ -12,4 +12,5 @@ class Expense(BaseModel, Base):
     user_id = Column(String(60), ForeignKey('users.id'),
                          nullable=False)
     amount = Column(Integer, nullable=False)
+    date_occurred = Column(Date, nullable=False)
     description = Column(String(128), nullable=True)
