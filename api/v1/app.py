@@ -77,7 +77,7 @@ def null_user():
 
 @app.errorhandler(404)
 def not_found(error):
-    """ Returns a JSON if a request route wasn't found """
+    """ Returns a JSON if a request route was not found """
     return jsonify({'error': 'Not Found'})
 
 
