@@ -18,4 +18,8 @@ class RecurringExpense(BaseModel, Base):
     user_id = Column(String(60),
                      ForeignKey('users.id', ondelete='CASCADE'),
                      nullable=False)
-    amount = Column(DECIMAL(10, 2), )
+    amount = Column(DECIMAL(10, 2), nullable=False)
+    start_date = Column(DATE, nullable=False)
+    end_date = Column(DATE)
+    frequency = Column(Enum('Daily'))
+    description = Column(TEXT)
