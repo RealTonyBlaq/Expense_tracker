@@ -3,6 +3,7 @@
 
 from models.associations import ExpenseTag
 from models.base import Base, BaseModel
+from models.category import Category
 from models.user import User
 from sqlalchemy import Column, String, ForeignKey, Date, DECIMAL
 from sqlalchemy.dialects.sqlite import TEXT
@@ -24,4 +25,5 @@ class Expense(BaseModel, Base):
 
     user = relationship('User', back_populates='expenses')
     category = relationship('Category', back_populates='expenses')
-    tags = relationship('ExpenseTag', secondary='expense_tag', back_populates='expenses')
+    tags = relationship('ExpenseTag', secondary='expense_tag',
+                        back_populates='expenses')
