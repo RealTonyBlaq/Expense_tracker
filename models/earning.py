@@ -16,5 +16,5 @@ class Earning(BaseModel, Base):
     amount = Column(DECIMAL(10, 2), nullable=False)
     description = Column(TEXT, nullable=True)
 
-    # relationships
+    # Relationships
     user = relationship('User', back_populates='earnings')
