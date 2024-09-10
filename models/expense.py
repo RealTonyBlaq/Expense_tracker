@@ -23,6 +23,7 @@ class Expense(BaseModel, Base):
     date_occurred = Column(Date, nullable=False)
     description = Column(TEXT, nullable=True)
 
+    # Relationships
     user = relationship('User', back_populates='expenses')
     category = relationship('Category', back_populates='expenses')
     tags = relationship('ExpenseTag', secondary='expense_tag',
