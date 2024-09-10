@@ -12,8 +12,8 @@ class Expense(BaseModel, Base):
     """ The Expense Class holds the expenses made by the User """
     __tablename__ = 'expenses'
 
-    category_id = Column(String(60), ForeignKey('categories.id'), nullable=False)
-    user_id = Column(String(60), ForeignKey('users.id'),
+    category_id = Column(String(60), ForeignKey('categories.id', ond), nullable=False)
+    user_id = Column(String(60), ForeignKey('users.id', ondelete='CASCADE'),
                          nullable=False)
     amount = Column(DECIMAL(10, 2), nullable=False)
     date_occurred = Column(Date, nullable=False)
