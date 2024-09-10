@@ -2,6 +2,7 @@
 """ The Recurring Expense Model """
 
 from models.base import BaseModel, Base
+from models.category import Category
 from models.user import User
 from sqlalchemy import Column, String, DECIMAL, ForeignKey, DATE, Enum
 from sqlalchemy.dialects.sqlite import TEXT
@@ -26,4 +27,5 @@ class RecurringExpense(BaseModel, Base):
     description = Column(TEXT)
 
     # Relationships
-    user = relationship('User', back_populates='')
+    user = relationship('User', back_populates='recurring_expenses')
+    category = relationship('Category')
