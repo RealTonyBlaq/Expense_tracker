@@ -3,6 +3,7 @@
 
 from models.base import BaseModel, Base
 from models.user import User
+from models.expense import Expense
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 
@@ -13,4 +14,5 @@ class Category(BaseModel, Base):
 
     name = Column(String(60), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
-    expenses = relationship('Expense', )
+    expenses = relationship('Expense', backref='users',
+                            cascade='all, delete, delete-orphan')
