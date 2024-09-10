@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ The Expense Model """
 
+from models.associations import ExpenseTag
 from models.base import Base, BaseModel
 from models.user import User
 from sqlalchemy import Column, String, ForeignKey, Date, DECIMAL
@@ -23,4 +24,4 @@ class Expense(BaseModel, Base):
 
     user = relationship('User', back_populates='expenses')
     category = relationship('Category', back_populates='expenses')
-    tags = relationship('Tag', secondary=expense_tag, back_populates='expenses')
+    tags = relationship('ExpenseTag', secondary='expense_tag', back_populates='expenses')
