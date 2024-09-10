@@ -15,4 +15,7 @@ class RecurringExpense(BaseModel, Base):
     category_id = Column(String(60),
                          ForeignKey('categories.id', ondelete='SET NULL'),
                          nullable=False)
-    user_id = Column()
+    user_id = Column(String(60),
+                     ForeignKey('users.id', ondelete='CASCADE'),
+                     nullable=False)
+    amount = Column(DECIMAL(10, 2), )
