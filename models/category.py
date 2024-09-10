@@ -3,10 +3,12 @@
 
 from models.base import BaseModel, Base
 from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 
 
 class Category(BaseModel, Base):
     """ Category Model that groups Expense objects """
     __tablename__ = 'categories'
 
-    name = Column(String(60), nullable=Fa)
+    name = Column(String(60), nullable=False)
+    
