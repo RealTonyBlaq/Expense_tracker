@@ -18,5 +18,6 @@ class Tag(BaseModel, Base):
                      ForeignKey('users.id', ondelete='CASCADE'),
                      nullable=False)
 
+    # Relationships
     user = relationship('User', back_populates='tags')
     expenses = relationship('ExpenseTag', secondary='expense_tag', back_populates='tags')
