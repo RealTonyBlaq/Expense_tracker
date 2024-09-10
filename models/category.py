@@ -7,4 +7,6 @@ from sqlalchemy import Column, String
 
 class Category(BaseModel, Base):
     """ Category Model that groups Expense objects """
-    
+    __tablename__ = 'categories'
+
+    name = Column(String(60), nullable=Fa)
