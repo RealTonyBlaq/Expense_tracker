@@ -17,7 +17,7 @@ class Category(BaseModel, Base):
                      ForeignKey('users.id', ondelete='CASCADE'),
                      nullable=False)
 
-    # relationships
+    # Relationships
     user = relationship('User', back_populates='categories')
     expenses = relationship('Expense', backref='users',
                             cascade='all, delete, delete-orphan')
