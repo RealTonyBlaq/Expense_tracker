@@ -2,7 +2,7 @@
 """ The Expense Model """
 
 from models.base import Base, BaseModel
-from models.u
+from models.user import User
 from sqlalchemy import Column, String, ForeignKey, Date, DECIMAL
 from sqlalchemy.dialects.sqlite import TEXT
 from sqlalchemy.orm import relationship
@@ -19,4 +19,5 @@ class Expense(BaseModel, Base):
     date_occurred = Column(Date, nullable=False)
     description = Column(TEXT, nullable=True)
 
-    user = relationship('User')
+    user = relationship('User', back_populates='expenses')
+    category = relationship('Category', back_populates='expenses')
