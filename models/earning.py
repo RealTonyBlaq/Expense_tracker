@@ -2,7 +2,9 @@
 """ The Category Model """
 
 from models.base import BaseModel, Base
-from sqlalchemy import Column, Integer, String, ForeignKey, Date
+from sqlalchemy import Column, String, ForeignKey, Date, DECIMAL
+from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.sqlite import TEXT
 
 
 class Earning(BaseModel, Base):
@@ -11,5 +13,8 @@ class Earning(BaseModel, Base):
     name = Column(String(60), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
     date_occurred = Column(Date, nullable=False)
-    amount = Column(Integer, nullable=False)
-    description = Column(String(128), nullable=True)
+    amount = Column(DECIMAL(10, 2), nullable=False)
+    description = Column(TEXT, nullable=True)
+
+    # relationships
+    user = relationship('User', back_populates='earnings')
