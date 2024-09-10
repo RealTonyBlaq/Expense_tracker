@@ -12,4 +12,7 @@ class RecurringExpense(BaseModel, Base):
     """ Defines a model for recurring expenses """
     __tablename__ = 'recurring_expenses'
 
-    
+    category_id = Column(String(60),
+                         ForeignKey('categories.id', ondelete='SET NULL'),
+                         nullable=False)
+    user_id = Column()
