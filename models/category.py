@@ -13,6 +13,11 @@ class Category(BaseModel, Base):
     __tablename__ = 'categories'
 
     name = Column(String(60), nullable=False)
-    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+    user_id = Column(String(60),
+                     ForeignKey('users.id', ondelete='CASCADE'),
+                     nullable=False)
+
+    # relationships
+    user = relationship('User', back_populates='categories')
     expenses = relationship('Expense', backref='users',
                             cascade='all, delete, delete-orphan')
