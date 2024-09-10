@@ -3,8 +3,10 @@
 
 from flask_login import UserMixin
 from models.base import Base, BaseModel
+from models.category import Category
 from models.earning import Earning
 from models.expense import Expense
+from models.tag import Tag
 from sqlalchemy import String, Column, Boolean, DateTime, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.sqlite import TEXT
@@ -22,10 +24,17 @@ class User(UserMixin, BaseModel, Base):
     is_email_verified = Column(Boolean, default=False)
     bio = Column(TEXT, nullable=True)
     is_logged_in = Column(Boolean, default=False)
-    earnings = relationship("Earning", backref="users",
+
+    # Relationships
+    earnings = relationship("Earning", backref="user",
                               cascade="all, delete, delete-orphan")
-    expenses = relationship('Expense', backref='users',
+    expenses = relationship('Expense', backref='user',
                             cascade="all, delete, delete-orphan")
+    categories = relationship('Category', backref='user',
+                              cascade='all, delete, delete-orphan')
+    tags = relationship('Tag', backref='user',
+                        cascade='all, delete, delete-orphan')
+
 
     @property
     def is_active(self):
