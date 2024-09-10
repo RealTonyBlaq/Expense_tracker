@@ -21,5 +21,9 @@ class RecurringExpense(BaseModel, Base):
     amount = Column(DECIMAL(10, 2), nullable=False)
     start_date = Column(DATE, nullable=False)
     end_date = Column(DATE)
-    frequency = Column(Enum('Daily'))
+    frequency = Column(Enum('Daily', 'Weekly', 'Monthly',
+                            name='frequency_enum'), nullable=False)
     description = Column(TEXT)
+
+    # Relationships
+    user = relationship('User', back_populates='')
