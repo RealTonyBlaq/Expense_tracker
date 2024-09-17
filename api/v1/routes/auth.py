@@ -149,4 +149,7 @@ def logout():
 def reset():
     """ Resets a user's password """
     if request.method == 'POST':
-        
+        if request.is_json:
+            data = request.get_json()
+            
+        return jsonify({'message': 'Not a valid JSON'}), 400
