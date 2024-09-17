@@ -167,5 +167,7 @@ def reset():
             if new_password != confirm_password:
                 return jsonify({'message': 'password mismatch'}), 400
 
-            existing_user.password =
+            existing_user.password = hash_password(new_password)
+            existing_user.save()
+            return jsonify({'message': 'Password changed successfully'}), 200
         return jsonify({'message': 'Not a valid JSON'}), 400
