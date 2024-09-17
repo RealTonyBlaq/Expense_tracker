@@ -143,3 +143,10 @@ def logout():
 
     return jsonify({'message': 'User logged out successfully'}), 200
 
+
+@ETapp.route('/reset-password', methods=['GET', 'POST'],
+             strict_slashes=False)
+def reset():
+    """ Resets a user's password """
+    if request.method == 'POST':
+        
