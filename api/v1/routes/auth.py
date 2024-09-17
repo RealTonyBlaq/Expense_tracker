@@ -151,7 +151,7 @@ def reset():
     if request.method == 'POST':
         if request.is_json:
             data = request.get_json()
-            for key in ['email', 'new_password', 'confirm_password']:
+            for key in ['email', 'new_password', 'confirm_password', 'token']:
                 if key not in data:
                     return jsonify({'message': f'{key} missing'}), 400
 
@@ -162,5 +162,5 @@ def reset():
             try:
                 existing_user = db.get_user(email)
             except ValueError:
-                
+                return jsonify({'message': 'Invalid user email'}), 400
         return jsonify({'message': 'Not a valid JSON'}), 400
