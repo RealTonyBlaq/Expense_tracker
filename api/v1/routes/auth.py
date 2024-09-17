@@ -163,4 +163,9 @@ def reset():
                 existing_user = db.get_user(email)
             except ValueError:
                 return jsonify({'message': 'Invalid user email'}), 400
+
+            if new_password != confirm_password:
+                return jsonify({'message': 'password mismatch'}), 400
+
+            existing_user.password =
         return jsonify({'message': 'Not a valid JSON'}), 400
