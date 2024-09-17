@@ -144,11 +144,11 @@ def logout():
     return jsonify({'message': 'User logged out successfully'}), 200
 
 
-@ETapp.route('/reset-password', methods=['GET', 'POST'],
+@ETapp.route('/reset-password', methods=['GET', 'PATCH'],
              strict_slashes=False)
 def reset():
     """ Resets a user's password """
-    if request.method == 'POST':
+    if request.method == 'PATCH':
         if request.is_json:
             data = request.get_json()
             for key in ['email', 'new_password', 'confirm_password', 'token']:
@@ -170,4 +170,5 @@ def reset():
             existing_user.password = hash_password(new_password)
             existing_user.save()
             return jsonify({'message': 'Password changed successfully'}), 200
+
         return jsonify({'message': 'Not a valid JSON'}), 400
