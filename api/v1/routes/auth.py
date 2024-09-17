@@ -177,5 +177,5 @@ def reset():
         if request.is_json:
             data = request.get_json()
 
-            # code to create a 
+            # code to create a token and cache it for 5 minutes
         return jsonify({'message': 'Not a Valid JSON'}), 400
