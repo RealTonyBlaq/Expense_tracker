@@ -172,3 +172,9 @@ def reset():
             return jsonify({'message': 'Password changed successfully'}), 200
 
         return jsonify({'message': 'Not a valid JSON'}), 400
+
+    if request.method == 'POST':
+        if request.is_json:
+            data = request.get_json()
+            
+        return jsonify({'message': 'Not a Valid JSON'}), 400
