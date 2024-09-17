@@ -155,5 +155,12 @@ def reset():
                 if key not in data:
                     return jsonify({'message': f'{key} missing'}), 400
 
-            email = data.get
+            email = data.get('email').lower()
+            new_password = data.get('new_password')
+            confirm_password = data.get('confirm_password')
+
+            try:
+                existing_user = db.get_user(email)
+            except ValueError:
+                
         return jsonify({'message': 'Not a valid JSON'}), 400
