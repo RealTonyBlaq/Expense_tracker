@@ -3,8 +3,11 @@
 
 from datetime import datetime
 from models.base import Base
+from models.category import Category
 from models.earning import Earning
 from models.expense import Expense
+from models.recurring_expense import RecurringExpense
+from models.tag import Tag
 from models.user import User
 from os import getenv
 from sqlalchemy import create_engine
@@ -13,7 +16,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.orm.session import Session
 
 
-classes = [User, Earning, Expense]
+classes = [User, Category, Earning, Expense, Tag, RecurringExpense]
 
 
 class Database:
