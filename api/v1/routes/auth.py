@@ -8,7 +8,7 @@ from flask import request, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from models.user import User
 from random import randint
-from utilities import db
+from utilities import db, cache
 from utilities.email import Email
 
 
@@ -59,7 +59,8 @@ def signup():
         user = User(**user_data)
 
         OTP = generate_otp()
-        user.token = OTP
+        key = f'auth_{OTP}'
+        cache.set(key, user.email, 300.00)
         user.save()
 
         subject = "Expense Tracker - Welcome | OTP"
@@ -75,6 +76,8 @@ def signup():
         none; border-radius: 5px; position: absolute;">{OTP}</h1>
 
         </div>
+
+        Kindly note that OTP expires after 5 minutes.
 
         By verifying your email address, you'll gain access to the site.
 
@@ -158,6 +161,7 @@ def reset():
             email = data.get('email').lower()
             new_password = data.get('new_password')
             confirm_password = data.get('confirm_password')
+            token = data.get('token')
 
             try:
                 existing_user = db.get_user(email)
