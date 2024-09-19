@@ -187,4 +187,8 @@ def reset():
             data = request.get_json()
 
             # code to create a token and cache it for 5 minutes
+            email = data.get('email')
+            if not email:
+                return jsonify({'message': 'email missing'}), 400
+            
         return jsonify({'message': 'Not a Valid JSON'}), 400
