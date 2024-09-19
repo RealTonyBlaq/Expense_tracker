@@ -180,6 +180,7 @@ def reset():
 
             existing_user.password = hash_password(new_password)
             existing_user.save()
+            
             return jsonify({'message': 'Password changed successfully'}), 200
 
         return jsonify({'message': 'Not a valid JSON'}), 400
@@ -234,4 +235,5 @@ def reset():
 
 @ETapp.route('/auth/verify', methods=['POST'],
              strict_slashes=False)
-def verify_otp()
+def verify_otp():
+    """ Route that verifies the OTP """
