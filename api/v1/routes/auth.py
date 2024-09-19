@@ -194,11 +194,13 @@ def reset():
                 return jsonify({'message': 'email missing'}), 400
 
             try:
-                existing_user = db.get_user(email)
+                existing_user = db.get_user(email.lower())
             except ValueError:
                 return jsonify({'message': 'User not found'}), 400
 
             OTP = generate_otp()
+            key = f'auth_{OTP}'
+            cache.set(key, email, 300.00)
             
 
         return jsonify({'message': 'Not a Valid JSON'}), 400
