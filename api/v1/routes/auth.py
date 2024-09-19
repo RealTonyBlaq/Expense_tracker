@@ -59,8 +59,6 @@ def signup():
         user = User(**user_data)
 
         OTP = generate_otp()
-        key = f'auth_{OTP}'
-        cache.set(key, user.email, 300.00)
         user.save()
 
         subject = "Expense Tracker - Welcome | OTP"
@@ -90,6 +88,10 @@ def signup():
         The Expense Tracker Team"""
 
         Email.send(user.email, subject, content)
+        # Cache the OTP with the user's email
+        key = f'auth_{OTP}'
+        cache.set(key, user.email, 300.00)
+
         return jsonify({'message': 'user created successfully'}), 201
 
     return jsonify({'message': 'Not a valid JSON'}), 400
@@ -190,5 +192,6 @@ def reset():
             email = data.get('email')
             if not email:
                 return jsonify({'message': 'email missing'}), 400
-            
+
+
         return jsonify({'message': 'Not a Valid JSON'}), 400
