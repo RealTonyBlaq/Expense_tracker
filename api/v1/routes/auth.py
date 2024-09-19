@@ -154,16 +154,18 @@ def reset():
     if request.method == 'PATCH':
         if request.is_json:
             data = request.get_json()
-            for key in ['email', 'new_password', 'confirm_password', 'token']:
+            for key in ['email', 'new_password', 'confirm_password', 'OTP']:
                 if key not in data:
                     return jsonify({'message': f'{key} missing'}), 400
 
             email = data.get('email').lower()
             new_password = data.get('new_password')
             confirm_password = data.get('confirm_password')
-            token = data.get('token')
+            OTP = data.get('token')
 
-            if not 
+            key = 'auth_{OTP}'
+            derived_email = cache.get(key)
+            if not derived_email or derived_email != email:
             try:
                 existing_user = db.get_user(email)
             except ValueError:
