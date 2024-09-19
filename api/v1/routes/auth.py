@@ -199,14 +199,11 @@ def reset():
                 return jsonify({'message': 'User not found'}), 400
 
             OTP = generate_otp()
-            key = f'auth_{OTP}'
-            cache.set(key, email, 300.00)
 
             subject = "Expense Tracker - Reset Password | OTP"
             content = f"""Dear {user.first_name} {user.last_name},
 
-            Thank you for registering with Expense Tracker! To complete your \
-            registration, please verify your email address using the OTP below:
+            Authenticate your password reset using the OTP below:
 
             <div style="justify-content: space-around;">
 
@@ -216,13 +213,17 @@ def reset():
 
             </div>
 
-            Kindly note that OTP expires after 5 minutes.
+            OTP expires after 5 minutes.
 
             If you did not initiate a password reset, please ignore this email.
 
-            Thank you for joining us!
+            Thank you!
 
             Best regards,
             The Expense Tracker Team"""
+
+            # Cache the OTP
+            key = f'auth_{OTP}'
+            cache.set(key, email, 300.00)
 
             return jsonify({'message': 'Not a Valid JSON'}), 400
