@@ -194,13 +194,35 @@ def reset():
                 return jsonify({'message': 'email missing'}), 400
 
             try:
-                existing_user = db.get_user(email.lower())
+                user = db.get_user(email.lower())
             except ValueError:
                 return jsonify({'message': 'User not found'}), 400
 
             OTP = generate_otp()
             key = f'auth_{OTP}'
             cache.set(key, email, 300.00)
-            
 
-        return jsonify({'message': 'Not a Valid JSON'}), 400
+            subject = "Expense Tracker - Reset Password | OTP"
+            content = f"""Dear {user.first_name} {user.last_name},
+
+            Thank you for registering with Expense Tracker! To complete your \
+            registration, please verify your email address using the OTP below:
+
+            <div style="justify-content: space-around;">
+
+            <h1 style="display: inline-block; padding: \
+            10px 20px; background-color: #007bff; color: #fff; text-decoration: \
+            none; border-radius: 5px; position: absolute;">{OTP}</h1>
+
+            </div>
+
+            Kindly note that OTP expires after 5 minutes.
+
+            If you did not initiate a password reset, please ignore this email.
+
+            Thank you for joining us!
+
+            Best regards,
+            The Expense Tracker Team"""
+
+            return jsonify({'message': 'Not a Valid JSON'}), 400
