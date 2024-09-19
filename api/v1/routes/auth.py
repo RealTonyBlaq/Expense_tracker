@@ -230,3 +230,6 @@ def reset():
             return jsonify({'message', 'OTP sent. Please check your inbox'}), 200
 
         return jsonify({'message': 'Not a Valid JSON'}), 400
+
+
+@ETapp.route('/auth/verify')
