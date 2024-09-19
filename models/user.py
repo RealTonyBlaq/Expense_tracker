@@ -3,10 +3,6 @@
 
 from flask_login import UserMixin
 from models.base import Base, BaseModel
-from models.category import Category
-from models.earning import Earning
-from models.expense import Expense
-from models.recurring_expense import RecurringExpense
 from models.tag import Tag
 from sqlalchemy import String, Column, Boolean, DateTime, Integer
 from sqlalchemy.orm import relationship
@@ -20,9 +16,9 @@ class User(UserMixin, BaseModel, Base):
     last_name = Column(String(60), nullable=False)
     email = Column(String(60), nullable=False, unique=True)
     password = Column(String(60), nullable=False)
-    token = Column(Integer, default=0)
     last_login_time = Column(DateTime, default=None)
     is_email_verified = Column(Boolean, default=False)
+    is_2fa_enabled = Column(Boolean, default=False)
     bio = Column(TEXT, nullable=True)
     is_logged_in = Column(Boolean, default=False)
     is_admin = Column(Boolean, default=False)
