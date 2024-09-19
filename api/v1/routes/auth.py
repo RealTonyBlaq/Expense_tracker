@@ -163,6 +163,7 @@ def reset():
             confirm_password = data.get('confirm_password')
             token = data.get('token')
 
+            if not 
             try:
                 existing_user = db.get_user(email)
             except ValueError:
