@@ -222,8 +222,11 @@ def reset():
             Best regards,
             The Expense Tracker Team"""
 
+            Email.send(user.email, subject, content)
             # Cache the OTP
             key = f'auth_{OTP}'
             cache.set(key, email, 300.00)
 
-            return jsonify({'message': 'Not a Valid JSON'}), 400
+            return jsonify({'message', 'OTP sent. Please check your inbox'}), 200
+
+        return jsonify({'message': 'Not a Valid JSON'}), 400
