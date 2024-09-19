@@ -163,9 +163,11 @@ def reset():
             confirm_password = data.get('confirm_password')
             OTP = data.get('token')
 
-            key = 'auth_{OTP}'
+            key = f'auth_{OTP}'
             derived_email = cache.get(key)
             if not derived_email or derived_email != email:
+                return jsonify({'message': 'The OTP is invalid or expired'}), 400
+
             try:
                 existing_user = db.get_user(email)
             except ValueError:
