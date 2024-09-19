@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 """ The Tag Model """
 
-from models.associations import ExpenseTag
 from models.base import BaseModel, Base
-from models.expense import Expense
-from models.user import User
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 
