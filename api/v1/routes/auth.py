@@ -180,7 +180,7 @@ def reset():
 
             existing_user.password = hash_password(new_password)
             existing_user.save()
-            
+            cache.delete(key)
             return jsonify({'message': 'Password changed successfully'}), 200
 
         return jsonify({'message': 'Not a valid JSON'}), 400
@@ -237,3 +237,4 @@ def reset():
              strict_slashes=False)
 def verify_otp():
     """ Route that verifies the OTP """
+    return jsonify({}), 200
