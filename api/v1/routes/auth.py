@@ -282,7 +282,12 @@ def verify_otp(process, otp):
 
     if process == 'signup':
         user.is_email_verified = True
-        user.save()
-    elif process == ''
+
+        return jsonify({'message': 'Email verification successful', 'user': user.to_dict()}), 200
+    elif process == '2fa':
+        login(user=user)
+        user.last_login_time = datetime.now()
+
+    user.save()
 
     return jsonify({'message': 'login successful', 'user': user.to_dict()}), 200
