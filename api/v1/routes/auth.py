@@ -125,7 +125,29 @@ def login():
                 return jsonify({"message": "Incorrect password"})
 
             if user.is_2fa_enabled:
-                
+                OTP = generate_otp()
+
+                subject = "Expense Tracker - Reset Password | OTP"
+                content = f"""Dear {user.first_name} {user.last_name},
+
+                Authenticate your password reset using the OTP below:
+
+                <div style="justify-content: space-around;">
+
+                <h1 style="display: inline-block; padding: \
+                10px 20px; background-color: #007bff; color: #fff; text-decoration: \
+                none; border-radius: 5px; position: absolute;">{OTP}</h1>
+
+                </div>
+
+                OTP expires after 5 minutes.
+
+                If you did not initiate a password reset, please ignore this email.
+
+                Thank you!
+
+                Best regards,
+                The Expense Tracker Team"""
 
             if login_user(user=user):
                 user.last_login_time = datetime.now()
