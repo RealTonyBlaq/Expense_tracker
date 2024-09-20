@@ -130,7 +130,8 @@ def login():
                 subject = "Expense Tracker - Reset Password | OTP"
                 content = f"""Dear {user.first_name} {user.last_name},
 
-                Authenticate your password reset using the OTP below:
+                You just tried to log in to your account. Please authenticate \
+                your login session using the OTP below:
 
                 <div style="justify-content: space-around;">
 
@@ -142,7 +143,7 @@ def login():
 
                 OTP expires after 5 minutes.
 
-                If you did not initiate a password reset, please ignore this email.
+                If you did not initiate a login attempt, please ignore this email.
 
                 Thank you!
 
