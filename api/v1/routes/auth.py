@@ -265,7 +265,7 @@ def reset():
         return jsonify({'message': 'Not a Valid JSON'}), 400
 
 
-@ETapp.route('/auth/verify/<process>/<otp>', methods=['POST'],
+@ETapp.route('/auth/verify/<process>/<otp>',
              strict_slashes=False)
 def verify_otp(process, otp):
     """ Route that verifies the OTP """
