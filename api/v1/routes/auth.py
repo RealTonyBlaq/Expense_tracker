@@ -154,7 +154,7 @@ def login():
                 # Cache the OTP
                 key = f'auth_{OTP}'
                 cache.set(key, user.email, 300.00)
-                
+                return jsonify({'message': 'OTP sent successfully'}), 200
 
             if login_user(user=user):
                 user.last_login_time = datetime.now()
@@ -265,8 +265,7 @@ def reset():
         return jsonify({'message': 'Not a Valid JSON'}), 400
 
 
-@ETapp.route('/auth/verify', methods=['POST'],
-             strict_slashes=False)
+@ETapp.route('/auth/verify', methods=['POST'], strict_slashes=False)
 def verify_otp():
     """ Route that verifies the OTP """
-    return jsonify({}), 200
+    
