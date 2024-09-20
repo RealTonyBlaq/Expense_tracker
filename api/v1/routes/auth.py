@@ -90,7 +90,7 @@ def signup():
         Email.send(user.email, subject, content)
         # Cache the OTP with the user's email
         key = f'auth_{OTP}'
-        cache.set(key, user.email, 300.00)
+        cache.set(key, user.email, 300)
 
         return jsonify({'message': 'user created successfully'}), 201
 
@@ -153,7 +153,7 @@ def login():
                 Email.send(user.email, subject, content)
                 # Cache the OTP
                 key = f'auth_{OTP}'
-                cache.set(key, user.email, 300.00)
+                cache.set(key, user.email, 300)
                 return jsonify({'message': 'OTP sent successfully'}), 200
 
             if login_user(user=user):
@@ -258,7 +258,7 @@ def reset():
             Email.send(user.email, subject, content)
             # Cache the OTP
             key = f'auth_{OTP}'
-            cache.set(key, email, 300.00)
+            cache.set(key, email, 300)
 
             return jsonify({'message', 'OTP sent. Please check your inbox'}), 200
 
