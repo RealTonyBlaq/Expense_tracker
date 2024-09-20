@@ -265,9 +265,9 @@ def reset():
         return jsonify({'message': 'Not a Valid JSON'}), 400
 
 
-@ETapp.route('/auth/verify/<type>/<otp>', methods=['POST'],
+@ETapp.route('/auth/verify/<process>/<otp>', methods=['POST'],
              strict_slashes=False)
-def verify_otp(otp):
+def verify_otp(process, otp):
     """ Route that verifies the OTP """
     key = f'auth_{otp}'
     email = cache.get(key)
@@ -279,5 +279,10 @@ def verify_otp(otp):
         user = db.get_user(email)
     except ValueError:
         return jsonify({'message': 'Invalid OTP, try again'}), 400
+
+    if process == 'signup':
+        user.is_email_verified = True
+        user.save()
+    elif process == ''
 
     return jsonify({'message': 'login successful', 'user': user.to_dict()}), 200
