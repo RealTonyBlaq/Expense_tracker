@@ -268,4 +268,13 @@ def reset():
 @ETapp.route('/auth/verify/<otp>', strict_slashes=False)
 def verify_otp(otp):
     """ Route that verifies the OTP """
-    key = otp
+    key = f'auth_{otp}'
+    email = cache.get(key)
+
+    if not email:
+        return jsonify({'message': 'Invalid OTP, try again'}), 400
+
+    try:
+        user = db.get_user(email)
+    except ValueError:
+        return jsonify({'message': ''})
