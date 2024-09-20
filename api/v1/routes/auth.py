@@ -277,4 +277,6 @@ def verify_otp(otp):
     try:
         user = db.get_user(email)
     except ValueError:
-        return jsonify({'message': ''})
+        return jsonify({'message': 'Invalid OTP, try again'}), 400
+
+    return jsonify({'message': 'login successful', 'user': user.to_dict()}), 200
