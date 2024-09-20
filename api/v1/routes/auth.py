@@ -143,12 +143,18 @@ def login():
 
                 OTP expires after 5 minutes.
 
-                If you did not initiate a login attempt, please ignore this email.
+                If you did not initiate a login attempt, please ignore this email or contact us.
 
                 Thank you!
 
                 Best regards,
                 The Expense Tracker Team"""
+
+                Email.send(user.email, subject, content)
+                # Cache the OTP
+                key = f'auth_{OTP}'
+                cache.set(key, user.email, 300.00)
+                
 
             if login_user(user=user):
                 user.last_login_time = datetime.now()
