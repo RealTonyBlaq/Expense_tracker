@@ -124,6 +124,9 @@ def login():
             if not checkpw(password.encode('utf-8'), user.password):
                 return jsonify({"message": "Incorrect password"})
 
+            if user.is_2fa_enabled:
+                
+
             if login_user(user=user):
                 user.last_login_time = datetime.now()
                 user.is_logged_in = True
