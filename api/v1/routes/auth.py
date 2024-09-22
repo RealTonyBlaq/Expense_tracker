@@ -87,7 +87,7 @@ def signup():
 
         By verifying your email address, you'll gain access to the site.
 
-        If you did not register for an account with WeBlog, \
+        If you did not register for an account with Expense Tracker, \
         please ignore this email.
 
         Thank you for joining us!
