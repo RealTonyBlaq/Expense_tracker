@@ -4,12 +4,17 @@
 from api.v1 import ETapp
 from bcrypt import hashpw, checkpw, gensalt
 from datetime import datetime
+from dotenv import load_dotenv, find_dotenv
 from flask import request, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from models.user import User
+from os import getenv
 from random import randint
 from utilities import db, cache
 from utilities.email import Email
+
+
+load_dotenv(find_dotenv())
 
 
 def hash_password(password):
@@ -20,6 +25,9 @@ def hash_password(password):
 def generate_otp() -> int:
     """ Returns a 6 - digit token """
     return randint(100000, 999999)
+
+
+OTP_TIMEOUT = int(getenv('OTP_TIMEOUT'))
 
 
 @ETapp.route('/signup', methods=['POST'], strict_slashes=False)
@@ -75,7 +83,7 @@ def signup():
 
         </div>
 
-        Kindly note that OTP expires after 5 minutes.
+        Kindly note that OTP expires after {OTP_TIMEOUT} minutes.
 
         By verifying your email address, you'll gain access to the site.
 
@@ -90,7 +98,7 @@ def signup():
         Email.send(user.email, subject, content)
         # Cache the OTP with the user's email
         key = f'auth_{OTP}'
-        cache.set(key, user.email, 300)
+        cache.set(key, user.email, OTP_TIMEOUT)
 
         return jsonify({'message': 'user created successfully'}), 201
 
@@ -141,7 +149,7 @@ def login():
 
                 </div>
 
-                OTP expires after 5 minutes.
+                OTP expires after {OTP_TIMEOUT} minutes.
 
                 If you did not initiate a login attempt, please ignore this email or contact us.
 
@@ -153,7 +161,7 @@ def login():
                 Email.send(user.email, subject, content)
                 # Cache the OTP
                 key = f'auth_{OTP}'
-                cache.set(key, user.email, 300)
+                cache.set(key, user.email, OTP_TIMEOUT)
                 return jsonify({'message': 'OTP sent successfully'}), 200
 
             if login_user(user=user):
@@ -246,7 +254,7 @@ def reset():
 
             </div>
 
-            OTP expires after 5 minutes.
+            OTP expires after {OTP_TIMEOUT} minutes.
 
             If you did not initiate a password reset, please ignore this email.
 
@@ -258,7 +266,7 @@ def reset():
             Email.send(user.email, subject, content)
             # Cache the OTP
             key = f'auth_{OTP}'
-            cache.set(key, email, 300)
+            cache.set(key, email, OTP_TIMEOUT)
 
             return jsonify({'message', 'OTP sent. Please check your inbox'}), 200
 
@@ -271,8 +279,11 @@ def verify_otp(process, otp):
     """ Route that verifies the OTP """
     key = f'auth_{otp}'
     email = cache.get(key)
+    email_by_param = request.args['email']
 
-    if not email:
+    print(email_by_param)
+
+    if not email or email != email_by_param:
         return jsonify({'message': 'Invalid OTP, try again'}), 400
 
     try:
@@ -281,11 +292,17 @@ def verify_otp(process, otp):
         return jsonify({'message': 'Invalid OTP, try again'}), 400
 
     if process == 'signup':
+        if user.is_email_verified:
+            return jsonify({'message': 'Email already verified'}), 400
         user.is_email_verified = True
         user.save()
+        cache.delete(key)
         return jsonify({'message': 'Email verification successful'}), 200
     elif process == '2fa':
-        login(user=user)
+        login_user(user=user)
         user.last_login_time = datetime.now()
         user.save()
+        cache.delete(key)
         return jsonify({'message': 'login successful', 'user': user.to_dict()}), 200
+
+    return jsonify({'message': 'Invalid process type'}), 401
