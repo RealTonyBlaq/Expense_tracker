@@ -281,8 +281,6 @@ def verify_otp(process, otp):
     email = cache.get(key)
     email_by_param = request.args['email']
 
-    print(email_by_param)
-
     if not email or email != email_by_param:
         return jsonify({'message': 'Invalid OTP, try again'}), 400
 
