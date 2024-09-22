@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ The Tag Model """
 
+from models.associations import expense_tag
 from models.base import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
@@ -17,4 +18,4 @@ class Tag(BaseModel, Base):
 
     # Relationships
     user = relationship('User', back_populates='tags')
-    expenses = relationship('ExpenseTag', secondary='expense_tag', back_populates='tags')
+    expenses = relationship('Expense', secondary=expense_tag, back_populates='tags')
