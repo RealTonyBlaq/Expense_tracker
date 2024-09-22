@@ -18,9 +18,9 @@ class Cache:
 
         return value.decode('utf-8') if value else None
 
-    def set(self, key: str, value: str, expires_after: float) -> None:
-        """ Set/store a value using a key and an expiry time"""
-        self.client.setex(key, expires_after, value)
+    def set(self, key: str, value: str, expires_after: int) -> None:
+        """ Set/store a value using a key and an expiry time coverted to seconds """
+        self.client.setex(key, 60 * expires_after, value)
 
     def delete(self, key: str) -> None:
         """ Deletes a key-value pair """
