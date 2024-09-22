@@ -24,15 +24,15 @@ class User(UserMixin, BaseModel, Base):
     is_admin = Column(Boolean, default=False)
 
     # Relationships
-    earnings = relationship("Earning", backref="user",
+    earnings = relationship("Earning", back_populates="user",
                               cascade="all, delete, delete-orphan")
-    expenses = relationship('Expense', backref='user',
+    expenses = relationship('Expense', back_populates='user',
                             cascade="all, delete, delete-orphan")
-    categories = relationship('Category', backref='user',
+    categories = relationship('Category', back_populates='user',
                               cascade='all, delete, delete-orphan')
-    tags = relationship('Tag', backref='user',
+    tags = relationship('Tag', back_populates='user',
                         cascade='all, delete, delete-orphan')
-    recurring_expenses = relationship('RecurringExpense', backref='user',
+    recurring_expenses = relationship('RecurringExpense', back_populates='user',
                                       cascade='all, delete, delete-orphan')
 
     @property
