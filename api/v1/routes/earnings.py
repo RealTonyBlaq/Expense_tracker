@@ -17,6 +17,9 @@ date_format = "%Y-%m-%d"
 @ETapp.route('/earnings/<earning_id>', strict_slashes=False)
 def get_earnings(earning_id=None):
     """ Returns an object containing a list of Earning objects """
+    if not current_user.is_authenticated:
+        return jsonify({'message': 'user not logged in'}), 401
+
     if earning_id:
         earning = db.query(Earning).filter_by(id = earning_id, user_id = current_user.id).first()
         if earning is not None:
