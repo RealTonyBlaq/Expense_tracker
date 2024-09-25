@@ -33,4 +33,10 @@ def get_earnings(earning_id=None):
 
 
 @login_required
-@ETapp.route()
+@ETapp.route('/earnings', methods=['POST'], strict_slashes=False)
+def create_earning():
+    """ Creates an Earning object """
+    if request.is_json:
+        data = request.get_json()
+        
+    return jsonify({'message': 'Not a valid JSON'}), 400
