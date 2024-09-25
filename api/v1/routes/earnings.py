@@ -17,8 +17,10 @@ date_format = "%Y-%m-%d"
 @ETapp.route('/earnings/<earning_id>', strict_slashes=False)
 def get_earnings(earning_id=None):
     """ Returns an object containing a list of Earning objects """
-        if earning_id:
-            earning = db.query(Earning).filter_by(id = earning_id).first()
-            if earning is not None:
-                return jsonify({'message': earning.to_dict()}), 200
-            abort(404)
+    if earning_id:
+        earning = db.query(Earning).filter_by(id = earning_id).first()
+        if earning is not None:
+            return jsonify({'message': earning.to_dict()}), 200
+        abort(404)
+
+    
