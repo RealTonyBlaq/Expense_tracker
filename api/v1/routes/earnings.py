@@ -43,12 +43,15 @@ def create_earning():
                 return jsonify({'message': f'{key} missing'}), 400
 
         name = data.get('name')
-        date = data.get('date_occurred')
         amount = int(data.get('amount'))
         description = data.get('description')
+        date_occurred = datetime.strptime(data.get('date_occurred'), date_format)
 
-        date_occurred = datetime.strptime(date, date_format)
-
-        user_earning = Earning()
-            
+        user_earning = Earning(name=name,
+                               date_occurred=date_occurred,
+                               amount=amount,
+                               description=description,
+                               user_id=current_user.id)
+        user_earning.save()
+        return 
     return jsonify({'message': 'Not a valid JSON'}), 400
