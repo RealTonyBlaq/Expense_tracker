@@ -42,6 +42,11 @@ def create_earning():
             if key not in data:
                 return jsonify({'message': f'{key} missing'}), 400
 
+        name = data.get('name')
+        date_occurred = data.get('date_occurred')
+        amount = int(data.get('amount'))
+        description = data.get('description')
+
         
             
     return jsonify({'message': 'Not a valid JSON'}), 400
