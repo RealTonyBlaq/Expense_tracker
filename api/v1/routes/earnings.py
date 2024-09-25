@@ -39,6 +39,9 @@ def get_earnings(earning_id=None):
 @ETapp.route('/earnings', methods=['POST'], strict_slashes=False)
 def create_earning():
     """ Creates an Earning object """
+    if not current_user.is_authenticated:
+        return jsonify({'message': 'user not logged in'}), 401
+
     if request.is_json:
         data = request.get_json()
         for key in ['name', 'date_occurred', 'amount']:
