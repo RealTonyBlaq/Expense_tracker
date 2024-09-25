@@ -8,5 +8,7 @@ from models.earning import Earning
 
 @login_required
 @ETapp.route('/earnings', strict_slashes=False)
-@ETapp.route('/earnings/<id>')
-def get_earnings()
+@ETapp.route('/earnings/<id>', strict_slashes=False)
+def get_earnings(id=None):
+    """ Returns an object containing a list of Earning objects """
+    
