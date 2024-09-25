@@ -53,5 +53,5 @@ def create_earning():
                                description=description,
                                user_id=current_user.id)
         user_earning.save()
-        return 
+        return jsonify({'message': 'success', 'data': user_earning.to_dict()})
     return jsonify({'message': 'Not a valid JSON'}), 400
