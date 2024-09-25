@@ -20,7 +20,7 @@ def get_earnings(earning_id=None):
     if earning_id:
         earning = db.query(Earning).filter_by(id = earning_id, user_id = current_user.id).first()
         if earning is not None:
-            return jsonify({'message': earning.to_dict()}), 200
+            return jsonify({'message': 'success', 'data': earning.to_dict()}), 200
         abort(404)
 
     all_earnings = db.all(Earning).values()
@@ -28,4 +28,9 @@ def get_earnings(earning_id=None):
     for earning in all_earnings:
         if earning.user_id == current_user.id:
             my_earnings.append(earning.to_dict())
-            
+
+    return jsonify({'message': 'success', 'data': my_earnings}), 200
+
+
+@login_required
+@ETapp.route()
