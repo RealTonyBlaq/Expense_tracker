@@ -23,4 +23,9 @@ def get_earnings(earning_id=None):
             return jsonify({'message': earning.to_dict()}), 200
         abort(404)
 
-    all_earnings = db.all()
+    all_earnings = db.all(Earning).values()
+    my_earnings = []
+    for earning in all_earnings:
+        if earning.user_id == current_user.id:
+            my_earnings.append(earning.to_dict())
+            
