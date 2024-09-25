@@ -38,5 +38,10 @@ def create_earning():
     """ Creates an Earning object """
     if request.is_json:
         data = request.get_json()
+        for key in ['name', 'date_occurred', 'amount']:
+            if key not in data:
+                return jsonify({'message': f'{key} missing'}), 400
+
         
+            
     return jsonify({'message': 'Not a valid JSON'}), 400
