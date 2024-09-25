@@ -3,7 +3,7 @@
 
 from api.v1 import ETapp
 from datetime import datetime
-from flask import request, jsonify
+from flask import abort, request, jsonify
 from flask_login import login_required, current_user
 from models.earning import Earning
 from utilities import db
@@ -21,4 +21,8 @@ def get_earnings(earning_id=None):
         if earning_id:
             earning = db.query(Earning).filter_by(id = earning_id).first()
             if earning is not None:
-                return jsonify({'message': earning.to_dict()})
+                return jsonify({'message': earning.to_dict()}), 200
+            abort(404)
+
+        fo
+    return jsonify({'message': 'Not a valid JSON'}), 400
