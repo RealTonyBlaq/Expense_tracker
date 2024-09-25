@@ -21,6 +21,6 @@ class Expense(BaseModel, Base):
 
     # Relationships
     user = relationship('User', back_populates='expenses')
-    category = relationship('Category', back_populates='expenses')
+    category = relationship('Category', back_populates='expenses', overlaps='users')
     tags = relationship('Tag', secondary=expense_tag,
                         back_populates='expenses')
