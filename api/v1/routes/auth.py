@@ -9,6 +9,7 @@ from flask import request, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from models.user import User
 from os import getenv
+import pyotp
 from random import randint
 from utilities import db, cache
 from utilities.email import Email
@@ -22,9 +23,11 @@ def hash_password(password):
     return hashpw(password.encode('utf-8'), gensalt())
 
 
-def generate_otp() -> int:
+def generate_otp() -> str:
     """ Returns a 6 - digit token """
-    return randint(100000, 999999)
+    secret = pyotp.random_base32()
+    totp = pyotp.TOTP(secret)
+    return totp.now()
 
 
 OTP_TIMEOUT = int(getenv('OTP_TIMEOUT'))
@@ -203,7 +206,7 @@ def reset():
             email = data.get('email').lower()
             new_password = data.get('new_password')
             confirm_password = data.get('confirm_password')
-            OTP = data.get('token')
+            OTP = data.get('OTP')
 
             key = f'auth_{OTP}'
             derived_email = cache.get(key)
