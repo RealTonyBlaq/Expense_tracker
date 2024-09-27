@@ -86,4 +86,6 @@ def update_earning(earning_id):
     """ Update an earning object """
     if request.is_json:
         data = request.get_json()
-        
+
+        for key, value in data.items()
+    return jsonify({'message': 'Not a valid JSON'}), 400
