@@ -90,8 +90,9 @@ def update_earning(earning_id):
     if request.is_json:
         data = request.get_json()
 
-        earning = 
-
+        earning = db.query(Earning).filter_by(id = earning_id, user_id = current_user.id).first()
+        if not earning:
+            abort(404, 'Invalid earning')
         update_data = {}
         for key, value in data.items():
             if key in ['name', 'date_occurred', 'amount', 'description']:
