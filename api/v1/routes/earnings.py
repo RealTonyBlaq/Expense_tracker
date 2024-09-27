@@ -49,12 +49,14 @@ def create_earning():
                 return jsonify({'message': f'{key} missing'}), 400
 
         name = data.get('name')
-        amount = int(data.get('amount'))
+        try:
+            amount = int(data.get('amount'))
+        except (ValueError, TypeError)
         description = data.get('description')
         try:
             date_occurred = datetime.strptime(data.get('date_occurred'), date_format)
         except ValueError as e:
-            return jsonify({'message': e}), 400
+            return jsonify({'message': e.args[0]}), 400
 
         user_earning = Earning(name=name,
                                date_occurred=date_occurred,
