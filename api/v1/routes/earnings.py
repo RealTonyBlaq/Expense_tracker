@@ -76,7 +76,7 @@ def delete_earnings(earning_id):
         db.delete(obj)
         return jsonify({'message': 'success'}), 200
 
-    return jsonify({'message': 'object invalid'}), 400
+    abort(404)
 
 
 @login_required
@@ -84,4 +84,6 @@ def delete_earnings(earning_id):
              strict_slashes=False)
 def update_earning(earning_id):
     """ Update an earning object """
-    
+    if request.is_json:
+        data = request.get_json()
+        
