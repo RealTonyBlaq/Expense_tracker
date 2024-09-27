@@ -92,11 +92,13 @@ def update_earning(earning_id):
 
         earning = db.query(Earning).filter_by(id = earning_id, user_id = current_user.id).first()
         if not earning:
-            abort(404, 'Invalid earning')
-        update_data = {}
+            abort(404)
+
         for key, value in data.items():
             if key in ['name', 'date_occurred', 'amount', 'description']:
-                update_data[key] = value
+                setattr(earning, key, value)
 
-        
+        earning.save()
+        return jsonify({'message': 'updated successfully'}), 200
+
     return jsonify({'message': 'Not a valid JSON'}), 400
