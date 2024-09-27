@@ -84,8 +84,13 @@ def delete_earnings(earning_id):
              strict_slashes=False)
 def update_earning(earning_id):
     """ Update an earning object """
+    if not current_user.is_authenticated:
+        return jsonify({'message': 'user not logged in'}), 401
+
     if request.is_json:
         data = request.get_json()
 
-        for key, value in data.items()
+        update_data = {}
+        for key, value in data.items():
+            if key in ['name', 'date_occurred', ]
     return jsonify({'message': 'Not a valid JSON'}), 400
