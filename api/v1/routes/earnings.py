@@ -101,6 +101,10 @@ def update_earning(earning_id):
         if not earning:
             abort(404)
 
+        if 'date_occurred' in data:
+            date_occurred
+            try:
+                data['date_occurred'] = datetime.strptime(data[''])
         for key, value in data.items():
             if key in ['name', 'date_occurred', 'amount', 'description']:
                 setattr(earning, key, value)
