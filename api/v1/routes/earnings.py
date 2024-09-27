@@ -92,5 +92,6 @@ def update_earning(earning_id):
 
         update_data = {}
         for key, value in data.items():
-            if key in ['name', 'date_occurred', ]
+            if key in ['name', 'date_occurred', 'amount', 'description']:
+                
     return jsonify({'message': 'Not a valid JSON'}), 400
