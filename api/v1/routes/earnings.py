@@ -63,4 +63,9 @@ def create_earning():
     return jsonify({'message': 'Not a valid JSON'}), 400
 
 
-@ETapp.route('/earnings/<earning_id>')
+@login_required
+@ETapp.route('/earnings/<earning_id>', methods=['DELETE'],
+             strict_slashes=False)
+def delete_earnings(earning_id):
+    """ Deletes an earning object """
+    if re
