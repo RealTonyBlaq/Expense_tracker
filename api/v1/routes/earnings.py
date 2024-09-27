@@ -61,3 +61,6 @@ def create_earning():
         user_earning.save()
         return jsonify({'message': 'success', 'data': user_earning.to_dict()})
     return jsonify({'message': 'Not a valid JSON'}), 400
+
+
+@ETapp.route('/earnings/<earning_id>')
