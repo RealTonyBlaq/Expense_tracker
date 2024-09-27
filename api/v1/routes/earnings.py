@@ -106,6 +106,6 @@ def update_earning(earning_id):
                 setattr(earning, key, value)
 
         earning.save()
-        return jsonify({'message': 'updated successfully'}), 200
+        return jsonify({'message': 'updated successfully', 'data': earning.to_dict()}), 200
 
     return jsonify({'message': 'Not a valid JSON'}), 400
