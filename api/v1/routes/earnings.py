@@ -68,4 +68,9 @@ def create_earning():
              strict_slashes=False)
 def delete_earnings(earning_id):
     """ Deletes an earning object """
-    if re
+    if not current_user.is_authenticated:
+        return jsonify({'message': 'user not logged in'}), 401
+
+    obj = db.query(Earning).filter_by(id = earning_id).first()
+    if obj:
+        
