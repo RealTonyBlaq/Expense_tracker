@@ -51,7 +51,10 @@ def create_earning():
         name = data.get('name')
         amount = int(data.get('amount'))
         description = data.get('description')
-        date_occurred = datetime.strptime(data.get('date_occurred'), date_format)
+        try:
+            date_occurred = datetime.strptime(data.get('date_occurred'), date_format)
+        except ValueError as e:
+            return jsonify({'message': e}), 400
 
         user_earning = Earning(name=name,
                                date_occurred=date_occurred,
