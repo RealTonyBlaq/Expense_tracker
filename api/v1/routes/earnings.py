@@ -73,4 +73,8 @@ def delete_earnings(earning_id):
 
     obj = db.query(Earning).filter_by(id = earning_id).first()
     if obj:
-        
+        db.delete(obj)
+        return jsonify({'message': 'success'}), 200
+
+    return jsonify({'message': 'object invalid'}), 400
+
