@@ -102,11 +102,11 @@ def update_earning(earning_id):
             abort(404)
 
         if 'date_occurred' in data:
-            date_occurred = data['occurred']
+            date_occurred = data['date_occurred']
             try:
                 data['date_occurred'] = datetime.strptime(date_occurred, date_format)
-            except ValueError as e:
-                return jsonify({'message': e.args[0]}), 400
+            except (ValueError, TypeError) as e:
+                return jsonify({'message': "Invalid date format. Please use '%Y-%m-%d'"}), 400
 
         for key, value in data.items():
             if key in ['name', 'date_occurred', 'amount', 'description']:
