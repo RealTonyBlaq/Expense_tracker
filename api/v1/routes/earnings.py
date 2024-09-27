@@ -78,3 +78,10 @@ def delete_earnings(earning_id):
 
     return jsonify({'message': 'object invalid'}), 400
 
+
+@login_required
+@ETapp.route('/earnings/<earning_id>', methods=['PUT'],
+             strict_slashes=False)
+def update_earning(earning_id):
+    """ Update an earning object """
+    
