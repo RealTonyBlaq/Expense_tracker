@@ -303,11 +303,12 @@ def verify_otp(process, otp):
         cache.delete(key)
         return jsonify({'message': 'Email verification successful'}), 200
     elif process == '2fa':
-        login_user(user=user)
         user.last_login_time = datetime.now()
         user.save()
         cache.delete(key)
-        return jsonify({'message': 'login successful', 'user': user.to_dict()}), 200
+        response = jsonify({'message': 'login successful', 'user': user.to_dict()})
+        access_token = create_access_token(user)
+        return response, 200
 
     return jsonify({'message': 'Invalid process type'}), 401
 
