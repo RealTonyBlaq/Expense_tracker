@@ -168,13 +168,12 @@ def login():
                 return jsonify({'message': 'OTP sent successfully'}), 200
 
             access_token = create_access_token(identity=user)
-            set_access_cookies()
             user.last_login_time = datetime.now()
             user.is_logged_in = True
             user.save()
             response = jsonify({'message': 'login successful', 'user': user.to_dict()}), 200
-
-            return jsonify({'message': 'Please verify your email to login'})
+            set_access_cookies(response, access_token, max_age=3600)
+            return response, 200
 
         return jsonify({'message': 'Not a JSON'}), 400
 
