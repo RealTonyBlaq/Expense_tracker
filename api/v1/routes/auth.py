@@ -216,13 +216,13 @@ def reset():
             if not derived_email or derived_email != email:
                 return jsonify({'message': 'The OTP is invalid or expired'}), 400
 
+            if new_password != confirm_password:
+                return jsonify({'message': 'password mismatch'}), 400
+
             try:
                 existing_user = db.get_user(email)
             except ValueError:
                 return jsonify({'message': 'Invalid user email'}), 400
-
-            if new_password != confirm_password:
-                return jsonify({'message': 'password mismatch'}), 400
 
             existing_user.password = hash_password(new_password)
             existing_user.save()
@@ -274,7 +274,7 @@ def reset():
             key = f'auth_{OTP}'
             cache.set(key, email, OTP_TIMEOUT)
 
-            return jsonify({'message', 'OTP sent. Please check your inbox'}), 200
+            return jsonify({'message', 'OTP sent. Please check your email inbox'}), 200
 
         return jsonify({'message': 'Not a Valid JSON'}), 400
 
