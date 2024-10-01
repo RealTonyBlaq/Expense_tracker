@@ -181,7 +181,7 @@ def login():
 
 
 @ETapp.route('/logout', strict_slashes=False)
-@jwt_required
+@jwt_required()
 def logout():
     """ Logs a user out from the session """
     if not current_user.is_authenticated:
