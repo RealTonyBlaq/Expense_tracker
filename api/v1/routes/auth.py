@@ -323,7 +323,12 @@ def resend_otp(process):
         The Expense Tracker Team"""
 
         Email.send(user.email, subject, content)
+        key = f'auth_{OTP}'
+        cache.set(key, user.email, OTP_TIMEOUT)
 
+        return jsonify(message='OTP resent successfully'), 200
+
+    
 
 @ETapp.route('/auth/verify/<process>/<otp>',
              strict_slashes=False)
