@@ -327,8 +327,10 @@ def resend_otp(process):
         cache.set(key, user.email, OTP_TIMEOUT)
 
         return jsonify(message='OTP resent successfully'), 200
+    elif process == '2fa':
+        
 
-    
+    return jsonify({'message': 'Invalid process type'}), 401
 
 @ETapp.route('/auth/verify/<process>/<otp>',
              strict_slashes=False)
@@ -358,6 +360,8 @@ def verify_otp(process, otp):
         return jsonify({'message': 'Email verification successful'}), 200
     elif process == '2fa':
         user.last_login_time = datetime.now()
+        user.is_email_verified = True
+        user.is_logged_in = True
         user.save()
         cache.delete(key)
         response = jsonify({'message': 'login successful', 'user': user.to_dict()})
