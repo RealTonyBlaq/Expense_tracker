@@ -292,8 +292,33 @@ def resend_otp(process):
     except ValueError:
         return jsonify(message="user not found"), 404
 
-    OTP = 
-    
+    OTP = generate_otp()
+
+    subject = "Expense Tracker - Reset Password | OTP"
+    content = f"""Dear {user.first_name} {user.last_name},
+
+    You just tried to log in to your account. Please authenticate \
+    your login session using the OTP below:
+
+    <div style="justify-content: space-around;">
+
+    <h1 style="display: inline-block; padding: \
+    10px 20px; background-color: #007bff; color: #fff; text-decoration: \
+    none; border-radius: 5px; position: absolute;">{OTP}</h1>
+
+    </div>
+
+    OTP expires after {OTP_TIMEOUT} minutes.
+
+    If you did not initiate a login attempt, please ignore this email or contact us.
+
+    Thank you!
+
+    Best regards,
+    The Expense Tracker Team"""
+
+    Email.send(user.email, subject, content)
+
 
 @ETapp.route('/auth/verify/<process>/<otp>',
              strict_slashes=False)
