@@ -188,7 +188,9 @@ def logout():
     current_user.is_logged_in = False
     current_user.save()
 
-    return jsonify({'message': 'User logged out successfully'}), 200
+    response = jsonify({'message': 'User logged out successfully'})
+    unset_jwt_cookies(response)
+    return response, 200
 
 
 @ETapp.route('/reset-password', methods=['POST', 'PATCH'],
