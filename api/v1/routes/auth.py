@@ -15,6 +15,7 @@ from os import getenv
 import pyotp
 from utilities import db, cache
 from utilities.email import Email
+from werkzeug.exceptions import BadRequest, BadRequestKeyError
 
 
 load_dotenv(find_dotenv())
@@ -278,8 +279,10 @@ def reset():
 
         return jsonify({'message': 'Not a Valid JSON'}), 400
 
-@ETapp.route('/resend_otp', strict_slashes=False)
-def resend_otp()
+@ETapp.route('/resend_otp/<process>', strict_slashes=False)
+def resend_otp(process):
+    """ Resends OTP to the Email """
+    
 
 @ETapp.route('/auth/verify/<process>/<otp>',
              strict_slashes=False)
@@ -287,7 +290,10 @@ def verify_otp(process, otp):
     """ Route that verifies the OTP """
     key = f'auth_{otp}'
     email = cache.get(key)
-    email_by_param = request.args['email']
+    try:
+        email_by_param = request.args['email']
+    except BadRequestKeyError:
+        return jsonify(message='missing')
 
     if not email or email != email_by_param:
         return jsonify({'message': 'Invalid OTP, try again'}), 400
