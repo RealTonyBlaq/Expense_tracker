@@ -106,7 +106,7 @@ def signup():
         key = f'auth_{OTP}'
         cache.set(key, user.email, OTP_TIMEOUT)
 
-        return jsonify({'message': 'user created successfully'}), 201
+        return jsonify({'message': 'user created successfully. Check your inbox for the OTP'}), 201
 
     return jsonify({'message': 'Not a valid JSON'}), 400
 
@@ -279,6 +279,7 @@ def reset():
 
         return jsonify({'message': 'Not a Valid JSON'}), 400
 
+
 @ETapp.route('/resend_otp/<process>', strict_slashes=False)
 def resend_otp(process):
     """ Resends OTP to the Email """
@@ -296,31 +297,32 @@ def resend_otp(process):
 
     if process == 'signup':
         if user.is_email_verified:
-            return jsonify()
-    subject = "Expense Tracker - Reset Password | OTP"
-    content = f"""Dear {user.first_name} {user.last_name},
+            return jsonify(message='User email already verified'), 400
 
-    You just tried to log in to your account. Please authenticate \
-    your login session using the OTP below:
+        subject = "Expense Tracker - Reset Password | OTP"
+        content = f"""Dear {user.first_name} {user.last_name},
 
-    <div style="justify-content: space-around;">
+        You just tried to log in to your account. Please authenticate \
+        your login session using the OTP below:
 
-    <h1 style="display: inline-block; padding: \
-    10px 20px; background-color: #007bff; color: #fff; text-decoration: \
-    none; border-radius: 5px; position: absolute;">{OTP}</h1>
+        <div style="justify-content: space-around;">
 
-    </div>
+        <h1 style="display: inline-block; padding: \
+        10px 20px; background-color: #007bff; color: #fff; text-decoration: \
+        none; border-radius: 5px; position: absolute;">{OTP}</h1>
 
-    OTP expires after {OTP_TIMEOUT} minutes.
+        </div>
 
-    If you did not initiate a login attempt, please ignore this email or contact us.
+        OTP expires after {OTP_TIMEOUT} minutes.
 
-    Thank you!
+        If you did not initiate a login attempt, please ignore this email or contact us.
 
-    Best regards,
-    The Expense Tracker Team"""
+        Thank you!
 
-    Email.send(user.email, subject, content)
+        Best regards,
+        The Expense Tracker Team"""
+
+        Email.send(user.email, subject, content)
 
 
 @ETapp.route('/auth/verify/<process>/<otp>',
