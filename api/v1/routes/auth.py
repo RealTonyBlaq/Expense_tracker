@@ -283,6 +283,7 @@ def reset():
 def resend_otp(process):
     """ Resends OTP to the Email """
     
+    
 
 @ETapp.route('/auth/verify/<process>/<otp>',
              strict_slashes=False)
@@ -293,7 +294,7 @@ def verify_otp(process, otp):
     try:
         email_by_param = request.args['email']
     except BadRequestKeyError:
-        return jsonify(message='missing')
+        return jsonify(message='Email parameter missing'), 400
 
     if not email or email != email_by_param:
         return jsonify({'message': 'Invalid OTP, try again'}), 400
