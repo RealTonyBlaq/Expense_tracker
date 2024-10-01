@@ -328,7 +328,7 @@ def resend_otp(process):
 
         return jsonify(message='OTP resent successfully'), 200
     elif process == '2fa':
-        
+        # continue
 
     return jsonify({'message': 'Invalid process type'}), 401
 
