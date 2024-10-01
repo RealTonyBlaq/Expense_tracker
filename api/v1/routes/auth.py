@@ -312,19 +312,3 @@ def verify_otp(process, otp):
         return response, 200
 
     return jsonify({'message': 'Invalid process type'}), 401
-
-
-@ETapp.route('/test', methods=['POST'])
-def test():
-    email = request.json.get('email')
-    access_token = create_access_token(identity=email)
-    response = jsonify(access_token=access_token)
-    set_access_cookies(response, access_token)
-    return response, 200
-
-
-@ETapp.route('/protected', methods=['GET'])
-@jwt_required(locations='cookies')
-def get_user():
-    email = get_jwt_identity()
-    return jsonify(logged_in_as=email, message='success'), 200
