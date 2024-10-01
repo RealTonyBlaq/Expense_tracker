@@ -187,7 +187,6 @@ def logout():
 
     current_user.is_logged_in = False
     current_user.save()
-    logout_user()
 
     return jsonify({'message': 'User logged out successfully'}), 200
 
