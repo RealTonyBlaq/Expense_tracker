@@ -7,10 +7,10 @@ from datetime import datetime
 from dotenv import load_dotenv, find_dotenv
 from flask import request, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, set_access_cookies, get_jwt, current_user
 from models.user import User
 from os import getenv
 import pyotp
-from random import randint
 from utilities import db, cache
 from utilities.email import Email
 
@@ -129,11 +129,11 @@ def login():
             except ValueError:
                 return jsonify({'message': 'User not found'}), 404
 
+            if not checkpw(password.encode('utf-8'), user.password):
+                return jsonify({"message": "Incorrect password"}), 401
+
             if not user.is_active:
                 return jsonify({'message': 'Please verify your email to login'}), 401
-
-            if not checkpw(password.encode('utf-8'), user.password):
-                return jsonify({"message": "Incorrect password"})
 
             if user.is_2fa_enabled:
                 OTP = generate_otp()
@@ -167,11 +167,12 @@ def login():
                 cache.set(key, user.email, OTP_TIMEOUT)
                 return jsonify({'message': 'OTP sent successfully'}), 200
 
-            if login_user(user=user):
-                user.last_login_time = datetime.now()
-                user.is_logged_in = True
-                user.save()
-                return jsonify({'message': 'login successful', 'user': user.to_dict()}), 200
+            access_token = create_access_token(identity=user)
+            set_access_cookies()
+            user.last_login_time = datetime.now()
+            user.is_logged_in = True
+            user.save()
+            response = jsonify({'message': 'login successful', 'user': user.to_dict()}), 200
 
             return jsonify({'message': 'Please verify your email to login'})
 
@@ -307,3 +308,19 @@ def verify_otp(process, otp):
         return jsonify({'message': 'login successful', 'user': user.to_dict()}), 200
 
     return jsonify({'message': 'Invalid process type'}), 401
+
+
+@ETapp.route('/test', methods=['POST'])
+def test():
+    email = request.json.get('email')
+    access_token = create_access_token(identity=email)
+    response = jsonify(access_token=access_token)
+    set_access_cookies(response, access_token)
+    return response, 200
+
+
+@ETapp.route('/protected', methods=['GET'])
+@jwt_required(locations='cookies')
+def get_user():
+    email = get_jwt_identity()
+    return jsonify(logged_in_as=email, message='success'), 200
