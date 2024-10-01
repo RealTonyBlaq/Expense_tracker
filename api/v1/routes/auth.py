@@ -282,7 +282,17 @@ def reset():
 @ETapp.route('/resend_otp/<process>', strict_slashes=False)
 def resend_otp(process):
     """ Resends OTP to the Email """
-    
+    try:
+        email_by_param = request.args['email']
+    except BadRequestKeyError:
+        return jsonify(message='Email parameter missing'), 400
+
+    try:
+        user = db.get_user(email_by_param)
+    except ValueError:
+        return jsonify(message="user not found"), 404
+
+    OTP = 
     
 
 @ETapp.route('/auth/verify/<process>/<otp>',
