@@ -181,7 +181,7 @@ def login():
 
 
 @ETapp.route('/logout', strict_slashes=False)
-@jwt_required(127.0.)
+@jwt_required()
 def logout():
     """ Logs a user out from the session """
     if not current_user.is_authenticated:
@@ -278,6 +278,8 @@ def reset():
 
         return jsonify({'message': 'Not a Valid JSON'}), 400
 
+@ETapp.route('/resend_otp', strict_slashes=False)
+def resend_otp()
 
 @ETapp.route('/auth/verify/<process>/<otp>',
              strict_slashes=False)
