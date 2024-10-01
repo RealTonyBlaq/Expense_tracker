@@ -294,6 +294,9 @@ def resend_otp(process):
 
     OTP = generate_otp()
 
+    if process == 'signup':
+        if user.is_email_verified:
+            return jsonify()
     subject = "Expense Tracker - Reset Password | OTP"
     content = f"""Dear {user.first_name} {user.last_name},
 
