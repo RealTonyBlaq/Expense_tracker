@@ -307,7 +307,8 @@ def verify_otp(process, otp):
         user.save()
         cache.delete(key)
         response = jsonify({'message': 'login successful', 'user': user.to_dict()})
-        access_token = create_access_token(user)
+        access_token = create_access_token(identity=user)
+        set_access_cookies(response, access_token)
         return response, 200
 
     return jsonify({'message': 'Invalid process type'}), 401
