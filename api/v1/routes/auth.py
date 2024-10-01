@@ -7,7 +7,9 @@ from datetime import datetime
 from dotenv import load_dotenv, find_dotenv
 from flask import request, jsonify
 from flask_login import login_user, current_user
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, set_access_cookies, current_user, unset_jwt_cookies
+from flask_jwt_extended import (create_access_token, get_jwt_identity,
+                                jwt_required, set_access_cookies,
+                                current_user, unset_jwt_cookies)
 from models.user import User
 from os import getenv
 import pyotp
