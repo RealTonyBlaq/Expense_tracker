@@ -172,14 +172,14 @@ def login():
             user.is_logged_in = True
             user.save()
             response = jsonify({'message': 'login successful', 'user': user.to_dict()}), 200
-            set_access_cookies(response, access_token, max_age=3600)
+            set_access_cookies(response, access_token)
             return response, 200
 
         return jsonify({'message': 'Not a JSON'}), 400
 
 
 @ETapp.route('/logout', strict_slashes=False)
-@login_required
+@jwt_required
 def logout():
     """ Logs a user out from the session """
     if not current_user.is_authenticated:
