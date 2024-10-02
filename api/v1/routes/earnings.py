@@ -4,7 +4,7 @@
 from api.v1 import ETapp
 from datetime import datetime
 from flask import abort, request, jsonify
-from flask_login import login_required, current_user
+from flask_jwt_extended import jwt_required, get_current_user, verify_jwt_in_request
 from models.earning import Earning
 from utilities import db
 
@@ -12,12 +12,13 @@ from utilities import db
 date_format = "%Y-%m-%d"
 
 
-@login_required
 @ETapp.route('/earnings', strict_slashes=False)
 @ETapp.route('/earnings/<earning_id>', strict_slashes=False)
+@jwt_required()
 def get_earnings(earning_id=None):
     """ Returns an object containing a list of Earning objects """
-    if not current_user.is_authenticated:
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
         return jsonify({'message': 'user not logged in'}), 401
 
     if earning_id:
@@ -35,11 +36,12 @@ def get_earnings(earning_id=None):
     return jsonify({'message': 'success', 'data': my_earnings}), 200
 
 
-@login_required
+@jwt_required()
 @ETapp.route('/earnings', methods=['POST'], strict_slashes=False)
 def create_earning():
     """ Creates an Earning object """
-    if not current_user.is_authenticated:
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
         return jsonify({'message': 'user not logged in'}), 401
 
     if request.is_json:
@@ -57,8 +59,8 @@ def create_earning():
 
         try:
             date_occurred = datetime.strptime(data.get('date_occurred'), date_format)
-        except ValueError as e:
-            return jsonify({'message': e.args[0]}), 400
+        except (ValueError, TypeError) as e:
+            return jsonify({'message': "Invalid date format. Please use '%Y-%m-%d'"}), 400
 
         user_earning = Earning(name=name,
                                date_occurred=date_occurred,
@@ -70,12 +72,13 @@ def create_earning():
     return jsonify({'message': 'Not a valid JSON'}), 400
 
 
-@login_required
+@jwt_required()
 @ETapp.route('/earnings/<earning_id>', methods=['DELETE'],
              strict_slashes=False)
 def delete_earnings(earning_id):
     """ Deletes an earning object """
-    if not current_user.is_authenticated:
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
         return jsonify({'message': 'user not logged in'}), 401
 
     obj = db.query(Earning).filter_by(id = earning_id).first()
@@ -86,12 +89,13 @@ def delete_earnings(earning_id):
     abort(404)
 
 
-@login_required
+@jwt_required()
 @ETapp.route('/earnings/<earning_id>', methods=['PUT'],
              strict_slashes=False)
 def update_earning(earning_id):
     """ Update an earning object """
-    if not current_user.is_authenticated:
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
         return jsonify({'message': 'user not logged in'}), 401
 
     if request.is_json:
