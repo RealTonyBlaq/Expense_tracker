@@ -6,10 +6,9 @@ from bcrypt import hashpw, checkpw, gensalt
 from datetime import datetime
 from dotenv import load_dotenv, find_dotenv
 from flask import request, jsonify
-from flask_login import login_user, current_user
-from flask_jwt_extended import (create_access_token, get_jwt_identity,
+from flask_jwt_extended import (create_access_token,
                                 jwt_required, set_access_cookies,
-                                current_user, unset_jwt_cookies)
+                                get_current_user, unset_jwt_cookies)
 from models.user import User
 from os import getenv
 import pyotp
@@ -141,7 +140,7 @@ def login():
             if user.is_2fa_enabled:
                 OTP = generate_otp()
 
-                subject = "Expense Tracker - Reset Password | OTP"
+                subject = "Expense Tracker - OTP"
                 content = f"""Dear {user.first_name} {user.last_name},
 
                 You just tried to log in to your account. Please authenticate \
@@ -170,11 +169,11 @@ def login():
                 cache.set(key, user.email, OTP_TIMEOUT)
                 return jsonify({'message': 'OTP sent successfully'}), 200
 
-            access_token = create_access_token(identity=user)
+            access_token = create_access_token(identity=user.email)
             user.last_login_time = datetime.now()
             user.is_logged_in = True
             user.save()
-            response = jsonify({'message': 'login successful', 'user': user.to_dict()}), 200
+            response = jsonify({'message': 'login successful', 'user': user.to_dict()})
             set_access_cookies(response, access_token)
             return response, 200
 
@@ -185,7 +184,8 @@ def login():
 @jwt_required()
 def logout():
     """ Logs a user out from the session """
-    if not current_user.is_authenticated:
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
         return jsonify({'message': 'user not logged in'}), 401
 
     current_user.is_logged_in = False
@@ -299,7 +299,42 @@ def resend_otp(process):
         if user.is_email_verified:
             return jsonify(message='User email already verified'), 400
 
-        subject = "Expense Tracker - Reset Password | OTP"
+        subject = "Expense Tracker - Welcome | OTP"
+        content = f"""Dear {user.first_name} {user.last_name},
+
+        Thank you for registering with Expense Tracker! To complete your \
+        registration, please verify your email address using the OTP below:
+
+        <div style="justify-content: space-around;">
+
+        <h1 style="display: inline-block; padding: \
+        10px 20px; background-color: #007bff; color: #fff; text-decoration: \
+        none; border-radius: 5px; position: absolute;">{OTP}</h1>
+
+        </div>
+
+        Kindly note that OTP expires after {OTP_TIMEOUT} minutes.
+
+        By verifying your email address, you'll gain access to the site.
+
+        If you did not register for an account with Expense Tracker, \
+        please ignore this email.
+
+        Thank you for joining us!
+
+        Best regards,
+        The Expense Tracker Team"""
+
+        Email.send(user.email, subject, content)
+        key = f'auth_{OTP}'
+        cache.set(key, user.email, OTP_TIMEOUT)
+
+        return jsonify(message='OTP resent successfully'), 200
+    elif process == '2fa':
+        if not user.is_2fa_enabled:
+            return jsonify(message='Multi-authentication is not enabled'), 400
+
+        subject = "Expense Tracker - OTP"
         content = f"""Dear {user.first_name} {user.last_name},
 
         You just tried to log in to your account. Please authenticate \
@@ -323,14 +358,13 @@ def resend_otp(process):
         The Expense Tracker Team"""
 
         Email.send(user.email, subject, content)
+        # Cache the OTP
         key = f'auth_{OTP}'
         cache.set(key, user.email, OTP_TIMEOUT)
-
         return jsonify(message='OTP resent successfully'), 200
-    elif process == '2fa':
-        # continue
 
-    return jsonify({'message': 'Invalid process type'}), 401
+    return jsonify(message='Invalid process type'), 401
+
 
 @ETapp.route('/auth/verify/<process>/<otp>',
              strict_slashes=False)
