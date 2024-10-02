@@ -5,8 +5,7 @@ from api.v1 import ETapp
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, g, jsonify, render_template
 from flask_cors import CORS
-from flask_login import LoginManager, user_loaded_from_request
-from flask.sessions import SecureCookieSessionInterface
+from flask_jwt_extended import JWTManager
 from models.expense import Expense
 from utilities import db
 from models.user import User
@@ -16,63 +15,75 @@ from os import getenv
 app_env = find_dotenv()
 load_dotenv(app_env)
 
+
 app = Flask(__name__,
             template_folder='../../web_flask/templates',
             static_folder='../../web_flask/static')
 
-app.config['SECRET_KEY'] = getenv('SECRET_KEY')
+
+app.config['JWT_SECRET_KEY'] = getenv('SECRET_KEY')
+app.config['JWT_TOKEN_LOCATION'] = getenv('JWT_TOKEN_LOCATION')
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = int(getenv('JWT_ACCESS_TOKEN_EXPIRES'))
+app.config['JWT_ACCESS_CSRF_COOKIE_NAME'] = getenv('JWT_ACCESS_CSRF_COOKIE_NAME')
+app.config['JWT_ACCESS_COOKIE_NAME'] = getenv('JWT_ACCESS_COOKIE_NAME')
 app.config['SECURITY_PASSWORD_SALT'] = getenv('SECURITY_PASSWORD_SALT')
 app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.config['REMEMBER_COOKIE_HTTPONLY'] = True
+app.config['JWT_COOKIE_HTTPONLY'] = True
+app.config['JWT_COOKIE_SECURE'] = True
+app.config['JWT_COOKIE_SAMESITE'] = 'Lax'
 app.config['MAIL_DEFAULT_SENDER'] = getenv('MAIL_DEFAULT_SENDER')
 app.config['MAIL_PASSWORD'] = getenv('MAIL_PASSWORD')
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+
 app.register_blueprint(ETapp)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}}, supports_credentials=True)
+jwt = JWTManager(app)
 
 
-@user_loaded_from_request.connect
-def user_loaded_from_request(app, user=None):
-    """
-    sets the login_via_request variable to true
-    """
-    g.login_via_request = True
+@jwt.user_lookup_loader
+def user_obj_loader(jwt_header, jwt_data: dict):
+    """ Loads the user object using the email parsed in the JWT"""
+    email = jwt_data['sub']
+    return db.query(User).filter_by(email = email).first()
 
 
-class CustomSessionInterface(SecureCookieSessionInterface):
-    """Prevent creating session from API requests."""
-    def save_session(self, *args, **kwargs):
-        if g.get('login_via_request'):
-            return
-        return super(CustomSessionInterface, self).save_session(*args,
-                                                                **kwargs)
+# Handle expired tokens
+@jwt.expired_token_loader
+def expired_token_callback(jwt_header, jwt_payload):
+    return jsonify({
+        'msg': 'The token has expired',
+        'error': 'token_expired'
+    }), 401
 
+# Handle invalid tokens
+@jwt.invalid_token_loader
+def invalid_token_callback(error):
+    return jsonify({
+        'msg': 'Invalid token',
+        'error': 'invalid_token'
+    }), 422
 
-app.session_interface = CustomSessionInterface()
+# Handle missing tokens
+@jwt.unauthorized_loader
+def missing_token_callback(error):
+    return jsonify({
+        'msg': 'Token is missing',
+        'error': 'authorization_required'
+    }), 401
+
+# Handle revoked tokens (if using token blacklisting)
+@jwt.revoked_token_loader
+def revoked_token_callback(jwt_header, jwt_payload):
+    return jsonify({
+        'msg': 'Token has been revoked',
+        'error': 'token_revoked'
+    }), 401
 
 
 @app.teardown_appcontext
 def shutdown(error=None):
     """ Closes a Database session """
     db.close()
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    """ Loads the user object """
-    try:
-        user = db.find(User, user_id)
-        return user
-    except (ValueError, TypeError):
-        return None
-
-
-@login_manager.unauthorized_handler
-def null_user():
-    """Returns null"""
-    return jsonify({'message': 'user not authenticated'}), 401
 
 
 @app.errorhandler(404)
