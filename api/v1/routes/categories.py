@@ -99,4 +99,6 @@ def update_category(category_id):
     except BadRequest:
         return jsonify(message='Error parsing JSON data'), 400
 
-    category_obj = db.query(Category).filter_by(id = )
+    category_obj = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
+    if category_obj:
+        
