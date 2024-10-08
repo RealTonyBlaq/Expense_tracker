@@ -2,7 +2,7 @@
 """ The Category Route """
 
 from api.v1 import ETapp
-from flask import jsonify, abort
+from flask import jsonify, abort, request
 from flask_jwt_extended import jwt_required, get_current_user
 from models.category import Category
 from models.expense import Expense
@@ -12,7 +12,7 @@ from utilities import db
 @ETapp.route('/categories', strict_slashes=False)
 @ETapp.route('/categories/<category_id>', strict_slashes=False)
 @jwt_required()
-def get_categories(category_id):
+def get_categories(category_id=None):
     """ Returns a list of categories with the associating Expenses """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
@@ -40,3 +40,7 @@ def get_categories(category_id):
     return jsonify(message='success', data=data), 200
 
 
+@ETapp.route('/categories', methods=['POST'], strict_slashes=False)
+@jwt_required()
+def create_category():
+    """ Creates a new Category object """
