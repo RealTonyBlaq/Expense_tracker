@@ -52,3 +52,12 @@ def create_category():
     if request.is_json:
         try:
             data = request.get_json()
+        except BadRequest:
+            return jsonify(message='Error parsing JSON data'), 400
+
+        name = data.get(name)
+        if not name:
+            return jsonify(message='Category name missing'), 400
+        
+
+    return jsonify(message='Not a valid JSON'), 400
