@@ -101,4 +101,9 @@ def update_category(category_id):
 
     category_obj = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
     if category_obj:
-        
+        name = data.get('name')
+        if name:
+            setattr(category_obj, 'name', name)
+            category_obj.save()
+
+    associated_expenses = [e.to_dict()]
