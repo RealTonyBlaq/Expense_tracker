@@ -30,6 +30,6 @@ def get_categories(category_id):
 
         return jsonify(message='success', data=data), 200
 
-    all_category = db.query(Category).filter_by(user_id = )
+    all_category = db.query(Category).filter_by(user_id = current_user.id).all()
     for cat in all_category:
         
