@@ -44,3 +44,8 @@ def get_categories(category_id=None):
 @jwt_required()
 def create_category():
     """ Creates a new Category object """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        return jsonify({'message': 'user not logged in'}), 401
+
+    
