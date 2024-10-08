@@ -80,4 +80,11 @@ def delete_category(category_id):
         abort(404)
 
     category_obj.delete()
-    return jsonify(message='success', data)
+    return jsonify(message='success'), 200
+
+
+@ETapp.route('/categories/<category_id>', methods=['PUT'], strict_slashes=False)
+@jwt_required()
+def update_category(category_id):
+    """ Updates a category object with data """
+    
