@@ -12,9 +12,11 @@ from utilities import db
 @ETapp.route('/categories/<category_id>', strict_slashes=False)
 def get_categories(category_id):
     """ Returns a list of categories with the associating Expenses """
+
+
     if category_id:
         category = db.query(Category).filter_by(id = category_id).first()
         if category is None:
             return jsonify(message='Invalid category'), 400
 
-        
+
