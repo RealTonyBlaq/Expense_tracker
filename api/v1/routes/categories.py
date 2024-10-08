@@ -33,4 +33,10 @@ def get_categories(category_id):
     all_category = db.query(Category).filter_by(user_id = current_user.id).all()
     data = []
     for cat in all_category:
-        
+        obj = cat.to_dict()
+        obj['expenses'] = [e.to_dict() for e in cat.expenses]
+        data.append(obj)
+
+    return jsonify(message='success', data=data), 200
+
+
