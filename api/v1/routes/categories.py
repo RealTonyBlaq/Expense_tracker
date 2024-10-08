@@ -106,4 +106,8 @@ def update_category(category_id):
             setattr(category_obj, 'name', name)
             category_obj.save()
 
-    associated_expenses = [e.to_dict()]
+    associated_expenses = [e.to_dict() for e in category_obj.expenses]
+    updated_data = category_obj.to_dict()
+    updated_data['expenses'] = associated_expenses
+
+    return jsonify(message='success', data=updated_data), 200
