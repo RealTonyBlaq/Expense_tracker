@@ -7,6 +7,7 @@ from flask_jwt_extended import jwt_required, get_current_user
 from models.category import Category
 from models.expense import Expense
 from utilities import db
+from werkzeug.exceptions import BadRequest
 
 
 @ETapp.route('/categories', strict_slashes=False)
@@ -48,4 +49,6 @@ def create_category():
     if not current_user or not current_user.is_authenticated:
         return jsonify({'message': 'user not logged in'}), 401
 
-    
+    if request.is_json:
+        try:
+            data = request.get_json()
