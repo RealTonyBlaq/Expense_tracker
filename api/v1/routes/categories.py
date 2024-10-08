@@ -58,6 +58,13 @@ def create_category():
         name = data.get(name)
         if not name:
             return jsonify(message='Category name missing'), 400
-        
+
+        new_category = Category(name=name, user_id=current_user.id)
+        new_category.save()
+
+        return jsonify(message='success', data=new_category.to_dict()), 201
 
     return jsonify(message='Not a valid JSON'), 400
+
+
+@ETapp
