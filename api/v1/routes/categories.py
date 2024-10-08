@@ -10,13 +10,16 @@ from utilities import db
 
 @ETapp.route('/categories', strict_slashes=False)
 @ETapp.route('/categories/<category_id>', strict_slashes=False)
+@jwt_required()
 def get_categories(category_id):
     """ Returns a list of categories with the associating Expenses """
-
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        return jsonify({'message': 'user not logged in'}), 401
 
     if category_id:
         category = db.query(Category).filter_by(id = category_id).first()
         if category is None:
             return jsonify(message='Invalid category'), 400
-
-
+        data = category.to_dict()
+        
