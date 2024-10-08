@@ -23,4 +23,5 @@ def get_categories(category_id):
         if category is None:
             return jsonify(message='Invalid category'), 400
         data = category.to_dict()
-        associated_expenses = db.query(Expense).filter_by
+        associated_expenses = db.query(Expense).filter_by(category_id = category.id, user_id = current_user.id).all()
+        expenses = [ex.to_dict() for ex in associated_expenses]
