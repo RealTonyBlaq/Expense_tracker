@@ -30,4 +30,6 @@ def get_categories(category_id):
 
         return jsonify(message='success', data=data), 200
 
-    all_category = db.all()
+    all_category = db.query()
+    for cat in all_category:
+        
