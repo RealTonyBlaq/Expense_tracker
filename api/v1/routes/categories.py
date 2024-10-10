@@ -77,7 +77,7 @@ def delete_category(category_id):
     """ Deletes a user-created category from storage """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
-        return jsonify({'message': 'user not logged in'}), 401
+        abort(401)
 
     category_obj = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
     if category_obj is None:
