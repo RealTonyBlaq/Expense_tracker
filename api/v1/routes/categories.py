@@ -93,7 +93,7 @@ def update_category(category_id):
     """ Updates a category object with data """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
-        return jsonify({'message': 'user not logged in'}), 401
+        abort(401)
 
     if not request.is_json:
         return jsonify(message='Not a valid JSON'), 400
