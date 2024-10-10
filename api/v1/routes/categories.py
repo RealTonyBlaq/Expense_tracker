@@ -2,12 +2,16 @@
 """ The Category Route """
 
 from api.v1 import ETapp
+from dotenv import load_dotenv, find_dotenv
 from flask import jsonify, abort, request
 from flask_jwt_extended import jwt_required, get_current_user
 from models.category import Category
 from models.expense import Expense
 from utilities import db
 from werkzeug.exceptions import BadRequest
+
+
+load_dotenv(find_dotenv())
 
 
 @ETapp.route('/categories', strict_slashes=False)
@@ -17,7 +21,7 @@ def get_categories(category_id=None):
     """ Returns a list of categories with the associating Expenses """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
-        return jsonify({'message': 'user not logged in'}), 401
+        abort(401)
 
     if category_id:
         category = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
@@ -55,7 +59,7 @@ def create_category():
         except BadRequest:
             return jsonify(message='Error parsing JSON data'), 400
 
-        name = data.get(name)
+        name = data.get("name")
         if not name:
             return jsonify(message='Category name missing'), 400
 
