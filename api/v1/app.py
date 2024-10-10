@@ -22,17 +22,18 @@ app = Flask(__name__,
 
 
 app.config['JWT_SECRET_KEY'] = getenv('SECRET_KEY')
-app.config['JWT_TOKEN_LOCATION'] = getenv('JWT_TOKEN_LOCATION')
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = int(getenv('JWT_ACCESS_TOKEN_EXPIRES'))
 app.config['JWT_ACCESS_CSRF_COOKIE_NAME'] = getenv('JWT_ACCESS_CSRF_COOKIE_NAME')
 app.config['JWT_ACCESS_COOKIE_NAME'] = getenv('JWT_ACCESS_COOKIE_NAME')
 app.config['SECURITY_PASSWORD_SALT'] = getenv('SECURITY_PASSWORD_SALT')
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['JWT_COOKIE_HTTPONLY'] = True
-app.config['JWT_COOKIE_SECURE'] = True
+app.config['JWT_COOKIE_SECURE'] = False
 app.config['JWT_COOKIE_SAMESITE'] = 'Lax'
 app.config['MAIL_DEFAULT_SENDER'] = getenv('MAIL_DEFAULT_SENDER')
 app.config['MAIL_PASSWORD'] = getenv('MAIL_PASSWORD')
+app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 
 
 app.register_blueprint(ETapp)
@@ -47,37 +48,46 @@ def user_obj_loader(jwt_header, jwt_data: dict):
     return db.query(User).filter_by(email = email).first()
 
 
-# Handle expired tokens
+@jwt.user_identity_loader
+def load_user(user):
+    """ Loads the user and returns the id """
+    return user.email
+
+
 @jwt.expired_token_loader
 def expired_token_callback(jwt_header, jwt_payload):
-    return jsonify({
-        'msg': 'The token has expired',
-        'error': 'token_expired'
-    }), 401
+    """ Handles expired tokens """
+    return jsonify(
+        message='The token has expired',
+        error='token_expired'
+    ), 401
 
-# Handle invalid tokens
+
 @jwt.invalid_token_loader
 def invalid_token_callback(error):
-    return jsonify({
-        'msg': 'Invalid token',
-        'error': 'invalid_token'
-    }), 422
+    """ Handle invalid tokens """
+    return jsonify(
+        message='Invalid token',
+        error='invalid_token'
+    ), 422
 
-# Handle missing tokens
+
 @jwt.unauthorized_loader
 def missing_token_callback(error):
-    return jsonify({
-        'msg': 'Token is missing',
-        'error': 'authorization_required'
-    }), 401
+    """ Handle missing tokens """
+    return jsonify(
+        message='Token is missing',
+        error='authorization_required'
+    ), 401
 
-# Handle revoked tokens (if using token blacklisting)
+
 @jwt.revoked_token_loader
 def revoked_token_callback(jwt_header, jwt_payload):
-    return jsonify({
-        'msg': 'Token has been revoked',
-        'error': 'token_revoked'
-    }), 401
+    """ Handles revoked tokens """
+    return jsonify(
+        message='Token has been revoked',
+        error='token_revoked'
+    ), 401
 
 
 @app.teardown_appcontext
@@ -89,14 +99,20 @@ def shutdown(error=None):
 @app.errorhandler(404)
 def not_found(error):
     """ Returns a JSON if a request route was not found """
-    return jsonify({'error': 'Not Found'})
+    return jsonify(error='Not Found')
+
+
+@app.errorhandler(401)
+def unauthorized(error):
+    """ Returns a JSON if a request was unauthorized """
+    return jsonify(message='user not logged in')
 
 
 @app.route('/api/stats', strict_slashes=False)
 def stats():
     """ Returns a count of User, Category and Expense objects """
-    obj_stats = {'users': len(db.all(User))}
-    return jsonify(obj_stats), 200
+    return jsonify(users=len(db.all(User)),
+                   online_users=len(db.query(User).filter_by(is_logged_in = True))), 200
 
 
 @app.route('/', strict_slashes=False)
