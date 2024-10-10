@@ -169,7 +169,7 @@ def login():
                 cache.set(key, user.email, OTP_TIMEOUT)
                 return jsonify({'message': 'OTP sent successfully'}), 200
 
-            access_token = create_access_token(identity=user.email)
+            access_token = create_access_token(identity=user)
             user.last_login_time = datetime.now()
             user.is_logged_in = True
             user.save()
@@ -275,7 +275,7 @@ def reset():
             key = f'auth_{OTP}'
             cache.set(key, email, OTP_TIMEOUT)
 
-            return jsonify({'message', 'OTP sent. Please check your email inbox'}), 200
+            return jsonify({'message': 'OTP sent. Please check your email inbox'}), 200
 
         return jsonify({'message': 'Not a Valid JSON'}), 400
 
