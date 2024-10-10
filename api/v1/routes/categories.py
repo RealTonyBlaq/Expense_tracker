@@ -51,7 +51,7 @@ def create_category():
     """ Creates a new Category object """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
-        return jsonify({'message': 'user not logged in'}), 401
+        abort(401)
 
     if request.is_json:
         try:
