@@ -59,7 +59,7 @@ def create_category():
         except BadRequest:
             return jsonify(message='Error parsing JSON data'), 400
 
-        name = data.get("name")
+        name = data.get("name").strip()
         if not name:
             return jsonify(message='Category name missing'), 400
 
@@ -105,10 +105,12 @@ def update_category(category_id):
 
     category_obj = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
     if category_obj:
-        name = data.get('name')
+        name = data.get('name').strip()
         if name:
             setattr(category_obj, 'name', name)
             category_obj.save()
+    else:
+        abort(404)
 
     associated_expenses = [e.to_dict() for e in category_obj.expenses]
     updated_data = category_obj.to_dict()
