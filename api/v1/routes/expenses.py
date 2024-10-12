@@ -48,5 +48,10 @@ def create_expense(category_id):
         if 'amount' not in data:
             return jsonify(message='amount missing'), 400
 
-        if 'date_occurred'
+        if 'date_occurred' not in data:
+            return jsonify(message='date_occurred missing'), 400
+
+        amount = data.get('amount')
+        try:
+            
     return jsonify(message='Not a valid JSON'), 400
