@@ -87,4 +87,12 @@ def create_expense(category_id):
 
 @ETapp.route('/expenses/<expense_id>', methods=['DELETE'],
              strict_slashes=False)
+@jwt_required()
+def delete_expense(expense_id):
+    """ Deletes an Expense object if it exists """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
 
+    my_expense = db.query(Expense).filter_by(id = expense_id, user_id = current_user.id).first()
+    
