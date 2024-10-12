@@ -6,7 +6,6 @@ from dotenv import load_dotenv, find_dotenv
 from flask import jsonify, abort, request
 from flask_jwt_extended import jwt_required, get_current_user
 from models.category import Category
-from models.expense import Expense
 from utilities import db
 from werkzeug.exceptions import BadRequest
 
