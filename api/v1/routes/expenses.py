@@ -6,7 +6,7 @@ from models.category import Category
 from models.expense import Expense
 from flask import abort, jsonify, request
 from flask_jwt_extended import get_current_user, jwt_required
-from utilities import cache
+from utilities import cache, db
 from werkzeug.exceptions import BadRequest, BadRequestKeyError
 
 
@@ -20,4 +20,9 @@ def get_expenses(expense_id):
         abort(401)
 
     if expense_id:
-        expense = db.
+        expense = db.query(Expense).filter_by(id = expense_id, user_id = current_user.id).first()
+        if expense:
+            return jsonify(message='success', data=expense.to_dict()), 200
+        abort(404)
+
+    
