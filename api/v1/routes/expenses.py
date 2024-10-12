@@ -68,8 +68,8 @@ def create_expense(category_id):
 
         try:
             date_occurred = datetime.strptime(data.get('date_occurred'), date_format)
-        except (ValueError, TypeError) as e:
-            return jsonify(message="Invalid date format. Please use '%Y-%m-%d'"), 400
+        except (ValueError, TypeError):
+            return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
 
         description = data.get('description')
 
