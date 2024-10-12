@@ -80,6 +80,11 @@ def create_expense(category_id):
                               date_occurred=date_occurred,
                               description=description)
         new_expense.save()
-        return jsonify()
+        return jsonify(message='success', data=new_expense.to_dict()), 200
 
     return jsonify(message='Not a valid JSON'), 400
+
+
+@ETapp.route('/expenses/<expense_id>', methods=['DELETE'],
+             strict_slashes=False)
+
