@@ -25,5 +25,9 @@ def get_expenses(expense_id):
             return jsonify(message='success', data=expense.to_dict()), 200
         abort(404)
 
-    expenses = db.query(Expense).filter_by(user_id = current_user.id).all()
-    for expense_obj in expenses:
+    all_expenses = db.query(Expense).filter_by(user_id = current_user.id).all()
+    expenses = [ex.to_dict for ex in all_expenses]
+    return jsonify(message='success', data=expenses), 200
+
+
+@ETapp.route('/categories/<category_id>/expenses')
