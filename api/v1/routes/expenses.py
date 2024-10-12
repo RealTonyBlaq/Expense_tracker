@@ -105,4 +105,12 @@ def delete_expense(expense_id):
 @ETapp.route('/expenses/<expense_id>', methods=['PUT'],
              strict_slashes=False)
 @jwt_required()
-def update_expense(expense_id)
+def update_expense(expense_id):
+    """ Updates an expense object """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
+
+    if request.is_json:
+        
+    return jsonify(message='Not a valid JSON'), 400
