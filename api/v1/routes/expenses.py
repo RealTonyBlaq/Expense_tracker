@@ -73,6 +73,13 @@ def create_expense(category_id):
 
         description = data.get('description')
 
-        
+        # Create the expense
+        new_expense = Expense(category_id=category_id,
+                              user_id=current_user.id,
+                              amount=amount,
+                              date_occurred=date_occurred,
+                              description=description)
+        new_expense.save()
+        return jsonify()
 
     return jsonify(message='Not a valid JSON'), 400
