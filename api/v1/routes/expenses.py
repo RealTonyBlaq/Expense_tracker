@@ -6,6 +6,7 @@ from models.category import Category
 from models.expense import Expense
 from flask import abort, jsonify, request
 from flask_jwt_extended import get_current_user, jwt_required
+from utilities import cache
 from werkzeug.exceptions import BadRequest, BadRequestKeyError
 
 
@@ -19,4 +20,4 @@ def get_expenses(expense_id):
         abort(401)
 
     if expense_id:
-        
+        expense = db.
