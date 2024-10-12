@@ -112,5 +112,23 @@ def update_expense(expense_id):
         abort(401)
 
     if request.is_json:
-        
+        try:
+            data = request.get_json()
+        except BadRequest:
+            return jsonify(message='Error parsing JSON data'), 400
+
+        my_expense = db.query(Expense).filter_by(id = expense_id, user_id = current_user.id).first()
+        if not my_expense:
+            abort(400)
+
+        try:
+            amount = int(data.get('amount'))
+        except (ValueError, TypeError):
+            return jsonify(message='Amount must be an integer'), 400
+
+        try:
+            date_occurred = datetime.strptime(data.get('date_occurred'), date_format)
+        except (ValueError, TypeError):
+            return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+
     return jsonify(message='Not a valid JSON'), 400
