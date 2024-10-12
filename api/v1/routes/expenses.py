@@ -25,4 +25,4 @@ def get_expenses(expense_id):
             return jsonify(message='success', data=expense.to_dict()), 200
         abort(404)
 
-    
+    all_expenses = db.query(Expense)
