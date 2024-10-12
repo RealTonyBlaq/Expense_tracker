@@ -139,6 +139,6 @@ def update_expense(expense_id):
                 setattr(my_expense, key, value)
 
         my_expense.save()
-        
+        return jsonify(message='success', data=my_expense.to_dict()), 200
 
     return jsonify(message='Not a valid JSON'), 400
