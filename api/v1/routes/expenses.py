@@ -16,7 +16,7 @@ date_format = "%Y-%m-%d"
 load_dotenv(find_dotenv())
 
 
-@ETapp.route('/expenses', sstrict_slashes=False)
+@ETapp.route('/expenses', strict_slashes=False)
 @ETapp.route('/expenses/<expense_id>', strict_slashes=False)
 @jwt_required()
 def get_expenses(expense_id=None):
@@ -32,8 +32,8 @@ def get_expenses(expense_id=None):
         abort(404)
 
     all_expenses = db.query(Expense).filter_by(user_id = current_user.id).all()
-    expenses = [ex.to_dict for ex in all_expenses]
-    return jsonify(message='success', data=expenses), 200
+    my_expenses = [ex.to_dict() for ex in all_expenses]
+    return jsonify(message='success', data=my_expenses), 200
 
 
 @ETapp.route('/categories/<category_id>/expenses', methods=['POST'],
