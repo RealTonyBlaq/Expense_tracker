@@ -13,7 +13,7 @@ from werkzeug.exceptions import BadRequest, BadRequestKeyError
 @ETapp.route('/expenses', sstrict_slashes=False)
 @ETapp.route('/expenses/<expense_id>', strict_slashes=False)
 @jwt_required()
-def get_expenses(expense_id):
+def get_expenses(expense_id=None):
     """ Retrieves a JSON representation of expense objects """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
@@ -30,4 +30,10 @@ def get_expenses(expense_id):
     return jsonify(message='success', data=expenses), 200
 
 
-@ETapp.route('/categories/<category_id>/expenses')
+@ETapp.route('/categories/<category_id>/expenses', methods=['POST'],
+             strict_slashes=False)
+@jwt_required()
+def create_expense(category_id):
+    """ Creates a new Expense object """
+    if request.is_json:
+        
