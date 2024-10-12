@@ -80,7 +80,7 @@ def create_expense(category_id):
                               date_occurred=date_occurred,
                               description=description)
         new_expense.save()
-        return jsonify(message='success', data=new_expense.to_dict()), 200
+        return jsonify(message='success', data=new_expense.to_dict()), 201
 
     return jsonify(message='Not a valid JSON'), 400
 
@@ -95,4 +95,12 @@ def delete_expense(expense_id):
         abort(401)
 
     my_expense = db.query(Expense).filter_by(id = expense_id, user_id = current_user.id).first()
-    
+    if my_expense:
+        my_expense.delete()
+        return jsonify(message='success'), 200
+
+    abort(404)
+
+
+@ETapp.route('/expenses/<expense_id>', methods=['PUT'],
+             strict_slashes=False)
