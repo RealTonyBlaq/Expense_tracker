@@ -122,17 +122,23 @@ def update_expense(expense_id):
             abort(400)
 
         if 'amount' in data:
-            
+            try:
+                amount = int(data.get('amount'))
+            except (ValueError, TypeError):
+                return jsonify(message='Amount must be an integer'), 400
 
         if 'date_occurred' in data:
             date_occurred = data['date_occurred']
             try:
                 data['date_occurred'] = datetime.strptime(date_occurred, date_format)
-            except (ValueError, TypeError) as e:
+            except (ValueError, TypeError):
                 return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
 
         for key, value in data.items():
-            if key in ['name', 'date_occurred', 'amount', 'description']:
-                setattr(earning, key, value)
+            if key in ['date_occurred', 'amount', 'description']:
+                setattr(my_expense, key, value)
+
+        my_expense.save()
+        
 
     return jsonify(message='Not a valid JSON'), 400
