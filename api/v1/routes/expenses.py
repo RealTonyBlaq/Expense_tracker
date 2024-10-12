@@ -45,5 +45,8 @@ def create_expense(category_id):
         except BadRequest:
             return jsonify(message='Error parsing JSON data'), 400
 
-        
+        if 'amount' not in data:
+            return jsonify(message='amount missing'), 400
+
+        if 'date_occurred'
     return jsonify(message='Not a valid JSON'), 400
