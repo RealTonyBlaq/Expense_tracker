@@ -51,6 +51,10 @@ def create_expense(category_id):
         except BadRequest:
             return jsonify(message='Error parsing JSON data'), 400
 
+        category = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
+        if not category:
+            return jsonify(message='Invalid category'), 400
+
         if 'amount' not in data:
             return jsonify(message='amount missing'), 400
 
