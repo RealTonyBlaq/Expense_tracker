@@ -44,4 +44,6 @@ def create_expense(category_id):
             data = request.get_json()
         except BadRequest:
             return jsonify(message='Error parsing JSON data'), 400
+
+        
     return jsonify(message='Not a valid JSON'), 400
