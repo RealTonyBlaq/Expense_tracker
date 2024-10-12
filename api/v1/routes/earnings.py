@@ -67,7 +67,7 @@ def create_earning():
         try:
             date_occurred = datetime.strptime(data.get('date_occurred'), date_format)
         except (ValueError, TypeError) as e:
-            return jsonify(message="Invalid date format. Please use '%Y-%m-%d'"), 400
+            return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
 
         user_earning = Earning(name=name,
                                date_occurred=date_occurred,
@@ -75,7 +75,7 @@ def create_earning():
                                description=description,
                                user_id=current_user.id)
         user_earning.save()
-        return jsonify(message='success', data=user_earning.to_dict()), 200
+        return jsonify(message='success', data=user_earning.to_dict()), 201
     return jsonify(message='Not a valid JSON'), 400
 
 
@@ -120,7 +120,7 @@ def update_earning(earning_id):
             try:
                 data['date_occurred'] = datetime.strptime(date_occurred, date_format)
             except (ValueError, TypeError) as e:
-                return jsonify(message="Invalid date format. Please use '%Y-%m-%d'"), 400
+                return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
 
         for key, value in data.items():
             if key in ['name', 'date_occurred', 'amount', 'description']:
