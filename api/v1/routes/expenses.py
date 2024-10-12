@@ -104,3 +104,5 @@ def delete_expense(expense_id):
 
 @ETapp.route('/expenses/<expense_id>', methods=['PUT'],
              strict_slashes=False)
+@jwt_required()
+def update_expense(expense_id)
