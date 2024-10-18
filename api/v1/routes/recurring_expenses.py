@@ -30,4 +30,4 @@ def get_recurring_expense(id=None):
     return jsonify(message='success', data=all_recurring), 200
 
 
-@
+@ETapp.route('/')
