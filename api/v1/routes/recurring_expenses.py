@@ -36,18 +36,20 @@ def get_recurring_expense(id=None):
 @jwt_required()
 def create_recurring(category_id):
     """ Creates a recurring expense object """
-    if request.is_json:
-        current_user = get_current_user()
-        if not current_user or not current_user.is_authenticated:
-            abort(401)
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
 
+    if request.is_json:
         try:
             data = request.get_json()
         except BadRequest:
-            return jsonify(message='')
+            return jsonify(message='Error parsing JSON data'), 400
+
         category = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
         if not category:
             abort(404)
 
-
+        for key in ['amount']:
+            
     return jsonify(message='Not a valid JSON'), 400
