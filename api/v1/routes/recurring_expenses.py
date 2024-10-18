@@ -26,4 +26,5 @@ def get_recurring_expense(id=None):
         abort(404)
 
     rec_expenses = db.query(RecurringExpense).filter_by(user_id = current_user.id).all()
-    all_recurring = [e.to_dict()]
+    all_recurring = [e.to_dict() for e in rec_expenses]
+    return 
