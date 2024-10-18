@@ -5,6 +5,7 @@ from flask import Blueprint
 
 
 ETapp = Blueprint('ETapp', __name__, url_prefix='/api/v1')
+date_format = "%Y-%m-%d"
 
 
 from api.v1.routes.auth import *
