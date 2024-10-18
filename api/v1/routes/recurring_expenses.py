@@ -34,3 +34,8 @@ def get_recurring_expense(id=None):
 @jwt_required()
 def create_recurring(category_id):
     """ Creates a recurring expense object """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
+
+    
