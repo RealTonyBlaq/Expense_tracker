@@ -27,4 +27,7 @@ def get_recurring_expense(id=None):
 
     rec_expenses = db.query(RecurringExpense).filter_by(user_id = current_user.id).all()
     all_recurring = [e.to_dict() for e in rec_expenses]
-    return 
+    return jsonify(message='success', data=all_recurring), 200
+
+
+@
