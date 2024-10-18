@@ -3,7 +3,7 @@
 
 from api.v1 import ETapp
 from datetime import datetime
-from flask import abort, jsonify
+from flask import abort, jsonify, request
 from flask_jwt_extended import get_current_user, jwt_required
 from models.category import Category
 from models.recurring_expense import RecurringExpense
@@ -31,12 +31,16 @@ def get_recurring_expense(id=None):
     return jsonify(message='success', data=all_recurring), 200
 
 
-@ETapp.route('/categories/<category_id>/recurring_expenses', strict_slashes=False)
+@ETapp.route('/categories/<category_id>/recurring_expenses',
+             methods=['POST'], strict_slashes=False)
 @jwt_required()
 def create_recurring(category_id):
     """ Creates a recurring expense object """
-    current_user = get_current_user()
-    if not current_user or not current_user.is_authenticated:
-        abort(401)
+    if request.is_json:
+        current_user = get_current_user()
+        if not current_user or not current_user.is_authenticated:
+            abort(401)
 
-    category = db.query(Category)
+        category = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
+        if not category:
+            abort(404)
