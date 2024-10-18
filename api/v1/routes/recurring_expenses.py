@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """ Recurring Expense Route """
 
-from api.v1 import ETapp
+from api.v1 import ETapp, date_format
 from datetime import datetime
+from dotenv import find_dotenv, load_dotenv
 from flask import abort, jsonify, request
 from flask_jwt_extended import get_current_user, jwt_required
 from models.category import Category
@@ -11,7 +12,6 @@ from utilities import db
 from werkzeug.exceptions import BadRequest
 
 
-date_format = "%Y-%m-%d"
 load_dotenv(find_dotenv())
 
 
@@ -59,5 +59,4 @@ def create_recurring(category_id):
                 return jsonify(message=f'{key} missing'), 400
 
 
-            
     return jsonify(message='Not a valid JSON'), 400
