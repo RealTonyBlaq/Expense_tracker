@@ -50,6 +50,10 @@ def create_recurring(category_id):
         if not category:
             abort(404)
 
-        for key in ['amount']:
+        for key in ['amount', 'start_date', 'frequency']:
+            if key not in data:
+                return jsonify(message=f'{key} missing'), 400
+
+        
             
     return jsonify(message='Not a valid JSON'), 400
