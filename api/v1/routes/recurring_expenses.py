@@ -11,6 +11,10 @@ from utilities import db
 from werkzeug.exceptions import BadRequest
 
 
+date_format = "%Y-%m-%d"
+load_dotenv(find_dotenv())
+
+
 @ETapp.route('/recurring_expenses', strict_slashes=False)
 @ETapp.route('/recurring_expenses/<id>', strict_slashes=False)
 @jwt_required()
@@ -54,6 +58,6 @@ def create_recurring(category_id):
             if key not in data:
                 return jsonify(message=f'{key} missing'), 400
 
-        
+
             
     return jsonify(message='Not a valid JSON'), 400
