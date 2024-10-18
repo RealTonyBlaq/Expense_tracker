@@ -41,6 +41,13 @@ def create_recurring(category_id):
         if not current_user or not current_user.is_authenticated:
             abort(401)
 
+        try:
+            data = request.get_json()
+        except BadRequest:
+            return jsonify(message='')
         category = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
         if not category:
             abort(404)
+
+
+    return jsonify(message='Not a valid JSON'), 400
