@@ -30,4 +30,6 @@ def get_recurring_expense(id=None):
     return jsonify(message='success', data=all_recurring), 200
 
 
-@ETapp.route('/categories/<category_id>/recurring_expenses', )
+@ETapp.route('/categories/<category_id>/recurring_expenses', strict_slashes=False)
+@jwt_required()
+def create_recurring()
