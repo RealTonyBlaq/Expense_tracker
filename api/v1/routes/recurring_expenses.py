@@ -5,6 +5,7 @@ from api.v1 import ETapp
 from datetime import datetime
 from flask import abort, jsonify
 from flask_jwt_extended import get_current_user, jwt_required
+from models.category import Category
 from models.recurring_expense import RecurringExpense
 from utilities import db
 from werkzeug.exceptions import BadRequest
@@ -38,4 +39,4 @@ def create_recurring(category_id):
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
-    
+    category = db.query(Category)
