@@ -84,6 +84,9 @@ def create_recurring(category_id):
             start_date=start_date,
             end_date=end_date,
             frequency=frequency,
-            description=
+            description=data.get('description')
         )
+        recurring_expense.save()
+
+        return jsonify(message='success', data=recurring_expense.to_dict()), 201
     return jsonify(message='Not a valid JSON'), 400
