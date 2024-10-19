@@ -72,6 +72,8 @@ def create_recurring(category_id):
         except (ValueError, TypeError):
             return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
 
-        frequency = data.get('frequency')
-        if frequency not in ['']
+        frequency = data.get('frequency').lower()
+        if frequency not in ['daily', 'weekly', 'monthly']:
+            return jsonify(message='Frequency must be daily, weekly or monthly'), 400
+
     return jsonify(message='Not a valid JSON'), 400
