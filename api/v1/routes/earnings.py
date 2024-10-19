@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ The Earning route """
 
-from api.v1 import ETapp
+from api.v1 import ETapp, date_format
 from datetime import datetime
 from dotenv import load_dotenv, find_dotenv
 from flask import abort, request, jsonify
@@ -11,7 +11,6 @@ from utilities import db
 from werkzeug.exceptions import BadRequest
 
 
-date_format = "%Y-%m-%d"
 load_dotenv(find_dotenv())
 
 
@@ -60,14 +59,17 @@ def create_earning():
         name = data.get('name').strip()
         description = data.get('description')
         try:
-            amount = int(data.get('amount'))
+            amount = float(data.get('amount'))
         except (ValueError, TypeError):
-            return jsonify(message='Amount must be an integer'), 400
+            return jsonify(message='Amount must be an integer/float'), 400
 
         try:
             date_occurred = datetime.strptime(data.get('date_occurred'), date_format)
         except (ValueError, TypeError) as e:
             return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+
+        if date_occurred > datetime.today():
+            return jsonify(message=f'{data.get("date_occurred")} is in the future. Use a valid date'), 400
 
         user_earning = Earning(name=name,
                                date_occurred=date_occurred,
@@ -121,6 +123,15 @@ def update_earning(earning_id):
                 data['date_occurred'] = datetime.strptime(date_occurred, date_format)
             except (ValueError, TypeError) as e:
                 return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+    
+            if data['date_occurred'] > datetime.today():
+                return jsonify(message=f'{data["date_occurred"]} is in the future. Use a valid date'), 400
+
+        if 'amount' in data:
+            try:
+                data['amount'] = float(data['amount'])
+            except (ValueError, TypeError):
+                return jsonify(message='Amount must be an integer/float'), 400
 
         for key, value in data.items():
             if key in ['name', 'date_occurred', 'amount', 'description']:
