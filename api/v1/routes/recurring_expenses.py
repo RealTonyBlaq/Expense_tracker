@@ -76,4 +76,6 @@ def create_recurring(category_id):
         if frequency not in ['daily', 'weekly', 'monthly']:
             return jsonify(message='Frequency must be daily, weekly or monthly'), 400
 
+        # Create the recurring expense
+        recurring_expense = RecurringExpense()
     return jsonify(message='Not a valid JSON'), 400
