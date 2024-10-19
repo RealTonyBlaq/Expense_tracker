@@ -58,5 +58,6 @@ def create_recurring(category_id):
             if key not in data:
                 return jsonify(message=f'{key} missing'), 400
 
+        
 
     return jsonify(message='Not a valid JSON'), 400
