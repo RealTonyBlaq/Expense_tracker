@@ -140,10 +140,15 @@ def update_recurring_expense(id):
                 return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
 
         if 'end_date' in data:
+            try:
+                data['end_date'] = datetime.strptime(data['end_date'], date_format)
+            except (ValueError, TypeError):
+                return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
 
-        frequency = data.get('frequency').lower()
-        if frequency not in ['daily', 'weekly', 'monthly']:
-            return jsonify(message='Frequency must be daily, weekly or monthly'), 400
+        if 'frequency' in data:
+            data['frequency'] = data['frequency'].lower()
+            if data['frequency'] not in ['daily', 'weekly', 'monthly']:
+                return jsonify(message='Frequency must be daily, weekly or monthly'), 400
 
         for key, value in data:
             if key in ['amount', 'start_date', 'frequency', 'end_date', 'description']:
