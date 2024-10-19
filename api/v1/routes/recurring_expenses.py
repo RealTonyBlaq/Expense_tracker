@@ -133,13 +133,13 @@ def update_recurring_expense(id):
             except (ValueError, TypeError):
                 return jsonify(message='Amount must be an integer/float'), 400
 
-        
-        try:
-            start_date = datetime.strptime(data.get('start_date'), date_format)
-            if end_date:
-                end_date = datetime.strptime(end_date, date_format)
-        except (ValueError, TypeError):
-            return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+        if 'start_date' in data:
+            try:
+                data['start_date'] = datetime.strptime(data['start_date'], date_format)
+            except (ValueError, TypeError):
+                return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+
+        if 'end_date' in data:
 
         frequency = data.get('frequency').lower()
         if frequency not in ['daily', 'weekly', 'monthly']:
