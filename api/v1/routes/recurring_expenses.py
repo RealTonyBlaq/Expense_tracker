@@ -63,6 +63,10 @@ def create_recurring(category_id):
         except (ValueError, TypeError):
             return jsonify(message='Amount must be an integer/float'), 400
 
+        end_date = data.get('end_date')
+
         try:
-            start_date = datetime.strptime(data.)
+            start_date = datetime.strptime(data.get('start_date'), date_format)
+            if end_date:
+                end_date = 
     return jsonify(message='Not a valid JSON'), 400
