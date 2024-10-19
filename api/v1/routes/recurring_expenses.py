@@ -95,8 +95,10 @@ def create_recurring(category_id):
 @ETapp.route('/recurring_expenses/<id>', methods=['DELETE'],
              strict_slashes=False)
 @jwt_required()
-def delete_recurring_delete(id=None):
+def delete_recurring_delete(id):
     """ Deletes a recurring expense object """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
         abort(401)
+
+    rec_expense = db.query(RecurringExpense).filter_by(id = id, user_id = current_user.id)
