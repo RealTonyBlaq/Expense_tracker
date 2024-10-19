@@ -38,7 +38,7 @@ def get_recurring_expense(id=None):
 @ETapp.route('/categories/<category_id>/recurring_expenses',
              methods=['POST'], strict_slashes=False)
 @jwt_required()
-def create_recurring(category_id):
+def create_recurring_expense(category_id):
     """ Creates a recurring expense object """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
@@ -95,7 +95,7 @@ def create_recurring(category_id):
 @ETapp.route('/recurring_expenses/<id>', methods=['DELETE'],
              strict_slashes=False)
 @jwt_required()
-def delete_recurring_delete(id):
+def delete_recurring_expense(id):
     """ Deletes a recurring expense object """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
@@ -108,4 +108,8 @@ def delete_recurring_delete(id):
     abort(404)
 
 
-@ETapp.route('/recurring_expenses/<id>', )
+@ETapp.route('/recurring_expenses/<id>', methods=['PUT'],
+             strict_slashes=False)
+@jwt_required()
+def update_recurring_expense(id):
+    """ Updates a """
