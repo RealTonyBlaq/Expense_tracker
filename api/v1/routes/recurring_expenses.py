@@ -102,4 +102,10 @@ def delete_recurring_delete(id):
         abort(401)
 
     rec_expense = db.query(RecurringExpense).filter_by(id = id, user_id = current_user.id).first()
-    if rec_expense;
+    if rec_expense:
+        rec_expense.delete()
+        return jsonify(message='success'), 200
+    abort(404)
+
+
+@ETapp.route('/recurring_expenses/<id>', )
