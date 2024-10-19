@@ -92,4 +92,11 @@ def create_recurring(category_id):
     return jsonify(message='Not a valid JSON'), 400
 
 
-@ETapp.route('/recurring_expenses')
+@ETapp.route('/recurring_expenses/<id>', methods=['DELETE'],
+             strict_slashes=False)
+@jwt_required()
+def delete_recurring_delete(id=None):
+    """ Deletes a recurring expense object """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
