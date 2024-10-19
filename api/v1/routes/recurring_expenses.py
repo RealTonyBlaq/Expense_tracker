@@ -116,3 +116,12 @@ def update_recurring_expense(id):
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
         abort(401)
+
+    if request.is_json:
+        try:
+            data = request.get_json()
+        except BadRequest:
+            return jsonify(message='Error parsing JSON data'), 400
+
+        
+    return jsonify(message='Not a valid JSON'), 400
