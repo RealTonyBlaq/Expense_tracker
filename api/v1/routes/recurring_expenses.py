@@ -112,4 +112,7 @@ def delete_recurring_expense(id):
              strict_slashes=False)
 @jwt_required()
 def update_recurring_expense(id):
-    """ Updates a """
+    """ Updates a recurring expense with valid data """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
