@@ -28,8 +28,6 @@ def get_categories(category_id=None):
             abort(404)
 
         data = category.to_dict()
-        # associated_expenses = db.query(Expense).filter_by(category_id = category.id, user_id = current_user.id).all()
-        # expenses = [ex.to_dict() for ex in associated_expenses]
         data['expenses'] = [expense.to_dict() for expense in category.expenses]
 
         return jsonify(message='success', data=data), 200
