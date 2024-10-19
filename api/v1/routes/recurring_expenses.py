@@ -68,5 +68,9 @@ def create_recurring(category_id):
         try:
             start_date = datetime.strptime(data.get('start_date'), date_format)
             if end_date:
-                end_date = 
+                end_date = datetime.strptime(end_date, date_format)
+        except (ValueError, TypeError):
+            return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+
+        
     return jsonify(message='Not a valid JSON'), 400
