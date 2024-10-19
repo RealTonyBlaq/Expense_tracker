@@ -101,4 +101,5 @@ def delete_recurring_delete(id):
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
-    rec_expense = db.query(RecurringExpense).filter_by(id = id, user_id = current_user.id)
+    rec_expense = db.query(RecurringExpense).filter_by(id = id, user_id = current_user.id).first()
+    if rec_expense;
