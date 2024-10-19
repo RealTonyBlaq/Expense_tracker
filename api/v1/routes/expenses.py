@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 """ The Expense Route """
 
-from api.v1 import ETapp
+from api.v1 import ETapp, date_format
 from datetime import datetime
 from dotenv import load_dotenv, find_dotenv
 from models.category import Category
 from models.expense import Expense
 from flask import abort, jsonify, request
 from flask_jwt_extended import get_current_user, jwt_required
-from utilities import cache, db
-from werkzeug.exceptions import BadRequest, BadRequestKeyError
+from utilities import db
+from werkzeug.exceptions import BadRequest
 
 
-date_format = "%Y-%m-%d"
 load_dotenv(find_dotenv())
 
 
@@ -62,14 +61,17 @@ def create_expense(category_id):
             return jsonify(message='date_occurred missing'), 400
 
         try:
-            amount = int(data.get('amount'))
+            amount = float(data.get('amount'))
         except (ValueError, TypeError):
-            return jsonify(message='Amount must be an integer'), 400
+            return jsonify(message='Amount must be an integer/float'), 400
 
         try:
             date_occurred = datetime.strptime(data.get('date_occurred'), date_format)
         except (ValueError, TypeError):
             return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+
+        if date_occurred > datetime.today():
+            return jsonify(message=f'{data["date_occurred"]} is in the future. Use a valid date'), 400
 
         description = data.get('description')
 
@@ -123,9 +125,9 @@ def update_expense(expense_id):
 
         if 'amount' in data:
             try:
-                amount = int(data.get('amount'))
+                data['amount'] = float(data.get('amount'))
             except (ValueError, TypeError):
-                return jsonify(message='Amount must be an integer'), 400
+                return jsonify(message='Amount must be an integer/float'), 400
 
         if 'date_occurred' in data:
             date_occurred = data['date_occurred']
@@ -133,6 +135,9 @@ def update_expense(expense_id):
                 data['date_occurred'] = datetime.strptime(date_occurred, date_format)
             except (ValueError, TypeError):
                 return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+
+            if data['date_occurred'] > datetime.today():
+                return jsonify(message=f'{data["date_occurred"]} is in the future. Use a valid date'), 400
 
         for key, value in data.items():
             if key in ['date_occurred', 'amount', 'description']:
