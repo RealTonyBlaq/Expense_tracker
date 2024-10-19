@@ -127,13 +127,13 @@ def update_recurring_expense(id):
         if rec_expense is None:
             abort(404)
 
-        try:
-            amount = float(data.get('amount'))
-        except (ValueError, TypeError):
-            return jsonify(message='Amount must be an integer/float'), 400
+        if 'amount' in data:
+            try:
+                data['amount'] = float(data['amount'])
+            except (ValueError, TypeError):
+                return jsonify(message='Amount must be an integer/float'), 400
 
-        end_date = data.get('end_date')
-
+        
         try:
             start_date = datetime.strptime(data.get('start_date'), date_format)
             if end_date:
