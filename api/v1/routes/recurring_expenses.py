@@ -90,3 +90,6 @@ def create_recurring(category_id):
 
         return jsonify(message='success', data=recurring_expense.to_dict()), 201
     return jsonify(message='Not a valid JSON'), 400
+
+
+@ETapp.route('/recurring_expenses')
