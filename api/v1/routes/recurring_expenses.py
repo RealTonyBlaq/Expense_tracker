@@ -125,5 +125,8 @@ def update_recurring_expense(id):
 
         rec_expense = db.query(RecurringExpense).filter_by(id = id, user_id = current_user.id).first()
         if rec_expense is None:
-            ab
+            abort(404)
+
+        for key, value in data:
+            if key in ['amount', 'start_date', 'fequency']
     return jsonify(message='Not a valid JSON'), 400
