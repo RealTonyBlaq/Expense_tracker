@@ -150,8 +150,11 @@ def update_recurring_expense(id):
             if data['frequency'] not in ['daily', 'weekly', 'monthly']:
                 return jsonify(message='Frequency must be daily, weekly or monthly'), 400
 
-        for key, value in data:
+        for key, value in data.items():
             if key in ['amount', 'start_date', 'frequency', 'end_date', 'description']:
                 setattr(rec_expense, key, value)
+
+        rec_expense.save()
+        return jsonify(message='success', data=rec_expense.to_dict()), 200
 
     return jsonify(message='Not a valid JSON'), 400
