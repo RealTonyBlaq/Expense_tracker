@@ -12,3 +12,4 @@ from api.v1.routes.auth import *
 from api.v1.routes.earnings import *
 from api.v1.routes.categories import *
 from api.v1.routes.expenses import *
+from api.v1.routes.recurring_expenses import *
