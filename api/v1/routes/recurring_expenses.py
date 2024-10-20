@@ -67,8 +67,13 @@ def create_recurring_expense(category_id):
 
         try:
             start_date = datetime.strptime(data.get('start_date'), date_format)
+            if start_date > datetime.today():
+                return jsonify(message=f'{data.get("start_date")} is in the future. Please use a valid date'), 400
+
             if end_date:
                 end_date = datetime.strptime(end_date, date_format)
+                if end_date < datetime.today():
+                    return jsonify(message=f'{data.get("end_date")} is in the past. Please use a future date'), 400
         except (ValueError, TypeError):
             return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
 
@@ -137,13 +142,19 @@ def update_recurring_expense(id):
             try:
                 data['start_date'] = datetime.strptime(data['start_date'], date_format)
             except (ValueError, TypeError):
-                return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+                return jsonify(message="Invalid start_date format. Please use 'YYYY-mm-dd'"), 400
+
+            if data['start_date'] > datetime.today():
+                return jsonify(message=f'{data.get("start_date")} is in the future. Use a valid date'), 400
 
         if 'end_date' in data:
             try:
                 data['end_date'] = datetime.strptime(data['end_date'], date_format)
             except (ValueError, TypeError):
-                return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+                return jsonify(message="Invalid end_date format. Please use 'YYYY-mm-dd'"), 400
+
+            if data['end_date'] < datetime.today():
+                return jsonify(message=f'{data.get("end_date")} is in the past. Please use a future date'), 400
 
         if 'frequency' in data:
             data['frequency'] = data['frequency'].lower()
