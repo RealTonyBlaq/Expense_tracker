@@ -29,6 +29,7 @@ def get_categories(category_id=None):
 
         data = category.to_dict()
         data['expenses'] = [expense.to_dict() for expense in category.expenses]
+        data['recurring_expenses'] = [rec.to_dict() for rec in category.recurring_expenses]
 
         return jsonify(message='success', data=data), 200
 
@@ -37,6 +38,7 @@ def get_categories(category_id=None):
     for cat in all_category:
         obj = cat.to_dict()
         obj['expenses'] = [e.to_dict() for e in cat.expenses]
+        obj['recurring_expenses'] = [rec.to_dict() for rec in cat.recurring_expenses]
         data.append(obj)
 
     return jsonify(message='success', data=data), 200
@@ -109,8 +111,8 @@ def update_category(category_id):
     else:
         abort(404)
 
-    associated_expenses = [e.to_dict() for e in category_obj.expenses]
     updated_data = category_obj.to_dict()
-    updated_data['expenses'] = associated_expenses
+    updated_data['expenses'] = [e.to_dict() for e in category_obj.expenses]
+    updated_data['recurring_expenses'] = [rec.to_dict() for rec in category_obj.recurring_expenses]
 
     return jsonify(message='success', data=updated_data), 200
