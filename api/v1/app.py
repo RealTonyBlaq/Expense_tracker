@@ -10,6 +10,8 @@ from models.expense import Expense
 from utilities import db
 from models.user import User
 from os import getenv
+import signal
+import sys
 
 
 app_env = find_dotenv()
@@ -39,6 +41,17 @@ app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 app.register_blueprint(ETapp)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}}, supports_credentials=True)
 jwt = JWTManager(app)
+
+
+def sig_handler(sig, frame):
+    """ Handles SIGINT """
+    for user in db.all(User).values():
+        user.is_logged_in = False
+        db.add(user)
+
+    db.save()
+    db.close()
+    sys.exit(0)
 
 
 @jwt.user_lookup_loader
@@ -112,7 +125,7 @@ def unauthorized(error):
 def stats():
     """ Returns a count of User, Category and Expense objects """
     return jsonify(users=len(db.all(User)),
-                   online_users=len(db.query(User).filter_by(is_logged_in = True))), 200
+                   online_users=len(db.query(User).filter_by(is_logged_in = True).all())), 200
 
 
 @app.route('/', strict_slashes=False)
@@ -122,4 +135,5 @@ def index():
 
 
 if __name__ == '__main__':
+    signal.signal(signal.SIGINT, sig_handler)
     app.run(host='0.0.0.0', port=5000, debug=True)
