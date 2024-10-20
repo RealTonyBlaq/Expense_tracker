@@ -18,3 +18,5 @@ class Category(BaseModel, Base):
     user = relationship('User', back_populates='categories')
     expenses = relationship('Expense', backref='users',
                             cascade='all, delete, delete-orphan')
+    recurring_expenses = relationship('RecurringExpense', backref='users',
+                                      cascade='all, delete, delete-orphan')
