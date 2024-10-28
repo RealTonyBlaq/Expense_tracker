@@ -11,6 +11,7 @@ from models.earning import Earning
 from models.expense import Expense
 from models.recurring_expense import RecurringExpense
 from models.tag import Tag
+from utilities import db
 from werkzeug.exceptions import BadRequest
 
 
