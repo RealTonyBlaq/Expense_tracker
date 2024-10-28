@@ -36,4 +36,5 @@ def get_me():
         user_dict['tags'] = [tag.to_dict() for tag in current_user.tags]
 
         return jsonify(message='success', data=user_dict), 200
-    
+
+    if request.method == 'PATCH'
