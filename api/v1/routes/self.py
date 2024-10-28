@@ -38,4 +38,10 @@ def get_me():
         return jsonify(message='success', data=user_dict), 200
 
     if request.method == 'PATCH':
-        
+        if not request.is_json:
+            return jsonify(message='Not a valid JSON'), 400
+
+        try:
+            data = request.get_json()
+        except BadRequest:
+            return jsonify(message=)
