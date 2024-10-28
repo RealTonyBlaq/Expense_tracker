@@ -5,6 +5,12 @@ from api.v1 import ETapp
 from datetime import datetime
 from flask import abort, jsonify, request
 from flask_jwt_extended import jwt_required, get_current_user
+from models.user import User
+from models.category import Category
+from models.earning import Earning
+from models.expense import Expense
+from models.recurring_expense import RecurringExpense
+from models.tag import Tag
 from werkzeug.exceptions import BadRequest
 
 
@@ -16,4 +22,3 @@ def get_me():
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
-    
