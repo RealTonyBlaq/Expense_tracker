@@ -67,6 +67,7 @@ def get_me():
             update_data['last_name'] = data.get('last_name').strip()
 
         for key, value in update_data.items():
-            setattr(current_user, key)
+            setattr(current_user, key, value)
 
-@ETapp.route()
+        current_user.save()
+        return jsonify(message='success', data=current_user.to_dict()), 200
