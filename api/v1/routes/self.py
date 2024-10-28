@@ -29,4 +29,5 @@ def get_me():
 
     if request.method == 'GET':
         categories = db.query(Category).filter_by(user_id = current_user.id).all()
+        earnings = db.query(Earning).filter_by(user_id = current_user.id).all()
     
