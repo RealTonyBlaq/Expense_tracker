@@ -28,12 +28,6 @@ def get_me():
         abort(401)
 
     if request.method == 'GET':
-        # categories = db.query(Category).filter_by(user_id = current_user.id).all()
-        # earnings = db.query(Earning).filter_by(user_id = current_user.id).all()
-        # expenses = db.query(Expense).filter_by(user_id = current_user.id).all()
-        # recurring_expenses = db.query(RecurringExpense).filter_by(user_id = current_user.id).all()
-        # tags = db.query(Tag).filter_by(user_id = current_user.id).all()
-
         user_dict = current_user.to_dict()
         user_dict['categories'] = [cat.to_dict() for cat in current_user.categories]
         user_dict['earnings'] = [e.to_dict() for e in current_user.earnings]
