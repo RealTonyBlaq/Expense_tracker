@@ -46,4 +46,7 @@ def get_me():
         except BadRequest:
             return jsonify(message='Error parsing JSON data'), 400
 
-        
+        if data.get('bio', None):
+            
+
+@ETapp.route()
