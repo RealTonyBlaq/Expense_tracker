@@ -22,3 +22,4 @@ def get_me():
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
+    
