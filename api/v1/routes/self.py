@@ -9,4 +9,11 @@ from werkzeug.exceptions import BadRequest
 
 
 @ETapp.route('/me', strict_slashes=False)
+@jwt_required()
+def get_me():
+    """ Returns a JSON with the user objects """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
 
+    
