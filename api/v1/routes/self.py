@@ -2,6 +2,7 @@
 """ The current user route """
 
 from api.v1 import ETapp
+from api.v1.routes.auth import hash_password
 from datetime import datetime
 from flask import abort, jsonify, request
 from flask_jwt_extended import jwt_required, get_current_user
@@ -57,6 +58,6 @@ def get_me():
             if data.get('password') != data.get('confirm_password'):
                 return jsonify(message='password mismatch'), 400
 
-            
+            update_data['password'] = hash_password()
 
 @ETapp.route()
