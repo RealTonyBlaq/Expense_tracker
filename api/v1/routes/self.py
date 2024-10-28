@@ -36,5 +36,11 @@ def get_me():
 
         user_dict = current_user.to_dict()
         user_dict['categories'] = [cat.to_dict() for cat in categories]
-        user_dict
+        user_dict['earnings'] = [e.to_dict() for e in earnings]
+        user_dict['expenses'] = [ex.to_dict() for ex in expenses]
+        user_dict['recurring_expenses'] = [rec.to_dict() for rec in recurring_expenses]
+        user_dict['tags'] = [tag.to_dict() for tag in tags]
+
+        return jsonify()
+        
     
