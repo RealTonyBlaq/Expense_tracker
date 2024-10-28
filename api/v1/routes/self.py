@@ -21,11 +21,12 @@ def get_me():
     """
     GET /me - Returns a JSON with the user information
     PATCH /me - Resets a user's password and other data
-    
+    DELETE /me - Deletes a user account
     """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
-    category = db.query(Category).filter_by(user_id = current_user.id).all()
+    if request.method == 'GET':
+        categories = db.query(Category).filter_by(user_id = current_user.id).all()
     
