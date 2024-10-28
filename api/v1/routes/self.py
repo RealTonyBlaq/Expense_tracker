@@ -54,6 +54,9 @@ def get_me():
             if not data.get('confirm_password'):
                 return jsonify(message='confirm_password missing'), 400
 
+            if data.get('password') != data.get('confirm_password'):
+                return jsonify(message='password mismatch'), 400
+
             
 
 @ETapp.route()
