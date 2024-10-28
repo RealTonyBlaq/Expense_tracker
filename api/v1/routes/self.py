@@ -30,4 +30,6 @@ def get_me():
     if request.method == 'GET':
         categories = db.query(Category).filter_by(user_id = current_user.id).all()
         earnings = db.query(Earning).filter_by(user_id = current_user.id).all()
+        expenses = db.query(Expense).filter_by(user_id = current_user.id).all()
+        recurring_expenses = db.query(RecurringExpense).filter_by(user_id = current_user.id).all()
     
