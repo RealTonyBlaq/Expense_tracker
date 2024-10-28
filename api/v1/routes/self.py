@@ -28,19 +28,21 @@ def get_me():
         abort(401)
 
     if request.method == 'GET':
-        categories = db.query(Category).filter_by(user_id = current_user.id).all()
-        earnings = db.query(Earning).filter_by(user_id = current_user.id).all()
-        expenses = db.query(Expense).filter_by(user_id = current_user.id).all()
-        recurring_expenses = db.query(RecurringExpense).filter_by(user_id = current_user.id).all()
-        tags = db.query(Tag).filter_by(user_id = current_user.id).all()
+        # categories = db.query(Category).filter_by(user_id = current_user.id).all()
+        # earnings = db.query(Earning).filter_by(user_id = current_user.id).all()
+        # expenses = db.query(Expense).filter_by(user_id = current_user.id).all()
+        # recurring_expenses = db.query(RecurringExpense).filter_by(user_id = current_user.id).all()
+        # tags = db.query(Tag).filter_by(user_id = current_user.id).all()
 
         user_dict = current_user.to_dict()
-        user_dict['categories'] = [cat.to_dict() for cat in categories]
+        user_dict['categories'] = [cat.to_dict() for cat in current_user.categories]
         user_dict['earnings'] = [e.to_dict() for e in earnings]
         user_dict['expenses'] = [ex.to_dict() for ex in expenses]
         user_dict['recurring_expenses'] = [rec.to_dict() for rec in recurring_expenses]
         user_dict['tags'] = [tag.to_dict() for tag in tags]
 
-        return jsonify()
+        return jsonify(message='success', data=user_dict), 200
+
+    if request.method == 'PATCH':
         
     
