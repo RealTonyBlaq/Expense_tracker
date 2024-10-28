@@ -61,6 +61,12 @@ def get_me():
             update_data['password'] = hash_password(data.get('password').strip())
 
         if data.get('first_name', None):
-            update_data['first_name'] = data.get('first')
+            update_data['first_name'] = data.get('first_name').strip()
+
+        if data.get('last_name', None):
+            update_data['last_name'] = data.get('last_name').strip()
+
+        for key, value in update_data.items():
+            setattr(current_user, key)
 
 @ETapp.route()
