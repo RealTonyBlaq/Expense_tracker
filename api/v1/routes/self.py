@@ -15,10 +15,13 @@ from utilities import db
 from werkzeug.exceptions import BadRequest
 
 
-@ETapp.route('/me', strict_slashes=False)
+@ETapp.route('/me', methods=['GET', 'PATCH', 'DELETE'], strict_slashes=False)
 @jwt_required()
 def get_me():
-    """ Returns a JSON with the user objects """
+    """
+    GET /me - Returns a JSON with the user information
+    PATCH /me
+    """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
         abort(401)
