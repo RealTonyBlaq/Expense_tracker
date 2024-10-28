@@ -50,6 +50,10 @@ def get_me():
         if data.get('bio', None):
             update_data['bio'] = data.get('bio')
 
-        
+        if data.get('password', None):
+            if not data.get('confirm_password'):
+                return jsonify(message='confirm_password missing'), 400
+
+            
 
 @ETapp.route()
