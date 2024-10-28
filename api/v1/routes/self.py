@@ -20,7 +20,8 @@ from werkzeug.exceptions import BadRequest
 def get_me():
     """
     GET /me - Returns a JSON with the user information
-    PATCH /me
+    PATCH /me - Resets a user's password and other data
+    
     """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
