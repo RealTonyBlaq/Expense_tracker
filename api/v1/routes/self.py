@@ -24,3 +24,4 @@ def get_me():
         abort(401)
 
     category = db.query(Category).filter_by(user_id = current_user.id)
+    
