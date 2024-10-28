@@ -44,4 +44,6 @@ def get_me():
         try:
             data = request.get_json()
         except BadRequest:
-            return jsonify(message=)
+            return jsonify(message='Error parsing JSON data'), 400
+
+        
