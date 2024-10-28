@@ -32,4 +32,9 @@ def get_me():
         earnings = db.query(Earning).filter_by(user_id = current_user.id).all()
         expenses = db.query(Expense).filter_by(user_id = current_user.id).all()
         recurring_expenses = db.query(RecurringExpense).filter_by(user_id = current_user.id).all()
+        tags = db.query(Tag).filter_by(user_id = current_user.id).all()
+
+        user_dict = current_user.to_dict()
+        user_dict['categories'] = [cat.to_dict() for cat in categories]
+        user_dict
     
