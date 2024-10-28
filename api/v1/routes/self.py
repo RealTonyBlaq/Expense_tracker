@@ -37,4 +37,5 @@ def get_me():
 
         return jsonify(message='success', data=user_dict), 200
 
-    if request.method == 'PATCH'
+    if request.method == 'PATCH':
+        
