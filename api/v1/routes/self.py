@@ -5,7 +5,7 @@ from api.v1 import ETapp
 from api.v1.routes.auth import hash_password
 from datetime import datetime
 from flask import abort, jsonify, request
-from flask_jwt_extended import jwt_required, get_current_user
+from flask_jwt_extended import jwt_required, get_current_user, unset_jwt_cookies
 from models.user import User
 from models.category import Category
 from models.earning import Earning
@@ -72,4 +72,8 @@ def get_me():
         current_user.save()
         return jsonify(message='success', data=current_user.to_dict()), 200
 
-    if 
+    if request.method == 'DELETE':
+        current_user.delete()
+        response = jsonify(message='success')
+        unset_jwt_cookies()
+        return jsonify
