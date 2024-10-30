@@ -75,5 +75,5 @@ def get_me():
     if request.method == 'DELETE':
         current_user.delete()
         response = jsonify(message='success')
-        unset_jwt_cookies()
-        return jsonify
+        unset_jwt_cookies(response)
+        return response, 200
