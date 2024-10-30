@@ -16,7 +16,7 @@ from utilities import db
 from werkzeug.exceptions import BadRequest
 
 
-@ETapp.route('/me', methods=['GET', 'PATCH', 'DELETE'], strict_slashes=False)
+@ETapp.route('/me', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
 @jwt_required()
 def get_me():
     """
@@ -38,7 +38,7 @@ def get_me():
 
         return jsonify(message='success', data=user_dict), 200
 
-    if request.method == 'PATCH':
+    if request.method == 'PUT':
         if not request.is_json:
             return jsonify(message='Not a valid JSON'), 400
 
@@ -71,3 +71,5 @@ def get_me():
 
         current_user.save()
         return jsonify(message='success', data=current_user.to_dict()), 200
+
+    if 
