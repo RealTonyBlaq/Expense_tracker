@@ -15,7 +15,6 @@ from models.recurring_expense import RecurringExpense
 from models.tag import Tag
 from utilities import db
 from werkzeug.exceptions import BadRequest
-from werkzeug.utils import secure_filename
 
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -105,4 +104,5 @@ def post_profile_picture():
         return jsonify(message='No file selected'), 400
 
     if allowed_file(file.filename):
-        filename = f'User{current_user.id}'
+        file_ext = file.filename.rsplit('.', 1)[1]
+        filename = f'User{current_user.id}.{}'
