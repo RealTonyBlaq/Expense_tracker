@@ -93,6 +93,10 @@ def get_me():
 @jwt_required()
 def post_profile_picture():
     """ Handles Picture upload """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
+
     if 'image' not in request.files:
         return jsonify(message='No image found in the request'), 400
 
@@ -101,4 +105,4 @@ def post_profile_picture():
         return jsonify(message='No file selected'), 400
 
     if allowed_file(file.filename):
-        filename =
+        filename = f'User{current_user.id}'
