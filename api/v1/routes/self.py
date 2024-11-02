@@ -14,6 +14,10 @@ from models.recurring_expense import RecurringExpense
 from models.tag import Tag
 from utilities import db
 from werkzeug.exceptions import BadRequest
+from werkzeug.utils import secure_filename
+
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 
 @ETapp.route('/me', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
@@ -77,3 +81,6 @@ def get_me():
         response = jsonify(message='success')
         unset_jwt_cookies(response)
         return response, 200
+
+
+@ETapp.route()
