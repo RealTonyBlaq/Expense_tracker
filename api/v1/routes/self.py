@@ -20,6 +20,10 @@ from werkzeug.utils import secure_filename
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 
+def allowed_filename(file: str) -> bool:
+    """ Validates an uploaded file """
+    return 
+
 @ETapp.route('/me', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
 @jwt_required()
 def get_me():
@@ -83,4 +87,8 @@ def get_me():
         return response, 200
 
 
-@ETapp.route()
+@ETapp.route('/upload-avatar', methods=['POST'], strict_slashes=False)
+@jwt_required()
+def post_profile_picture():
+    """ Handles Picture upload """
+    
