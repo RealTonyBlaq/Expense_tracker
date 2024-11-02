@@ -96,5 +96,7 @@ def post_profile_picture():
         return jsonify(message='No image found in the request'), 400
 
     file = request.files['image']
-    if file == '':
-        return jsonify()
+    if not file or file.filename == '':
+        return jsonify(message='No file selected'), 400
+
+
