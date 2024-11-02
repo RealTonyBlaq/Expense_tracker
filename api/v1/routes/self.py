@@ -20,7 +20,7 @@ from werkzeug.utils import secure_filename
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 
-def allowed_filename(filename: str) -> bool:
+def allowed_file(filename: str) -> bool:
     """ Validates an uploaded file """
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -93,3 +93,8 @@ def get_me():
 def post_profile_picture():
     """ Handles Picture upload """
     if 'image' not in request.files:
+        return jsonify(message='No image found in the request'), 400
+
+    file = request.files['image']
+    if file == '':
+        return jsonify()
