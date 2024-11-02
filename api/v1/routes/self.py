@@ -13,6 +13,7 @@ from models.earning import Earning
 from models.expense import Expense
 from models.recurring_expense import RecurringExpense
 from models.tag import Tag
+import os
 from utilities import db
 from werkzeug.exceptions import BadRequest
 
@@ -105,4 +106,6 @@ def post_profile_picture():
 
     if allowed_file(file.filename):
         file_ext = file.filename.rsplit('.', 1)[1]
-        filename = f'User{current_user.id}.{}'
+        filename = f'User{current_user.id}.{file_ext}'
+        filepath = os.path.join(app.config['UPLOADS_FOLDER'], filename)
+        
