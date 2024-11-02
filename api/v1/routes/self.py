@@ -92,4 +92,4 @@ def get_me():
 @jwt_required()
 def post_profile_picture():
     """ Handles Picture upload """
-    
+    if 'image' not in request.files:
