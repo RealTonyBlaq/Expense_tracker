@@ -2,6 +2,7 @@
 """ The current user route """
 
 from api.v1 import ETapp
+from api.v1.app import app
 from api.v1.routes.auth import hash_password
 from datetime import datetime
 from flask import abort, jsonify, request
@@ -99,4 +100,5 @@ def post_profile_picture():
     if not file or file.filename == '':
         return jsonify(message='No file selected'), 400
 
-
+    if allowed_file(file.filename):
+        
