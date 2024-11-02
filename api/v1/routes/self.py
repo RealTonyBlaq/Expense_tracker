@@ -101,4 +101,4 @@ def post_profile_picture():
         return jsonify(message='No file selected'), 400
 
     if allowed_file(file.filename):
-        
+        filename =
