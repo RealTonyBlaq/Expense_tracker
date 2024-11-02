@@ -107,7 +107,7 @@ def post_profile_picture():
     if allowed_file(file.filename):
         file_ext = file.filename.rsplit('.', 1)[1]
         filename = f'User{current_user.id}.{file_ext}'
-        filepath = os.path.join(app.config['UPLOADS_FOLDER'], filename)
+        filepath = os.path.join(app.config[''], filename)
         file.save(filepath)
         return jsonify(message='image upload successful!'), 200
 
