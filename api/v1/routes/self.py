@@ -20,9 +20,10 @@ from werkzeug.utils import secure_filename
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 
-def allowed_filename(file: str) -> bool:
+def allowed_filename(filename: str) -> bool:
     """ Validates an uploaded file """
-    return 
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @ETapp.route('/me', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
 @jwt_required()
