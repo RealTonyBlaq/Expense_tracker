@@ -13,17 +13,7 @@ from models.earning import Earning
 from models.expense import Expense
 from models.recurring_expense import RecurringExpense
 from models.tag import Tag
-import os
-from utilities import db
 from werkzeug.exceptions import BadRequest
-
-
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-
-def allowed_file(filename: str) -> bool:
-    """ Validates an uploaded file """
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @ETapp.route('/me', methods=['GET', 'PUT', 'DELETE'], strict_slashes=False)
