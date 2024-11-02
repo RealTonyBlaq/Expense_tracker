@@ -87,28 +87,3 @@ def get_me():
         response = jsonify(message='success')
         unset_jwt_cookies(response)
         return response, 200
-
-
-@ETapp.route('/upload-avatar', methods=['POST'], strict_slashes=False)
-@jwt_required()
-def post_profile_picture():
-    """ Handles Picture upload """
-    current_user = get_current_user()
-    if not current_user or not current_user.is_authenticated:
-        abort(401)
-
-    if 'image' not in request.files:
-        return jsonify(message='No image found in the request'), 400
-
-    file = request.files['image']
-    if not file or file.filename == '':
-        return jsonify(message='No file selected'), 400
-
-    if allowed_file(file.filename):
-        file_ext = file.filename.rsplit('.', 1)[1]
-        filename = f'User{current_user.id}.{file_ext}'
-        filepath = os.path.join(app.config[''], filename)
-        file.save(filepath)
-        return jsonify(message='image upload successful!'), 200
-
-    return jsonify(message='File type not allowed'), 400
