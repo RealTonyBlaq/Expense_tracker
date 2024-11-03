@@ -154,6 +154,7 @@ def post_profile_picture():
         avatar_path = path.join(app.config['UPLOADS_FOLDER'], file_prefix)
         files = [f.name for f in scandir(app.config['UPLOADS_FOLDER']) if f.is_file() and f.name.startswith(file_prefix)]
 
+        
         return jsonify(message='success'), 200
 
 
