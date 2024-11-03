@@ -156,7 +156,7 @@ def post_profile_picture():
         if len(files) == 0:
             abort(404)
 
-        return send_from_directory(as_attachment=True)
+        return send_from_directory(app.config['UPLOADS_FOLDER'], files[0], as_attachment=True)
 
 
     if request.method == 'POST':
