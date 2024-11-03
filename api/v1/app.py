@@ -140,7 +140,11 @@ def stats():
 @app.route('/api/v1/avatar', methods=['GET', 'POST', 'DELETE'], strict_slashes=False)
 @jwt_required()
 def post_profile_picture():
-    """ Handles Picture upload """
+    """
+    Handles Picture upload
+
+    /GET - Returns the User's picture
+    """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
         abort(401)
