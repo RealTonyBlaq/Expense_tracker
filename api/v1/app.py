@@ -8,7 +8,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, get_current_user
 from utilities import db
 from models.user import User
-from os import getenv, makedirs, path,
+from os import getenv, makedirs, path, scandir
 import signal
 import sys
 
@@ -146,7 +146,7 @@ def post_profile_picture():
         abort(401)
 
     if request.method == 'GET':
-        avatars = os.
+        ata
 
     if request.method == 'POST':
         if 'image' not in request.files:
