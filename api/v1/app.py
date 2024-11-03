@@ -3,7 +3,7 @@
 
 from api.v1 import ETapp
 from dotenv import load_dotenv, find_dotenv
-from flask import abort, Flask, jsonify, request, render_template, send_file
+from flask import abort, Flask, jsonify, request, render_template, send_from_directory
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, get_current_user
 from utilities import db
@@ -156,8 +156,7 @@ def post_profile_picture():
         if len(files) == 0:
             abort(404)
 
-        avatar_path = path.join(app.config['UPLOADS_FOLDER'], files[0])
-        return send_file(avatar_path, as_attachment=True)
+        return send_from_directory(as_attachment=True)
 
 
     if request.method == 'POST':
