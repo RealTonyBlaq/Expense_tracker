@@ -3,10 +3,9 @@
 
 from api.v1 import ETapp
 from dotenv import load_dotenv, find_dotenv
-from flask import abort, Flask, jsonify, request, render_template
+from flask import abort, Flask, jsonify, request, render_template, send_file
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, get_current_user
-from models.expense import Expense
 from utilities import db
 from models.user import User
 from os import getenv, makedirs, path
@@ -147,7 +146,6 @@ def post_profile_picture():
         abort(401)
 
     if request.method == 'GET':
-        
         
 
     if request.method == 'POST':
