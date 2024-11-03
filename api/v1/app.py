@@ -146,7 +146,9 @@ def post_profile_picture():
         abort(401)
 
     if request.method == 'GET':
-        ata
+        file_prefix = f'User{current_user.id}'
+        avatar_path = path.join(app.config['UPLOADS_FOLDER'], file_prefix)
+        
 
     if request.method == 'POST':
         if 'image' not in request.files:
