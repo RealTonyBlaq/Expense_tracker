@@ -146,6 +146,10 @@ def post_profile_picture():
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
+    if request.method == 'GET':
+        
+        
+
     if request.method == 'POST':
         if 'image' not in request.files:
             return jsonify(message='No image found in the request'), 400
