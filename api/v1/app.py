@@ -3,13 +3,13 @@
 
 from api.v1 import ETapp
 from dotenv import load_dotenv, find_dotenv
-from flask import Flask, g, jsonify, render_template
+from flask import abort, Flask, jsonify, request, render_template
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, jwt_required, get_current_user
 from models.expense import Expense
 from utilities import db
 from models.user import User
-from os import getenv
+from os import getenv, makedirs, path
 import signal
 import sys
 
@@ -30,17 +30,22 @@ app.config['JWT_ACCESS_CSRF_COOKIE_NAME'] = getenv('JWT_ACCESS_CSRF_COOKIE_NAME'
 app.config['JWT_ACCESS_COOKIE_NAME'] = getenv('JWT_ACCESS_COOKIE_NAME')
 app.config['SECURITY_PASSWORD_SALT'] = getenv('SECURITY_PASSWORD_SALT')
 app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.config['JWT_COOKIE_HTTPONLY'] = True
+app.config['JWT_COOKIE_HTTPONLY'] = False
 app.config['JWT_COOKIE_SECURE'] = False
-app.config['JWT_COOKIE_SAMESITE'] = 'Lax'
+app.config['JWT_COOKIE_SAMESITE'] = None
 app.config['MAIL_DEFAULT_SENDER'] = getenv('MAIL_DEFAULT_SENDER')
 app.config['MAIL_PASSWORD'] = getenv('MAIL_PASSWORD')
 app.config['JWT_COOKIE_CSRF_PROTECT'] = True
+app.config['UPLOADS_FOLDER'] = getenv('UPLOADS_FOLDER', 'uploads')
+app.config['MAX_CONTENT_LENGTH'] = 7 * 1024 * 1024
 
+
+makedirs(app.config['UPLOADS_FOLDER'], exist_ok=True)
 
 app.register_blueprint(ETapp)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}}, supports_credentials=True)
 jwt = JWTManager(app)
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 
 def sig_handler(sig, frame):
@@ -52,6 +57,11 @@ def sig_handler(sig, frame):
     db.save()
     db.close()
     sys.exit(0)
+
+
+def allowed_file(filename: str) -> bool:
+    """ Validates an uploaded file """
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @jwt.user_lookup_loader
@@ -126,6 +136,32 @@ def stats():
     """ Returns a count of User, Category and Expense objects """
     return jsonify(users=len(db.all(User)),
                    online_users=len(db.query(User).filter_by(is_logged_in = True).all())), 200
+
+
+@app.route('/api/v1/upload-avatar', methods=['POST'], strict_slashes=False)
+@jwt_required()
+def post_profile_picture():
+    """ Handles Picture upload """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
+
+    print(request.files)
+    if 'image' not in request.files:
+        return jsonify(message='No image found in the request'), 400
+
+    file = request.files['image']
+    if not file or file.filename == '':
+        return jsonify(message='No file selected'), 400
+
+    if allowed_file(file.filename):
+        file_ext = file.filename.rsplit('.', 1)[1]
+        filename = f'User{current_user.id}.{file_ext}'
+        filepath = path.join(app.config['UPLOADS_FOLDER'], filename)
+        file.save(filepath)
+        return jsonify(message='image upload successful!'), 200
+
+    return jsonify(message='File type not allowed'), 400
 
 
 @app.route('/', strict_slashes=False)
