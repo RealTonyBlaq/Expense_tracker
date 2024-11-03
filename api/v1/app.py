@@ -138,7 +138,7 @@ def stats():
                    online_users=len(db.query(User).filter_by(is_logged_in = True).all())), 200
 
 
-@app.route('/api/v1/upload-avatar', methods=['POST'], strict_slashes=False)
+@app.route('/api/v1/upload-avatar', methods=['POST', 'DELETE'], strict_slashes=False)
 @jwt_required()
 def post_profile_picture():
     """ Handles Picture upload """
@@ -146,7 +146,6 @@ def post_profile_picture():
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
-    print(request.files)
     if 'image' not in request.files:
         return jsonify(message='No image found in the request'), 400
 
