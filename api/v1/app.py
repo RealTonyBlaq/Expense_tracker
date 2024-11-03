@@ -138,7 +138,7 @@ def stats():
                    online_users=len(db.query(User).filter_by(is_logged_in = True).all())), 200
 
 
-@app.route('/api/v1/upload-avatar', methods=['POST', 'DELETE'], strict_slashes=False)
+@app.route('/api/v1/avatar', methods=['GET', 'POST', 'DELETE'], strict_slashes=False)
 @jwt_required()
 def post_profile_picture():
     """ Handles Picture upload """
@@ -146,21 +146,22 @@ def post_profile_picture():
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
-    if 'image' not in request.files:
-        return jsonify(message='No image found in the request'), 400
+    if request.method == 'POST':
+        if 'image' not in request.files:
+            return jsonify(message='No image found in the request'), 400
 
-    file = request.files['image']
-    if not file or file.filename == '':
-        return jsonify(message='No file selected'), 400
+        file = request.files['image']
+        if not file or file.filename == '':
+            return jsonify(message='No file selected'), 400
 
-    if allowed_file(file.filename):
-        file_ext = file.filename.rsplit('.', 1)[1]
-        filename = f'User{current_user.id}.{file_ext}'
-        filepath = path.join(app.config['UPLOADS_FOLDER'], filename)
-        file.save(filepath)
-        return jsonify(message='image upload successful!'), 200
+        if allowed_file(file.filename):
+            file_ext = file.filename.rsplit('.', 1)[1]
+            filename = f'User{current_user.id}.{file_ext}'
+            filepath = path.join(app.config['UPLOADS_FOLDER'], filename)
+            file.save(filepath)
+            return jsonify(message='image upload successful!'), 200
 
-    return jsonify(message='File type not allowed'), 400
+        return jsonify(message='File type not allowed'), 400
 
 
 @app.route('/', strict_slashes=False)
