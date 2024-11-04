@@ -149,6 +149,8 @@ def post_profile_picture():
     Handles Picture upload
 
     /GET - Returns the User's picture
+    /POST - Uploads a user's picture to the server
+    /DELETE - Deletes any p
     """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
@@ -184,7 +186,7 @@ def post_profile_picture():
             filename = f'User{current_user.id}.{file_ext}'
             filepath = path.join(app.config['UPLOADS_FOLDER'], filename)
             file.save(filepath)
-            return jsonify(message='image upload successful!'), 200
+            return jsonify(message='image upload successful!'), 201
 
         return jsonify(message='File type not allowed'), 400
 
@@ -193,6 +195,8 @@ def post_profile_picture():
         for f in scandir(app.config['UPLOADS_FOLDER']):
             if f.is_file() and f.name.startswith(file_prefix):
                 remove(path.join(app.config['UPLOADS_FOLDER'], f.name))
+
+        return jsonify(message='success'), 200
 
 
 @app.route('/', strict_slashes=False)
