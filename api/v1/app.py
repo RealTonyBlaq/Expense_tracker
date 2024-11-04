@@ -188,6 +188,12 @@ def post_profile_picture():
 
         return jsonify(message='File type not allowed'), 400
 
+    if request.method == 'DELETE':
+        file_prefix = f'User{current_user.id}'
+        for f in scandir(app.config['UPLOADS_FOLDER']):
+            if f.is_file() and f.name.startswith(file_prefix):
+                remove(path.join(app.config['UPLOADS_FOLDER'], f.name))
+
 
 @app.route('/', strict_slashes=False)
 def index():
