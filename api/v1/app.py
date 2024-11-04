@@ -149,8 +149,8 @@ def post_profile_picture():
     Handles Picture upload
 
     /GET - Returns the User's picture
-    /POST - Uploads a user's picture to the server
-    /DELETE - Deletes any p
+    /POST - Uploads a User's picture to the server
+    /DELETE - Deletes any saved picture of the User
     """
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
