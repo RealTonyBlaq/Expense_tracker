@@ -3,7 +3,8 @@
 
 from api.v1 import ETapp
 from dotenv import load_dotenv, find_dotenv
-from flask import abort, Flask, jsonify, request, render_template, send_from_directory
+from flask import (abort, Flask, jsonify, request,
+                   render_template, send_from_directory)
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, get_current_user
 from utilities import db
@@ -15,7 +16,6 @@ import sys
 
 app_env = find_dotenv()
 load_dotenv(app_env)
-
 
 app = Flask(__name__,
             template_folder='../../web_flask/templates',
@@ -176,6 +176,7 @@ def post_profile_picture():
                 if f.is_file() and f.name.startswith(file_prefix):
                     remove(path.join(app.config['UPLOADS_FOLDER'], f.name))
 
+            # Save the picture to the server
             file_ext = file.filename.rsplit('.', 1)[1]
             filename = f'User{current_user.id}.{file_ext}'
             filepath = path.join(app.config['UPLOADS_FOLDER'], filename)
