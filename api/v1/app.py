@@ -171,6 +171,11 @@ def post_profile_picture():
 
         if allowed_file(file.filename):
             # check for previous picture and delete it
+            file_prefix = f'User{current_user.id}'
+            for f in scandir(app.config['UPLOADS_FOLDER']):
+                if f.is_file() and f.name.startswith(file_prefix):
+                    f
+
             
             file_ext = file.filename.rsplit('.', 1)[1]
             filename = f'User{current_user.id}.{file_ext}'
