@@ -35,7 +35,9 @@ app.config['JWT_COOKIE_SAMESITE'] = None
 app.config['MAIL_DEFAULT_SENDER'] = getenv('MAIL_DEFAULT_SENDER')
 app.config['MAIL_PASSWORD'] = getenv('MAIL_PASSWORD')
 app.config['JWT_COOKIE_CSRF_PROTECT'] = True
-app.config['UPLOADS_FOLDER'] = getenv('UPLOADS_FOLDER', 'uploads')
+file_folder = getenv('UPLOADS_FOLDER', 'uploads')
+UPLOAD_FOLDER = path.join(path.dirname(path.abspath(__file__)), file_folder)
+app.config['UPLOADS_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 7 * 1024 * 1024
 
 
@@ -156,7 +158,7 @@ def post_profile_picture():
         if len(files) == 0:
             abort(404)
 
-        return send_from_directory(app.config['UPLOADS_FOLDER'], files[0], as_attachment=True)
+        return send_from_directory(app.config['UPLOADS_FOLDER'], files[0])
 
 
     if request.method == 'POST':
