@@ -70,7 +70,7 @@ def allowed_file(filename: str) -> bool:
 def user_obj_loader(jwt_header, jwt_data: dict):
     """ Loads the user object using the email parsed in the JWT"""
     email = jwt_data['sub']
-    return db.query(User).filter_by(email = email).first()
+    return db.query(User).filter_by(email=email).first()
 
 
 @jwt.user_identity_loader
@@ -137,10 +137,12 @@ def unauthorized(error):
 def stats():
     """ Returns a count of User, Category and Expense objects """
     return jsonify(users=len(db.all(User)),
-                   online_users=len(db.query(User).filter_by(is_logged_in = True).all())), 200
+                   online_users=len(db.query(User).filter_by(
+                       is_logged_in=True).all())), 200
 
 
-@app.route('/api/v1/avatar', methods=['GET', 'POST', 'DELETE'], strict_slashes=False)
+@app.route('/api/v1/avatar', methods=['GET', 'POST', 'DELETE'],
+           strict_slashes=False)
 @jwt_required()
 def post_profile_picture():
     """
@@ -154,7 +156,8 @@ def post_profile_picture():
 
     if request.method == 'GET':
         file_prefix = f'User{current_user.id}'
-        files = [f.name for f in scandir(app.config['UPLOADS_FOLDER']) if f.is_file() and f.name.startswith(file_prefix)]
+        files = [f.name for f in scandir(app.config['UPLOADS_FOLDER']) \
+            if f.is_file() and f.name.startswith(file_prefix)]
 
         if len(files) == 0:
             abort(404)
