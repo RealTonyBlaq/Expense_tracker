@@ -24,8 +24,8 @@ app = Flask(__name__,
 
 app.config['JWT_SECRET_KEY'] = getenv('SECRET_KEY')
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = int(getenv('JWT_ACCESS_TOKEN_EXPIRES'))
-app.config['JWT_ACCESS_CSRF_COOKIE_NAME'] = getenv('JWT_ACCESS_CSRF_COOKIE_NAME')
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = int(getenv('JWT_TOKEN_EXPIRES'))
+app.config['JWT_ACCESS_CSRF_COOKIE_NAME'] = getenv('JWT_CSRF_COOKIE_NAME')
 app.config['JWT_ACCESS_COOKIE_NAME'] = getenv('JWT_ACCESS_COOKIE_NAME')
 app.config['SECURITY_PASSWORD_SALT'] = getenv('SECURITY_PASSWORD_SALT')
 app.config['SESSION_COOKIE_HTTPONLY'] = True
@@ -156,14 +156,13 @@ def post_profile_picture():
 
     if request.method == 'GET':
         file_prefix = f'User{current_user.id}'
-        files = [f.name for f in scandir(app.config['UPLOADS_FOLDER']) \
-            if f.is_file() and f.name.startswith(file_prefix)]
+        files = [f.name for f in scandir(app.config['UPLOADS_FOLDER'])
+                 if f.is_file() and f.name.startswith(file_prefix)]
 
         if len(files) == 0:
             abort(404)
 
         return send_from_directory(app.config['UPLOADS_FOLDER'], files[0])
-
 
     if request.method == 'POST':
         if 'image' not in request.files:
