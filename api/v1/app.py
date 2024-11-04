@@ -8,7 +8,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, get_current_user
 from utilities import db
 from models.user import User
-from os import getenv, makedirs, path, scandir
+from os import getenv, makedirs, path, scandir, remove
 import signal
 import sys
 
@@ -174,9 +174,8 @@ def post_profile_picture():
             file_prefix = f'User{current_user.id}'
             for f in scandir(app.config['UPLOADS_FOLDER']):
                 if f.is_file() and f.name.startswith(file_prefix):
-                    f
+                    remove(path.join(app.config['UPLOADS_FOLDER'], f.name))
 
-            
             file_ext = file.filename.rsplit('.', 1)[1]
             filename = f'User{current_user.id}.{file_ext}'
             filepath = path.join(app.config['UPLOADS_FOLDER'], filename)
