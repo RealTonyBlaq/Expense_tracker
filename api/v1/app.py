@@ -170,6 +170,8 @@ def post_profile_picture():
             return jsonify(message='No file selected'), 400
 
         if allowed_file(file.filename):
+            # check for previous picture and delete it
+            
             file_ext = file.filename.rsplit('.', 1)[1]
             filename = f'User{current_user.id}.{file_ext}'
             filepath = path.join(app.config['UPLOADS_FOLDER'], filename)
