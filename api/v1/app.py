@@ -40,11 +40,11 @@ UPLOAD_FOLDER = path.join(path.dirname(path.abspath(__file__)), file_folder)
 app.config['UPLOADS_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 7 * 1024 * 1024
 
-
 makedirs(app.config['UPLOADS_FOLDER'], exist_ok=True)
 
 app.register_blueprint(ETapp)
-CORS(app, resources={r"/api/v1/*": {"origins": "*"}}, supports_credentials=True)
+CORS(app, resources={r"/api/v1/*": {"origins": "*"}},
+     supports_credentials=True)
 jwt = JWTManager(app)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -62,7 +62,8 @@ def sig_handler(sig, frame):
 
 def allowed_file(filename: str) -> bool:
     """ Validates an uploaded file """
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @jwt.user_lookup_loader
