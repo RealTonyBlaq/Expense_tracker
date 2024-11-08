@@ -33,9 +33,8 @@ def get_categories(category_id=None):
 
         return jsonify(message='success', data=data), 200
 
-    all_category = db.query(Category).filter_by(user_id = current_user.id).all()
     data = []
-    for cat in all_category:
+    for cat in current_user.categories:
         obj = cat.to_dict()
         obj['expenses'] = [e.to_dict() for e in cat.expenses]
         obj['recurring_expenses'] = [rec.to_dict() for rec in cat.recurring_expenses]
