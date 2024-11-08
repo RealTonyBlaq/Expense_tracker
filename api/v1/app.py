@@ -124,13 +124,13 @@ def shutdown(error=None):
 @app.errorhandler(404)
 def not_found(error):
     """ Returns a JSON if a request route was not found """
-    return jsonify(error='Not Found')
+    return jsonify(error='Not Found'), 404
 
 
 @app.errorhandler(401)
 def unauthorized(error):
     """ Returns a JSON if a request was unauthorized """
-    return jsonify(message='user not logged in')
+    return jsonify(message='user not logged in'), 401
 
 
 @app.route('/api/stats', strict_slashes=False)
@@ -163,7 +163,6 @@ def post_profile_picture():
 
         if len(files) == 0:
             abort(404)
-
         return send_from_directory(app.config['UPLOADS_FOLDER'], files[0])
 
     if request.method == 'POST':
@@ -175,7 +174,7 @@ def post_profile_picture():
             return jsonify(message='No file selected'), 400
 
         if allowed_file(file.filename):
-            # check for previous picture and delete it
+            # check for previous uploaded picture and delete it
             file_prefix = f'User{current_user.id}'
             for f in scandir(app.config['UPLOADS_FOLDER']):
                 if f.is_file() and f.name.startswith(file_prefix):
