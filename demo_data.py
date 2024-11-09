@@ -40,7 +40,7 @@ earnings_data = [
     for _ in range(50)
 ]
 
-def create_random_categories(user: User):
+def create_random_categories(user_id):
     """ Creates 20 expense categories for a user """
     expense_types = [
         "Rent",
@@ -65,10 +65,10 @@ def create_random_categories(user: User):
         "Gifts & Donations"
     ]
     for expense_name in expense_types:
-        new_category = Category(name=expense_name, user_id=user.id)
+        new_category = Category(name=expense_name, user_id=user_id)
         new_category.save()
 
 
-expense_data = [
+def expense_data(user_id) -> list:
+    """ Returns a list of auto generated data for a user """
     
-]
