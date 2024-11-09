@@ -74,3 +74,9 @@ def expense_data(user_id) -> list:
     """ Returns a list of auto generated data for a user """
     categories = [c.id for c in db.query(Category).filter_by(user_id=user_id).all()]
 
+    return [
+        {
+            "category_id": random.choice(categories),
+            "amount": 
+        }
+    ]
