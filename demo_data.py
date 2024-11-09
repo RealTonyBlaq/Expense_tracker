@@ -88,7 +88,7 @@ def recurring_expense_data(user_id) -> list:
     """ Generates random recurring expense data """
     categories = [c.id for c in db.query(Category).filter_by(user_id=user_id).all()]
 
-    return [
+    for 
         {
             "category_id": random.choice(categories),
             "amount": random_amount(),
