@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from models.category import Category
 from models.user import User
+from utilities import db
 
 
 # Helper functions to generate random values
@@ -71,4 +72,5 @@ def create_random_categories(user_id):
 
 def expense_data(user_id) -> list:
     """ Returns a list of auto generated data for a user """
-    
+    categories = [c.id for c in db.query(Category).filter_by(user_id=user_id).all()]
+
