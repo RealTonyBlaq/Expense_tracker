@@ -1,6 +1,7 @@
 import random
 from datetime import datetime, timedelta
 from decimal import Decimal
+from models.category import Category
 from models.user import User
 
 
@@ -41,4 +42,27 @@ earnings_data = [
 
 def create_random_categories(user: User):
     """ Creates 20 expense categories for a user """
-    
+    expense_types = [
+        "Rent",
+        "Utilities",
+        "Groceries",
+        "Transportation",
+        "Insurance",
+        "Healthcare",
+        "Internet",
+        "Subscriptions",
+        "Entertainment",
+        "Dining Out",
+        "Loan Payments",
+        "Credit Card Payments",
+        "Gym Membership",
+        "Clothing",
+        "Education",
+        "Pet Supplies",
+        "Phone Bill",
+        "Home Maintenance",
+        "Personal Care",
+        "Gifts & Donations"
+    ]
+    for expense_name in expense_types:
+        new_category = Category(name=ex)
