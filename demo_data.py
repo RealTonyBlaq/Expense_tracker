@@ -77,6 +77,11 @@ def expense_data(user_id) -> list:
     return [
         {
             "category_id": random.choice(categories),
-            "amount": 
+            "amount": random_amount(),
+            "description": random_description(),
+            "date_occurred": random_date(),
         }
+        for _ in range(40)
     ]
+
+def recurring_expense_data(user_id) -> list
