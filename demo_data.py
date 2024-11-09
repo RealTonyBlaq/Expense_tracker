@@ -65,4 +65,9 @@ def create_random_categories(user: User):
         "Gifts & Donations"
     ]
     for expense_name in expense_types:
-        new_category = Category(name=ex)
+        new_category = Category(name=expense_name, user_id=user.id)
+        new_category.save()
+
+expense_data = [
+    
+]
