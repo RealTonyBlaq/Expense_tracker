@@ -97,5 +97,5 @@ def recurring_expense_data(user_id) -> list:
             "end_date": random_date(),
             "frequency": random.choice(['daily', 'weekly', 'monthly'])
         }
-        for _ in range()
+        for _ in range(100)
     ]
