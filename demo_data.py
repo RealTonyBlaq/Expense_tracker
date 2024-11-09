@@ -68,6 +68,7 @@ def create_random_categories(user: User):
         new_category = Category(name=expense_name, user_id=user.id)
         new_category.save()
 
+
 expense_data = [
     
 ]
