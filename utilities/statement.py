@@ -20,5 +20,6 @@ class Statement:
         })
 
         df.loc[len(df)] = ['', '']
+        df.loc[len(df)] = ['', '']
 
-        df.loc[len(df)] = pd.DataFrame()
+        df2 = pd.DataFrame
