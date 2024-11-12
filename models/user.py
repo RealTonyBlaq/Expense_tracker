@@ -61,4 +61,6 @@ class User(UserMixin, BaseModel, Base):
             'Description': t.get('description')} for t in all_txns]
         sorted_txns = sorted(txns, key=lambda x: x['Date_occurred'], reverse=True)
         for t in sorted_txns:
-            t['Date_occurred'] = t['Date_occurred']
+            t['Date_occurred'] = datetime.strftime(t['Date_occurred'], format)
+
+        return sorted_txns
