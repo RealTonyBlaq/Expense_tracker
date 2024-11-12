@@ -22,4 +22,6 @@ class Statement:
         df.loc[len(df)] = ['', '']
         df.loc[len(df)] = ['', '']
 
-        df2 = pd.DataFrame
+        df2 = pd.DataFrame({
+            'Date of Transaction': []
+        })
