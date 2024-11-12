@@ -23,5 +23,7 @@ class Statement:
         df.loc[len(df)] = ['', '']
 
         df2 = pd.DataFrame({
-            'Date of Transaction': []
+            'Date of Transaction': [d['Date_occurred'] for d in txns],
+            'Description': [des['Description'] for des in txns]
+            ''
         })
