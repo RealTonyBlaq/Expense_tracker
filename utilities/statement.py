@@ -29,6 +29,4 @@ class Statement:
             'Transaction Type': ['Credit' if t.get('Type') == 'Earning' else 'Debit' for t in txns]
         })
 
-        empty_row_index = len(df) - 1
-
         return [df, df2]
