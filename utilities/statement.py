@@ -26,7 +26,7 @@ class Statement:
             'Date of Transaction': [d['Date_occurred'] for d in txns],
             'Description': [des['Description'] for des in txns],
             'Amount': [a['Amount'] for a in txns],
-            'Transaction Type': [t['Type'] for t in txns]
+            'Transaction Type': ['Credit' for t in txns if t['Type'] == '']
         })
 
         empty_row_index = len(df) - 1
