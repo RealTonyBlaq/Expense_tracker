@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ The User Model """
 
+from datetime import datetime
 from flask_login import UserMixin
 from models.base import Base, BaseModel
 from sqlalchemy import String, Column, Boolean, DateTime, Integer
@@ -52,7 +53,7 @@ class User(UserMixin, BaseModel, Base):
 
         all_txns = earnings + expenses
         txns = [{
-            'Type': t.get('type'), 'Amount': float(t.get('amount'),
-            'Date_occurred': t.get('date_occurred'),
+            'Type': t.get('type'), 'Amount': float(t.get('amount')),
+            'Date_occurred': datetime.t.get('date_occurred'),
             'Description': t.get('description')} for t in all_txns]
         return sorted(txns, key=lambda x: x['Date_occurred'], reverse=True)
