@@ -3,3 +3,10 @@
 
 import pandas as pd
 from openpyxl import load_workbook
+
+
+class Statement:
+    """ The statement class """
+
+    @classmethod
+    def get_excel_file
