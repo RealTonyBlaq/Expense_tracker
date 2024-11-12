@@ -9,6 +9,9 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.sqlite import TEXT
 
 
+format = "%a, %b %d, %Y %X"
+
+
 class User(UserMixin, BaseModel, Base):
     """ Defining the User class """
     __tablename__ = "users"
@@ -54,7 +57,8 @@ class User(UserMixin, BaseModel, Base):
         all_txns = earnings + expenses
         txns = [{
             'Type': t.get('type'), 'Amount': float(t.get('amount')),
-            'Date_occurred': datetime.strftime(t.get('date_occurred'),
-                                               "%a, %b %d, %Y %X"),
+            'Date_occurred': t.get('date_occurred'),
             'Description': t.get('description')} for t in all_txns]
-        return sorted(txns, key=lambda x: x['Date_occurred'], reverse=True)
+        sorted_txns = sorted(txns, key=lambda x: x['Date_occurred'], reverse=True)
+        for t in sorted_txns:
+            t['Date_occurred'] = t['Date_occurred']
