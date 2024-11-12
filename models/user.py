@@ -51,5 +51,5 @@ class User(UserMixin, BaseModel, Base):
         # recurring_expenses = [r.to_dict() for r in self.recurring_expenses]
 
         all_txns = earnings + expenses
-        txns = [{}]
+        txns = [{type=t.get('type')} for t in all_txns]
         sorted_txns = sorted(all_txns, key=lambda x: x['date_occurred'], reverse=True)
