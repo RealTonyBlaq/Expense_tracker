@@ -52,4 +52,4 @@ class User(UserMixin, BaseModel, Base):
 
         all_txns = earnings + expenses
 
-        return all_txns.sort(key=lambda x: x['date_occurred'], reverse=True)
+        return sorted(all_txns, key=lambda x: x['date_occurred'], reverse=True)
