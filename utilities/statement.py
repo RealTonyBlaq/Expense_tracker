@@ -36,4 +36,4 @@ class Statement:
         df_part2 = df.iloc[empty_row_index + 1:]  # Remaining rows after the empty row
 
         df = pd.concat([df_part1, df2, df_part2])
-        return df
+        return [df, df2]
