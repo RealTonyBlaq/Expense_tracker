@@ -3,10 +3,13 @@
 
 import pandas as pd
 from openpyxl import load_workbook
+from models.user import User
 
 
 class Statement:
     """ The statement class """
 
     @classmethod
-    def get_excel_file
+    def get_excel_file(self, user: User):
+        """ Returns the Excel workbook """
+        
