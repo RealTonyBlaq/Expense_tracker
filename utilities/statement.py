@@ -15,6 +15,6 @@ class Statement:
         txns = user.generate_statement()
 
         df = pd.DataFrame({
-            "Contact Information": ['First Name', 'Last Name', 'Email']
-            "Details": []
+            "Contact Information": ['First Name', 'Last Name', 'Email'],
+            "Details": [user.first_name, user.last_name]
         })
