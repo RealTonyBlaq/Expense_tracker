@@ -3,14 +3,9 @@
 
 from flask_login import UserMixin
 from models.base import Base, BaseModel
-from models.earning import Earning
-from models.expense import Expense
-from models.recurring_expense import RecurringExpense
-from models.tag import Tag
 from sqlalchemy import String, Column, Boolean, DateTime, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.sqlite import TEXT
-from utilities import db
 
 
 class User(UserMixin, BaseModel, Base):
