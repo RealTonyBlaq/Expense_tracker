@@ -24,6 +24,7 @@ class Statement:
 
         df2 = pd.DataFrame({
             'Date of Transaction': [d['Date_occurred'] for d in txns],
-            'Description': [des['Description'] for des in txns]
-            ''
+            'Description': [des['Description'] for des in txns],
+            'Amount': [a['Amount'] for a in txns],
+            'Transaction Type': [t['Type'] for t in txns]
         })
