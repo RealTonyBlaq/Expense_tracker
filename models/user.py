@@ -50,6 +50,5 @@ class User(UserMixin, BaseModel, Base):
         expenses = [ex.to_dict() for ex in self.expenses]
         recurring_expenses = [r.to_dict() for r in self.recurring_expenses]
 
-
         all_txns = earnings + expenses + recurring_expenses
         return all_txns
