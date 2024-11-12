@@ -28,3 +28,5 @@ class Statement:
             'Amount': [a['Amount'] for a in txns],
             'Transaction Type': [t['Type'] for t in txns]
         })
+
+        
