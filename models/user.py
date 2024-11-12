@@ -44,3 +44,6 @@ class User(UserMixin, BaseModel, Base):
     def is_authenticated(self):
         """ Returns whether a user is logged in """
         return self.is_logged_in
+
+    def generate_statement(self) -> list:
+        """ Returns a list of Earning, Expense and RecurringExpense objects"""
