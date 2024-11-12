@@ -52,7 +52,7 @@ class User(UserMixin, BaseModel, Base):
 
         all_txns = earnings + expenses
         txns = [{
-            'type': t.get('type'), 'amount': t.get('amount'),
-            'date_occurred': t.get('date_occurred'),
-            } for t in all_txns]
-        sorted_txns = sorted(all_txns, key=lambda x: x['date_occurred'], reverse=True)
+            'Type': t.get('type'), 'Amount': float(t.get('amount'),
+            'Date_occurred': t.get('date_occurred'),
+            'Description': t.get('description')} for t in all_txns]
+        return sorted(txns, key=lambda x: x['Date_occurred'], reverse=True)
