@@ -16,5 +16,7 @@ class Statement:
 
         df = pd.DataFrame({
             "Contact Information": ['First Name', 'Last Name', 'Email'],
-            "Details": [user.first_name, user.last_name]
+            "Details": [user.first_name, user.last_name, user.email]
         })
+
+        df.loc()
