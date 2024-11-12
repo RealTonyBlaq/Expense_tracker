@@ -48,8 +48,8 @@ class User(UserMixin, BaseModel, Base):
         """ Returns a list of Earning, Expense and RecurringExpense objects """
         earnings = [e.to_dict() for e in self.earnings]
         expenses = [ex.to_dict() for ex in self.expenses]
-        recurring_expenses = [r.to_dict() for r in self.recurring_expenses]
+        # recurring_expenses = [r.to_dict() for r in self.recurring_expenses]
 
-        all_txns = earnings + expenses + recurring_expenses
+        all_txns = earnings + expenses
 
-        return sorted()
+        return sorted(all_txns, )
