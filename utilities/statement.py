@@ -31,8 +31,4 @@ class Statement:
 
         empty_row_index = len(df) - 1
 
-        # Split the DataFrame into two parts
-        df_part1 = df.iloc[:empty_row_index + 1]  # Including the empty row
-        df_part2 = df.iloc[empty_row_index + 1:]  # Remaining rows after the empty row
-
         return [df, df2]
