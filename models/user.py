@@ -7,6 +7,7 @@ from models.tag import Tag
 from sqlalchemy import String, Column, Boolean, DateTime, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.sqlite import TEXT
+from utilities import db
 
 
 class User(UserMixin, BaseModel, Base):
@@ -46,4 +47,5 @@ class User(UserMixin, BaseModel, Base):
         return self.is_logged_in
 
     def generate_statement(self) -> list:
-        """ Returns a list of Earning, Expense and RecurringExpense objects"""
+        """ Returns a list of Earning, Expense and RecurringExpense objects """
+        
