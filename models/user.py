@@ -35,12 +35,12 @@ class User(UserMixin, BaseModel, Base):
                                       cascade='all, delete, delete-orphan')
 
     @property
-    def is_active(self):
+    def is_active(self) -> bool:
         """ Returns whether a user is authenticated/verified """
         return self.is_email_verified
 
     @property
-    def is_authenticated(self):
+    def is_authenticated(self) -> bool:
         """ Returns whether a user is logged in """
         return self.is_logged_in
 
@@ -51,4 +51,5 @@ class User(UserMixin, BaseModel, Base):
         # recurring_expenses = [r.to_dict() for r in self.recurring_expenses]
 
         all_txns = earnings + expenses
-        return sorted(all_txns, key=lambda x: x['date_occurred'], reverse=True)
+        txns = [{}]
+        sorted_txns = sorted(all_txns, key=lambda x: x['date_occurred'], reverse=True)
