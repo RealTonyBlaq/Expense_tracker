@@ -48,7 +48,7 @@ class User(UserMixin, BaseModel, Base):
         """ Returns a list of Earning, Expense and RecurringExpense objects """
         earnings = [e.to_dict().update(type="Earning") for e in self.earnings]
         expenses = [ex.to_dict().update(type="Expense") for ex in self.expenses]
-        recurring_expenses = [r.to_dict().update(type) for r in self.recurring_expenses]
+        recurring_expenses = [r.to_dict().update(type="RecurringExpense") for r in self.recurring_expenses]
 
         all_txns = earnings + expenses + recurring_expenses
         return all_txns
