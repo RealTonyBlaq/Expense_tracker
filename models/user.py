@@ -46,7 +46,7 @@ class User(UserMixin, BaseModel, Base):
 
     def generate_statement(self) -> list:
         """ Returns a list of Earning, Expense and RecurringExpense objects """
-        earnings = [e.to_dict() for e in self.earnings]
+        earnings = [e.to_dict().u for e in self.earnings]
         expenses = [ex.to_dict() for ex in self.expenses]
         recurring_expenses = [r.to_dict() for r in self.recurring_expenses]
 
