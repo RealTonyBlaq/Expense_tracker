@@ -55,6 +55,6 @@ class User(UserMixin, BaseModel, Base):
         txns = [{
             'Type': t.get('type'), 'Amount': float(t.get('amount')),
             'Date_occurred': datetime.strftime(t.get('date_occurred'),
-                                               "%Y-%m-%d : %hh:%mm:%ss"),
+                                               "%b %d, %Y %X"),
             'Description': t.get('description')} for t in all_txns]
         return sorted(txns, key=lambda x: x['Date_occurred'], reverse=True)
