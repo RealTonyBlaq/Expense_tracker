@@ -19,6 +19,6 @@ class Statement:
             "Details": [user.first_name, user.last_name, user.email]
         })
 
-        df.loc(len(df)) = ['', '']
+        df.loc[len(df)] = ['', '']
 
-        df.loc(len(df)) = pd.DataFrame()
+        df.loc[len(df)] = pd.DataFrame()
