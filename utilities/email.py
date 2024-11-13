@@ -32,8 +32,19 @@ class Email:
     def send_statement(self, user):
         """ Sends the user's full statement to the user """
         df_html = Statement.get_html(user)
+        subject = ""
         content = f"""
         Dear {user.first_name} {user.last_name},
 
-        
+        Your statement was generated successfully!
+        Kindly find your statement below:
+
+        {df_html}
+
+        Regards,
+
+        Expense Tracker Team.
+
+        If you did not initiate this kindly reset your password \
+            or contact the team for further assistance.
         """
