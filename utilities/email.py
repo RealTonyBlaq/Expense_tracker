@@ -32,7 +32,7 @@ class Email:
     def send_statement(self, user):
         """ Sends the user's full statement to the user """
         df_html = Statement.get_html(user)
-        subject = ""
+        subject = "Expense statement - Expense Tracker"
         content = f"""
         Dear {user.first_name} {user.last_name},
 
@@ -48,3 +48,10 @@ class Email:
         If you did not initiate this kindly reset your password \
             or contact the team for further assistance.
         """
+
+        try:
+            self.connect.send(user.email, subject=subject, contents=content)
+            self.connect.close()
+            return True
+        except (YagAddressError, YagInvalidEmailAddress):
+            return False
