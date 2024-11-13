@@ -20,12 +20,14 @@ class Email:
         """ sends a confirmation email with token """
         if email and subject and content:
             try:
-                connect.send(email, subject=subject, contents=content)
-                connect.close()
+                self.connect.send(email, subject=subject, contents=content)
+                self.connect.close()
                 return True
             except (YagAddressError, YagInvalidEmailAddress):
                 pass
 
         return False
 
-    def send_statement(self, )
+    def send_statement(self, user, dataframe):
+        """ Sends the user's full statement to the user """
+        
