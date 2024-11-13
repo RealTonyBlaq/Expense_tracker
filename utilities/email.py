@@ -7,6 +7,11 @@ from yagmail.error import YagInvalidEmailAddress, YagAddressError
 
 class Email:
     """ Defining the Email class """
+    from api.v1.app import app
+
+    dev_email = app.config['MAIL_DEFAULT_SENDER']
+    dev_password = app.config['MAIL_PASSWORD']
+
 
     @classmethod
     def send(self, email: str, subject: str, content: str) -> bool:
