@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ Email service for Expense Tracker """
 
+from utilities.statement import Statement
 import yagmail
 from yagmail.error import YagInvalidEmailAddress, YagAddressError
 
@@ -28,6 +29,7 @@ class Email:
 
         return False
 
-    def send_statement(self, user, dataframe):
+    def send_statement(self, user):
         """ Sends the user's full statement to the user """
+        df_html = Statement.get_html(user)
         
