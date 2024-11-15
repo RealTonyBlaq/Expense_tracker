@@ -34,11 +34,12 @@ class BaseModel:
     def to_dict(self) -> dict:
         """ Returns a dictionary of the object's key-value pairs """
         from utilities import db
-        obj = db.query(self.__class__).filter_by(id = self.id).first()
+        obj = db.query(self.__class__).filter_by(id=self.id).first()
         if not obj:
             return {}
 
         obj_dict = {}
+        obj_dict['type'] = self.__class__.__name__
         for key, value in obj.__dict__.items():
             if key not in ['_sa_instance_state', 'password', 'token']:
                 obj_dict[key] = value
