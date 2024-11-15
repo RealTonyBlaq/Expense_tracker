@@ -6,12 +6,7 @@ from api.v1.routes.auth import hash_password
 from datetime import datetime
 from flask import abort, jsonify, request
 from flask_jwt_extended import jwt_required, get_current_user, unset_jwt_cookies
-from models.user import User
-from models.category import Category
-from models.earning import Earning
-from models.expense import Expense
-from models.recurring_expense import RecurringExpense
-from models.tag import Tag
+from utilities.email import Email
 from werkzeug.exceptions import BadRequest
 
 
@@ -76,3 +71,17 @@ def get_me():
         response = jsonify(message='success')
         unset_jwt_cookies(response)
         return response, 200
+
+
+@ETapp.route('/me/statement', methods=['GET'], strict_slashes=False)
+@jwt_required()
+def my_statement():
+    """ Sends an email to the user containing their expense statement """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
+
+    if not Email.send_statement(current_user):
+        return jsonify(message='An error occurred. Statement could not be generated.'), 400
+
+    return jsonify(message='Statement sent successfully! Please check your inbox.'), 200
