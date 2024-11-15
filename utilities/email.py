@@ -6,31 +6,40 @@ import yagmail
 from yagmail.error import YagInvalidEmailAddress, YagAddressError
 
 
+def _get_default_user() -> list:
+    """ Helper function to return Default Mail details """
+    from api.v1.app import app
+
+    return [app.config['MAIL_DEFAULT_SENDER'], app.config['MAIL_PASSWORD']]
+
+
 class Email:
     """ Defining the Email class """
-
-    def __init__(self):
-        """ Inintializes the variables """
-        from api.v1.app import app
-        dev_email = app.config['MAIL_DEFAULT_SENDER']
-        dev_password = app.config['MAIL_PASSWORD']
-        self.connect = yagmail.SMTP(dev_email, dev_password)
 
     @classmethod
     def send(self, email: str, subject: str, content: str) -> bool:
         """ sends a confirmation email with token """
         if email and subject and content:
+            dev_email, dev_password = _get_default_user()
+            connect = yagmail.SMTP(dev_email, dev_password)
             try:
-                self.connect.send(email, subject=subject, contents=content)
-                self.connect.close()
+                connect.send(email, subject=subject, contents=content)
+                connect.close()
                 return True
             except (YagAddressError, YagInvalidEmailAddress):
                 pass
 
         return False
 
+    @classmethod
     def send_statement(self, user):
         """ Sends the user's full statement to the user """
+        if not user:
+            return False
+
+        dev_email, dev_password = _get_default_user()
+        connect = yagmail.SMTP(dev_email, dev_password)
+
         df_html = Statement.get_html(user)
         subject = "Expense statement - Expense Tracker"
         content = f"""
@@ -38,7 +47,6 @@ class Email:
 
         Your statement was generated successfully!
         Kindly find your statement below:
-
         {df_html}
 
         Regards,
@@ -50,8 +58,8 @@ class Email:
         """
 
         try:
-            self.connect.send(user.email, subject=subject, contents=content)
-            self.connect.close()
+            connect.send(user.email, subject=subject, contents=content)
+            connect.close()
             return True
         except (YagAddressError, YagInvalidEmailAddress):
             return False
