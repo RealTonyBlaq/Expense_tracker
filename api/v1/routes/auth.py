@@ -104,7 +104,9 @@ def signup():
         Best regards,
         The Expense Tracker Team"""
 
-        Email.send(user.email, subject, content)
+        if not Email.send(user.email, subject, content):
+            return jsonify(message='An error occurred!'), 400
+
         # Cache the OTP with the user's email
         key = f'auth_{OTP}'
         cache.set(key, user.email, OTP_TIMEOUT)
@@ -170,7 +172,8 @@ def login():
                 Best regards,
                 The Expense Tracker Team"""
 
-                Email.send(user.email, subject, content)
+                if not Email.send(user.email, subject, content):
+                    return jsonify(message='An error occurred. OTP send failure.')
                 # Cache the OTP
                 key = f'auth_{OTP}'
                 cache.set(key, user.email, OTP_TIMEOUT)
@@ -284,7 +287,9 @@ def reset():
             Best regards,
             The Expense Tracker Team"""
 
-            Email.send(user.email, subject, content)
+            if not Email.send(user.email, subject, content):
+                return jsonify(message='An error occurred. OTP send failure'), 400
+
             # Cache the OTP
             key = f'auth_{OTP}'
             cache.set(key, email, OTP_TIMEOUT)
@@ -339,7 +344,9 @@ def resend_otp(process):
         Best regards,
         The Expense Tracker Team"""
 
-        Email.send(user.email, subject, content)
+        if not Email.send(user.email, subject, content):
+            return jsonify(message='An error occurred. OTP send failure!'), 400
+
         key = f'auth_{OTP}'
         cache.set(key, user.email, OTP_TIMEOUT)
 
@@ -371,7 +378,9 @@ def resend_otp(process):
         Best regards,
         The Expense Tracker Team"""
 
-        Email.send(user.email, subject, content)
+        if not Email.send(user.email, subject, content):
+            return jsonify(message='An error occurred. OTP send failure'), 400
+
         # Cache the OTP
         key = f'auth_{OTP}'
         cache.set(key, user.email, OTP_TIMEOUT)
