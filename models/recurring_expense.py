@@ -2,8 +2,6 @@
 """ The Recurring Expense Model """
 
 from models.base import BaseModel, Base
-from models.category import Category
-from models.user import User
 from sqlalchemy import Column, String, DECIMAL, ForeignKey, DATE, Enum
 from sqlalchemy.dialects.sqlite import TEXT
 from sqlalchemy.orm import relationship
