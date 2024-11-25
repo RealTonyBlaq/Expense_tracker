@@ -2,7 +2,6 @@
 """ The Transaction Statement Excel generator """
 
 import pandas as pd
-from openpyxl import load_workbook
 from models.user import User
 
 
@@ -16,8 +15,8 @@ class Statement:
         df = pd.DataFrame({
             'Date of Transaction': [d['Date_occurred'] for d in txns],
             'Description': [des['Description'] for des in txns],
-            'Amount': [a['Amount'] for a in txns],
-            'Transaction Type': ['Credit' if t.get('Type') == 'Earning' else 'Debit' for t in txns]
+            'Transaction Type': ['Credit' if t.get('Type') == 'Earning' else 'Debit' for t in txns],
+            'Amount': [a['Amount'] for a in txns]
         })
 
-        return df.to_html(index=False)
+        return df.to_html(index=False, classes='styled-table', border=0)
