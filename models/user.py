@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.sqlite import TEXT
 
 
-format = "%a, %b %d, %Y %X"
+format = "%a, %b %d"
 
 
 class User(UserMixin, BaseModel, Base):
@@ -48,7 +48,7 @@ class User(UserMixin, BaseModel, Base):
         """ Returns whether a user is logged in """
         return self.is_logged_in
 
-    def generate_statement(self) -> list:
+    def generate_statement(self, period=None) -> list:
         """ Returns a list of Earning, Expense and RecurringExpense objects """
         earnings = [e.to_dict() for e in self.earnings]
         expenses = [ex.to_dict() for ex in self.expenses]
