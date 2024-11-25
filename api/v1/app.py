@@ -4,7 +4,7 @@
 from api.v1 import ETapp
 from dotenv import load_dotenv, find_dotenv
 from flask import (abort, Flask, jsonify, request,
-                   render_template, send_from_directory)
+                   render_template, send_from_directory, redirect)
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, get_current_user
 from utilities import db
@@ -139,6 +139,12 @@ def stats():
     return jsonify(users=len(db.all(User)),
                    online_users=len(db.query(User).filter_by(
                        is_logged_in=True).all())), 200
+
+
+@app.route('/support', strict_slashes=False)
+def support():
+    """ Redirects to their mail where they can send complaints """
+    return redirect(f'mailto:{app.config["MAIL_DEFAULT_SENDER"]}')
 
 
 @app.route('/api/v1/avatar', methods=['GET', 'POST', 'DELETE'],
