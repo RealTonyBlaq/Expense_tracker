@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """ Email service for Expense Tracker """
 
+from datetime import datetime
 from utilities.statement import Statement
 import yagmail
 from yagmail.error import YagInvalidEmailAddress, YagAddressError
+import re
 
 
 def _get_default_user() -> list:
@@ -18,7 +20,7 @@ class Email:
 
     @classmethod
     def send(self, email: str, subject: str, content: str) -> bool:
-        """ sends a confirmation email with token """
+        """ Sends a confirmation email with token """
         if email and subject and content:
             dev_email, dev_password = _get_default_user()
             connect = yagmail.SMTP(dev_email, dev_password)
@@ -40,22 +42,165 @@ class Email:
         dev_email, dev_password = _get_default_user()
         connect = yagmail.SMTP(dev_email, dev_password)
 
+        # Generate styled HTML for DataFrame
         df_html = Statement.get_html(user)
-        subject = "Expense statement - Expense Tracker"
+        df_html = df_html.replace('<table border="1"', '<table class="styled-table"')
+
+        subject = "Expense Statement - Expense Tracker"
+
+        # Enhanced HTML email content with reduced whitespace
         content = f"""
-        Dear {user.first_name} {user.last_name},
-
-        Your statement was generated successfully!
-        Kindly find your statement below:
-        {df_html}
-
-        Regards,
-
-        Expense Tracker Team.
-
-        If you did not initiate this kindly reset your password \
-            or contact the team for further assistance.
+        <html>
+        <head>
+            <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    background-color: #f5f5f5;
+                    color: #333;
+                    margin: 0;
+                    padding: 20px;
+                }}
+                .email-container {{
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background-color: #ffffff;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }}
+                .header {{
+                    background-color: #4CAF50;
+                    color: #ffffff;
+                    padding: 10px;
+                    text-align: center;
+                    border-radius: 10px 10px 0 0;
+                }}
+                .header h2 {{
+                    margin: 0;
+                    font-size: 24px;
+                }}
+                .content {{
+                    padding: 20px;
+                }}
+                .content p {{
+                    font-size: 16px;
+                    line-height: 1.6;
+                    margin: 10px 0;
+                }}
+                .statement-container {{
+                    margin: 20px 0;
+                }}
+                .summary {{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin: 20px 0;
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                    border-radius: 10px;
+                    background-color: #f9f9f9;
+                }}
+                .money-in, .money-out {{
+                    flex: 1;
+                    text-align: center;
+                    padding: 10px;
+                    margin: 0 10px;
+                    border-radius: 10px;
+                    background-color: #e8f5e9;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                }}
+                .money-in h4, .money-out h4 {{
+                    margin: 5px 0;
+                    font-size: 20px;
+                    color: #2e7d32;
+                }}
+                .money-out h4 {{
+                    color: #c62828;
+                }}
+                .money-in p, .money-out p {{
+                    font-size: 16px;
+                    margin: 0;
+                    color: #555;
+                }}
+                .styled-table {{
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 14px;
+                    text-align: left;
+                }}
+                .styled-table th, .styled-table td {{
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                }}
+                .styled-table th {{
+                    background-color: #f4f4f4;
+                }}
+                .styled-table tr:nth-child(even) {{
+                    background-color: #f9f9f9;
+                }}
+                .footer {{
+                    text-align: center;
+                    font-size: 12px;
+                    color: #888;
+                    padding: 10px;
+                    border-top: 1px solid #ddd;
+                }}
+                .button {{
+                    display: inline-block;
+                    background-color: #4CAF50;
+                    color: #ffffff;
+                    text-decoration: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    margin-top: 20px;
+                }}
+                .italic {{
+                    font-style: italic;
+                    color: #555;
+                }}
+            </style>
+        </head>
+        <body>
+            <div class="email-container">
+                <div class="header">
+                    <h2>Expense Tracker</h2>
+                </div>
+                <div class="content">
+                    <p>Dear {user.first_name},</p>
+                    <p>We are pleased to inform you that your expense statement has been successfully generated. You can review your detailed expense report below:</p>
+                    <div class="statement-container">
+                        <h3>Name:</h3> <p>{user.first_name} {user.last_name} </p>
+                        <h3>Email Address:</h3> <p> {user.email} </p>
+                        <div class="summary">
+                            <div class="money-in">
+                                <p>Money In:</p>
+                                <h4>235,559.67</h4>
+                            </div>
+                            <div class="money-out">
+                                <p>Money Out:</p>
+                                <h4>46779377</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="statement-container">
+                        {df_html}
+                    </div>
+                    <p>If you have any questions or need assistance, feel free to reach out to us.</p>
+                    <a href="http://127.0.0.1:5000/support" class="button">Contact Support</a>
+                    <p class="italic">
+                        If you did not request this statement, please reset your password or contact our support team for further assistance.
+                    </p>
+                </div>
+                <div class="footer">
+                    &copy; {datetime.now().year} Expense Tracker. All rights reserved.
+                </div>
+            </div>
+        </body>
+        </html>
         """
+
+        # Minify the HTML content to reduce whitespace
+        content = re.sub(r'\s+', ' ', content.strip())
 
         try:
             connect.send(user.email, subject=subject, contents=content)
