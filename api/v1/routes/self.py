@@ -15,7 +15,7 @@ from werkzeug.exceptions import BadRequest
 def get_me():
     """
     GET /me - Returns a JSON with the user information
-    PATCH /me - Resets a user's password and other data
+    PUT /me - Resets a user's password and other data
     DELETE /me - Deletes a user account
     """
     current_user = get_current_user()
@@ -80,6 +80,9 @@ def my_statement():
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
         abort(401)
+
+    if not current_user.is_active:
+        return jsonify(message='Please verify your email first.'), 403
 
     if not Email.send_statement(current_user):
         return jsonify(message='An error occurred. Statement could not be generated.'), 400
