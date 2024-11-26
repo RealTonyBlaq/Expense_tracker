@@ -19,13 +19,93 @@ class Email:
     """ Defining the Email class """
 
     @classmethod
-    def send(self, email: str, subject: str, content: str) -> bool:
+    def send_confirmation_email(self, user, OTP: int, OTP_TIMEOUT: int) -> bool:
         """ Sends a confirmation email with token """
-        if email and subject and content:
+        if user and OTP_TIMEOUT:
             dev_email, dev_password = _get_default_user()
             connect = yagmail.SMTP(dev_email, dev_password)
+
+            subject = "Welcome to Expense Tracker!"
+            content = f"""
+            <html>
+            <body style="font-family: Arial, sans-serif; background-color: #f5f5f5; color: #333; margin: 0; padding: 20px;">
+                <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                    <div style="background-color: #4CAF50; color: #ffffff; padding: 10px; text-align: center; border-radius: 10px 10px 0 0;">
+                        <h2 style="margin: 0; font-size: 24px;">Expense Tracker</h2>
+                    </div>
+                    <div style="padding: 20px;">
+                        <p style="font-size: 16px; line-height: 1.6; margin: 10px 0;">Dear {user.first_name} {user.last_name},</p>
+                        <p style="font-size: 16px; line-height: 1.6; margin: 10px 0;">Thank you for registering with Expense Tracker! To complete your registration and gain access to this site, please verify your email address using the OTP below:</p>
+
+                        <div style="display: inline-block; background-color: #4CAF50; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 10px; align-items: center;">
+                            <h3 style="font-size: 22px; text-align: center;">{OTP}</h2>
+                        </div>
+
+                        <p style="font-size: 16px; line-height: 1.6; margin: 10px 0;">If you have any questions or need assistance, feel free to reach out to us.</p>
+                        <a href="http://127.0.0.1:5000/support" style="display: inline-block; background-color: #4CAF50; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px; font-size: 16px;">Contact Support</a>
+                        <p style="font-style: italic; color: #555; font-size: 14px; line-height: 1.6; margin: 20px 0;">
+                            Kindly note that the OTP expires after {OTP_TIMEOUT} minutes.
+                        </p>
+                    </div>
+                    <div style="text-align: center; font-size: 12px; color: #888; padding: 10px; border-top: 1px solid #ddd;">
+                        &copy; {datetime.now().year} Expense Tracker. All rights reserved.
+                    </div>
+                </div>
+            </body>
+            </html>
+            """
+
             try:
-                connect.send(email, subject=subject, contents=content)
+                connect.send(user.email, subject=subject, contents=content)
+                connect.close()
+                return True
+            except (YagAddressError, YagInvalidEmailAddress):
+                pass
+
+        return False
+
+    @classmethod
+    def send_otp(self, user, OTP: int, OTP_TIMEOUT: int) -> bool:
+        """ Sends a confirmation email with token """
+        if user and OTP_TIMEOUT:
+            dev_email, dev_password = _get_default_user()
+            connect = yagmail.SMTP(dev_email, dev_password)
+
+            subject = "OTP | Expense Tracker"
+            content = f"""
+            <html>
+            <body style="font-family: Arial, sans-serif; background-color: #f5f5f5; color: #333; margin: 0; padding: 20px;">
+                <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                    <div style="background-color: #4CAF50; color: #ffffff; padding: 10px; text-align: center; border-radius: 10px 10px 0 0;">
+                        <h2 style="margin: 0; font-size: 24px;">Expense Tracker</h2>
+                    </div>
+                    <div style="padding: 20px;">
+                        <p style="font-size: 16px; line-height: 1.6; margin: 10px 0;">Dear {user.first_name} {user.last_name},</p>
+                        <p style="font-size: 16px; line-height: 1.6; margin: 10px 0;">Please authenticate the session using the OTP below:</p>
+
+                        <div style="display: inline-block; background-color: #4CAF50; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 10px; align-items: center;">
+                            <h3 style="font-size: 22px; text-align: center;">{OTP}</h2>
+                        </div>
+
+                        <p style="font-size: 16px; line-height: 1.6; margin: 10px 0;">If you have any questions or need assistance, feel free to reach out to us.</p>
+                        <a href="http://127.0.0.1:5000/support" style="display: inline-block; background-color: #4CAF50; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px; font-size: 16px;">Contact Support</a>
+                        <p style="font-style: italic; color: #555; font-size: 14px; line-height: 1.6; margin: 20px 0;">
+                            Kindly note that the OTP expires after {OTP_TIMEOUT} minutes.
+                        </p>
+                        <p style="font-style: italic; color: #555; font-size: 14px; line-height: 1.6; margin: 20px 0;">
+                            If you did not initiate this request, please ignore and proceed to change your password.
+                        </p>
+                    </div>
+                    <div style="text-align: center; font-size: 12px; color: #888; padding: 10px; border-top: 1px solid #ddd;">
+                        &copy; {datetime.now().year} Expense Tracker. All rights reserved.
+                    </div>
+                </div>
+            </body>
+            </html>
+            """
+
+            try:
+                connect.send(user.email, subject=subject, contents=content)
                 connect.close()
                 return True
             except (YagAddressError, YagInvalidEmailAddress):
@@ -46,7 +126,7 @@ class Email:
         df_html = Statement.get_html(user)
         df_html = df_html.replace('<table border="1"', '<table class="styled-table"')
 
-        subject = "Expense Statement - Expense Tracker"
+        subject = "Your statement is ready!"
 
         # Enhanced HTML email content with reduced whitespace
         content = f"""
