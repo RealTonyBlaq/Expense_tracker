@@ -31,8 +31,11 @@ def generate_otp() -> str:
     totp = pyotp.TOTP(secret)
     return totp.now()
 
-
-OTP_TIMEOUT = int(getenv('OTP_TIMEOUT'))
+try:
+    OTP_TIMEOUT = int(getenv('OTP_TIMEOUT'))
+except (ValueError, TypeError) as e:
+    print('An error occurred: Invalid OTP_TIMEOUT env', e.args)
+    exit(1)
 
 
 @ETapp.route('/signup', methods=['POST'], strict_slashes=False)
@@ -74,37 +77,10 @@ def signup():
 
         # create the user
         user = User(**user_data)
-
         OTP = generate_otp()
         user.save()
 
-        subject = "Expense Tracker - Welcome | OTP"
-        content = f"""Dear {user.first_name} {user.last_name},
-
-        Thank you for registering with Expense Tracker! To complete your \
-        registration, please verify your email address using the OTP below:
-
-        <div style="justify-content: space-around;">
-
-        <h1 style="display: inline-block; padding: \
-        10px 20px; background-color: #007bff; color: #fff; text-decoration: \
-        none; border-radius: 5px; position: absolute;">{OTP}</h1>
-
-        </div>
-
-        Kindly note that OTP expires after {OTP_TIMEOUT} minutes.
-
-        By verifying your email address, you'll gain access to the site.
-
-        If you did not register for an account with Expense Tracker, \
-        please ignore this email.
-
-        Thank you for joining us!
-
-        Best regards,
-        The Expense Tracker Team"""
-
-        if not Email.send(user.email, subject, content):
+        if not Email.send_confirmation_email(user, OTP, OTP_TIMEOUT):
             return jsonify(message='An error occurred!'), 400
 
         # Cache the OTP with the user's email
@@ -149,30 +125,7 @@ def login():
             if user.is_2fa_enabled:
                 OTP = generate_otp()
 
-                subject = "Expense Tracker - OTP"
-                content = f"""Dear {user.first_name} {user.last_name},
-
-                You just tried to log in to your account. Please authenticate \
-                your login session using the OTP below:
-
-                <div style="justify-content: space-around;">
-
-                <h1 style="display: inline-block; padding: \
-                10px 20px; background-color: #007bff; color: #fff; text-decoration: \
-                none; border-radius: 5px; position: absolute;">{OTP}</h1>
-
-                </div>
-
-                OTP expires after {OTP_TIMEOUT} minutes.
-
-                If you did not initiate a login attempt, please contact us.
-
-                Thank you!
-
-                Best regards,
-                The Expense Tracker Team"""
-
-                if not Email.send(user.email, subject, content):
+                if not Email.send_otp(user, OTP, OTP_TIMEOUT):
                     return jsonify(message='An error occurred. OTP send failure.')
                 # Cache the OTP
                 key = f'auth_{OTP}'
@@ -264,30 +217,7 @@ def reset():
                 return jsonify(message='User not found'), 400
 
             OTP = generate_otp()
-
-            subject = "Expense Tracker - Reset Password | OTP"
-            content = f"""Dear {user.first_name} {user.last_name},
-
-            Authenticate your password reset using the OTP below:
-
-            <div style="justify-content: space-around;">
-
-            <h1 style="display: inline-block; padding: \
-            10px 20px; background-color: #007bff; color: #fff; text-decoration: \
-            none; border-radius: 5px; position: absolute;">{OTP}</h1>
-
-            </div>
-
-            OTP expires after {OTP_TIMEOUT} minutes.
-
-            If you did not initiate a password reset, please ignore this email.
-
-            Thank you!
-
-            Best regards,
-            The Expense Tracker Team"""
-
-            if not Email.send(user.email, subject, content):
+            if not Email.send_otp(user, OTP, OTP_TIMEOUT):
                 return jsonify(message='An error occurred. OTP send failure'), 400
 
             # Cache the OTP
@@ -299,13 +229,14 @@ def reset():
         return jsonify(message='Not a Valid JSON'), 400
 
 
-@ETapp.route('/resend_otp/<process>', strict_slashes=False)
-def resend_otp(process):
+@ETapp.route('/resend_otp', strict_slashes=False)
+def resend_otp():
     """ Resends OTP to the Email """
     try:
         email_by_param = request.args['email']
+        process = request.args['process']
     except BadRequestKeyError:
-        return jsonify(message='Email parameter missing'), 400
+        return jsonify(message='Email or process parameter missing'), 400
 
     try:
         user = db.get_user(email_by_param)
@@ -318,33 +249,7 @@ def resend_otp(process):
         if user.is_email_verified:
             return jsonify(message='User email already verified'), 400
 
-        subject = "Expense Tracker - Welcome | OTP"
-        content = f"""Dear {user.first_name} {user.last_name},
-
-        Thank you for registering with Expense Tracker! To complete your \
-        registration, please verify your email address using the OTP below:
-
-        <div style="justify-content: space-around;">
-
-        <h1 style="display: inline-block; padding: \
-        10px 20px; background-color: #007bff; color: #fff; text-decoration: \
-        none; border-radius: 5px; position: absolute;">{OTP}</h1>
-
-        </div>
-
-        Kindly note that OTP expires after {OTP_TIMEOUT} minutes.
-
-        By verifying your email address, you'll gain access to the site.
-
-        If you did not register for an account with Expense Tracker, \
-        please ignore this email.
-
-        Thank you for joining us!
-
-        Best regards,
-        The Expense Tracker Team"""
-
-        if not Email.send(user.email, subject, content):
+        if not Email.send_confirmation_email(user, OTP, OTP_TIMEOUT):
             return jsonify(message='An error occurred. OTP send failure!'), 400
 
         key = f'auth_{OTP}'
@@ -355,30 +260,7 @@ def resend_otp(process):
         if not user.is_2fa_enabled:
             return jsonify(message='Multi-authentication is not enabled'), 400
 
-        subject = "Expense Tracker - OTP"
-        content = f"""Dear {user.first_name} {user.last_name},
-
-        You just tried to log in to your account. Please authenticate \
-        your login session using the OTP below:
-
-        <div style="justify-content: space-around;">
-
-        <h1 style="display: inline-block; padding: \
-        10px 20px; background-color: #007bff; color: #fff; text-decoration: \
-        none; border-radius: 5px; position: absolute;">{OTP}</h1>
-
-        </div>
-
-        OTP expires after {OTP_TIMEOUT} minutes.
-
-        If you did not initiate a login attempt, please ignore this email or contact us.
-
-        Thank you!
-
-        Best regards,
-        The Expense Tracker Team"""
-
-        if not Email.send(user.email, subject, content):
+        if not Email.send_otp(user, OTP, OTP_TIMEOUT):
             return jsonify(message='An error occurred. OTP send failure'), 400
 
         # Cache the OTP
