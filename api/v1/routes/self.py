@@ -121,4 +121,4 @@ def enable_2fa():
 
     current_user.is_2fa_enabled = True
     current_user.save()
-    return jsonify
+    return jsonify(message='Two Factor Authentication enable successfully'), 201
