@@ -102,3 +102,5 @@ def enable_2fa():
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
         abort(401)
+
+    if not request.is_json:
