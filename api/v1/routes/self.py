@@ -130,4 +130,8 @@ def enable_2fa():
 def disable_2fa():
     """
     POST /me/disable_2fa
+        Disables Twp-Factor Authentication for the User
     """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
