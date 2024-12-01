@@ -122,3 +122,12 @@ def enable_2fa():
     current_user.is_2fa_enabled = True
     current_user.save()
     return jsonify(message='Two Factor Authentication enable successfully'), 201
+
+
+@ETapp.route('/me/disable_2fa', methods=['POST'],
+             strict_slashes=False)
+@jwt_required()
+def disable_2fa():
+    """
+    POST /me/disable_2fa
+    """
