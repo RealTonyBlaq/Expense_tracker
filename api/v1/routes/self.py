@@ -119,4 +119,6 @@ def enable_2fa():
     if not checkpw(password.encode('utf-8'), current_user.password):
         return jsonify(message='Incorrect password'), 400
 
-    current_user.
+    current_user.is_2fa_enabled = True
+    current_user.save()
+    return jsonify
