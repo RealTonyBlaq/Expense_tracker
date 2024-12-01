@@ -99,3 +99,6 @@ def enable_2fa():
         Activates another level of security for the user
         that sends OTP to the registered at every log in attempt
     """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
