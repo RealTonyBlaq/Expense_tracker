@@ -90,10 +90,12 @@ def my_statement():
     return jsonify(message='Statement sent successfully! Please check your inbox.'), 200
 
 
-@ETapp.route('/me/enable_2fa', methods=['POST'], strict_slashes=False)
+@ETapp.route('/me/enable_2fa', methods=['POST'],
+             strict_slashes=False)
 @jwt_required()
 def enable_2fa():
     """
     POST /me/enable_2fa
         Activates another level of security for the user
+        that sends OTP to the registered at every log in attempt
     """
