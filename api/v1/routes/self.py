@@ -135,3 +135,22 @@ def disable_2fa():
     current_user = get_current_user()
     if not current_user or not current_user.is_authenticated:
         abort(401)
+
+    if not request.is_json:
+        return jsonify(message='Not a valid JSON'), 400
+
+    try:
+        data = request.get_json()
+    except BadRequest:
+        return jsonify(message='Error parsing JSON data'), 400
+
+    password = data.get('password')
+    if not password:
+        return jsonify(message='password missing'), 400
+
+    if not checkpw(password.encode('utf-8'), current_user.password):
+        return jsonify(message='Incorrect password'), 400
+
+    current_user.is_2fa_enabled = False
+    current_user.save()
+    return jsonify(message='Two-Factor Authentication disabled successfully'), 200
