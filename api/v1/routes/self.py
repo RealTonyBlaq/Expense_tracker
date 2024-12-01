@@ -104,3 +104,9 @@ def enable_2fa():
         abort(401)
 
     if not request.is_json:
+        return jsonify(message='Not a valid JSON'), 400
+
+    try:
+        data = request.get_json()
+    except BadRequest:
+        return jsonify(message='Error parsing JSON data'), 400
