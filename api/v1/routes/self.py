@@ -3,6 +3,7 @@
 
 from api.v1 import ETapp
 from api.v1.routes.auth import hash_password
+from bcrypt import checkpw
 from datetime import datetime
 from flask import abort, jsonify, request
 from flask_jwt_extended import jwt_required, get_current_user, unset_jwt_cookies
@@ -110,3 +111,9 @@ def enable_2fa():
         data = request.get_json()
     except BadRequest:
         return jsonify(message='Error parsing JSON data'), 400
+
+    password = data.get('password')
+    if not password:
+        return jsonify(message='password missing'), 400
+
+    if not checkpw()
