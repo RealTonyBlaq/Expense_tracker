@@ -239,8 +239,6 @@ def scan_receipt():
     file.save(filepath)
 
     UPLOAD_URL = "https://api.tabscanner.com/api/process"
-    RESULT_URL = "https://api.tabscanner.com/api/result/{}"
-
     receipt = {"file": open(filepath, 'rb')}
     header = {"apikey": app.config['TABSCANNER_API_KEY']}
 
@@ -250,6 +248,9 @@ def scan_receipt():
         return jsonify(message='Failed to upload to Tabscanner'), 500
 
     process_id = response_data['id']
+    RESULT_URL = f"https://api.tabscanner.com/api/result/{process_id}"
+
+    r = requests.post(RESULT_URL, headers=header)
     
 
 
