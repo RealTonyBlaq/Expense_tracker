@@ -246,7 +246,11 @@ def scan_receipt():
 
     r = requests.post(UPLOAD_URL, headers=header, files=receipt)
     response_data = r.json()
-    if 'error' in response.json():
+    if 'error' in response_data:
+        return jsonify(message='Failed to upload to Tabscanner'), 500
+
+    process_id = response_data['id']
+    
 
 
 @app.route('/', strict_slashes=False)
