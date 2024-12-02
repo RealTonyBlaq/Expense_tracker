@@ -227,7 +227,8 @@ def scan_receipt():
     if not file or file.filename == '':
         return jsonify(message='No file selected'), 400
 
-    
+    UPLOAD_URL = "https://api.tabscanner.com/api/process"
+    RESULT_URL_TEMPLATE = "https://api.tabscanner.com/api/result/{}"
 
 
 @app.route('/', strict_slashes=False)
