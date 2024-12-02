@@ -239,12 +239,14 @@ def scan_receipt():
     file.save(filepath)
 
     UPLOAD_URL = "https://api.tabscanner.com/api/process"
-    RESULT_URL_TEMPLATE = "https://api.tabscanner.com/api/result/{}"
+    RESULT_URL = "https://api.tabscanner.com/api/result/{}"
 
     receipt = {"file": open(filepath, 'rb')}
     header = {"apikey": app.config['TABSCANNER_API_KEY']}
 
-    response = requests.post(UPLOAD_URL, headers=header, files=receipt)
+    r = requests.post(UPLOAD_URL, headers=header, files=receipt)
+    response_data = r.json()
+    if 'error' in response.json():
 
 
 @app.route('/', strict_slashes=False)
