@@ -10,6 +10,7 @@ from flask_jwt_extended import JWTManager, jwt_required, get_current_user
 from utilities import db
 from models.user import User
 from os import getenv, makedirs, path, scandir, remove
+import requests
 import signal
 import sys
 
@@ -240,7 +241,11 @@ def scan_receipt():
     UPLOAD_URL = "https://api.tabscanner.com/api/process"
     RESULT_URL_TEMPLATE = "https://api.tabscanner.com/api/result/{}"
 
-    receipt = {"file": open()}
+    receipt = {"file": open(filepath, 'rb')}
+    header = {"apikey": app.config['TABSCANNER_API_KEY']}
+
+    response = requests.post(UPLOAD_URL, headers=header, files=receipt)
+
 
 @app.route('/', strict_slashes=False)
 def index():
