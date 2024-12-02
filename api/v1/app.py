@@ -230,14 +230,16 @@ def scan_receipt():
     if 'image' not in request.files:
         return jsonify(message='No image found in the request'), 400
 
-    file = request.files['image']
+    file = request.files['file']
     if not file or file.filename == '':
         return jsonify(message='No file selected'), 400
+
+    filepath = path.join(f'{app.config["UPLOADS_FOLDER"]}/')
 
     UPLOAD_URL = "https://api.tabscanner.com/api/process"
     RESULT_URL_TEMPLATE = "https://api.tabscanner.com/api/result/{}"
 
-    
+
 
 @app.route('/', strict_slashes=False)
 def index():
