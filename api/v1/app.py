@@ -39,6 +39,7 @@ file_folder = getenv('UPLOADS_FOLDER', 'uploads')
 UPLOAD_FOLDER = path.join(path.dirname(path.abspath(__file__)), file_folder)
 app.config['UPLOADS_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 7 * 1024 * 1024
+app.config['TABSCANNER_API_KEY'] = getenv('TABSCANNER_API_KEY')
 
 makedirs(app.config['UPLOADS_FOLDER'], exist_ok=True)
 makedirs(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures', exist_ok=True)
@@ -67,6 +68,8 @@ def allowed_picture(filename: str) -> bool:
     """ Validates an uploaded file """
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_PICTURE_EXTENSIONS
+
+
 
 
 @jwt.user_lookup_loader
