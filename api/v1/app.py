@@ -251,7 +251,7 @@ def scan_receipt():
     RESULT_URL = f"https://api.tabscanner.com/api/result/{process_id}"
 
     r = requests.post(RESULT_URL, headers=header)
-    return jsonify(message=r.json())
+    return jsonify(message='Upload successful', data=r.json()), 200
 
 
 @app.route('/', strict_slashes=False)
