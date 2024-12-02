@@ -65,11 +65,15 @@ def sig_handler(sig, frame):
 
 
 def allowed_picture(filename: str) -> bool:
-    """ Validates an uploaded file """
+    """ Validates an uploaded picture """
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_PICTURE_EXTENSIONS
 
 
+def allowed_receipt(filename: str) -> bool:
+    """ Validates an upoladed receipt """
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_RECEIPT_EXTENSIONS
 
 
 @jwt.user_lookup_loader
@@ -233,6 +237,7 @@ def scan_receipt():
     UPLOAD_URL = "https://api.tabscanner.com/api/process"
     RESULT_URL_TEMPLATE = "https://api.tabscanner.com/api/result/{}"
 
+    
 
 @app.route('/', strict_slashes=False)
 def index():
