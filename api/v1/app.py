@@ -234,12 +234,13 @@ def scan_receipt():
     if not file or file.filename == '':
         return jsonify(message='No file selected'), 400
 
-    filepath = path.join(f'{app.config["UPLOADS_FOLDER"]}/')
+    filepath = path.join(f'{app.config["UPLOADS_FOLDER"]}/receipts', file.filename)
+    file.save(filepath)
 
     UPLOAD_URL = "https://api.tabscanner.com/api/process"
     RESULT_URL_TEMPLATE = "https://api.tabscanner.com/api/result/{}"
 
-
+    receipt = {"file": open()}
 
 @app.route('/', strict_slashes=False)
 def index():
