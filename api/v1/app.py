@@ -41,12 +41,15 @@ app.config['UPLOADS_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 7 * 1024 * 1024
 
 makedirs(app.config['UPLOADS_FOLDER'], exist_ok=True)
+makedirs(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures', exist_ok=True)
+makedirs(f'{app.config["UPLOADS_FOLDER"]}/receipts', exist_ok=True)
 
 app.register_blueprint(ETapp)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}},
      supports_credentials=True)
 jwt = JWTManager(app)
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_PICTURE_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_RECEIPT_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
 
 
 def sig_handler(sig, frame):
@@ -60,10 +63,10 @@ def sig_handler(sig, frame):
     sys.exit(0)
 
 
-def allowed_file(filename: str) -> bool:
+def allowed_picture(filename: str) -> bool:
     """ Validates an uploaded file """
     return '.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_PICTURE_EXTENSIONS
 
 
 @jwt.user_lookup_loader
@@ -164,12 +167,12 @@ def post_profile_picture():
 
     if request.method == 'GET':
         file_prefix = f'User{current_user.id}'
-        files = [f.name for f in scandir(app.config['UPLOADS_FOLDER'])
+        files = [f.name for f in scandir(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures')
                  if f.is_file() and f.name.startswith(file_prefix)]
 
         if len(files) == 0:
             abort(404)
-        return send_from_directory(app.config['UPLOADS_FOLDER'], files[0])
+        return send_from_directory(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures', files[0])
 
     if request.method == 'POST':
         if 'image' not in request.files:
@@ -179,17 +182,17 @@ def post_profile_picture():
         if not file or file.filename == '':
             return jsonify(message='No file selected'), 400
 
-        if allowed_file(file.filename):
+        if allowed_picture(file.filename):
             # check for previous uploaded picture and delete it
             file_prefix = f'User{current_user.id}'
-            for f in scandir(app.config['UPLOADS_FOLDER']):
+            for f in scandir(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures'):
                 if f.is_file() and f.name.startswith(file_prefix):
-                    remove(path.join(app.config['UPLOADS_FOLDER'], f.name))
+                    remove(path.join(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures', f.name))
 
             # Save the picture to the server
             file_ext = file.filename.rsplit('.', 1)[1]
             filename = f'User{current_user.id}.{file_ext}'
-            filepath = path.join(app.config['UPLOADS_FOLDER'], filename)
+            filepath = path.join(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures', filename)
             file.save(filepath)
             return jsonify(message='image upload successful!'), 201
 
@@ -197,11 +200,34 @@ def post_profile_picture():
 
     if request.method == 'DELETE':
         file_prefix = f'User{current_user.id}'
-        for f in scandir(app.config['UPLOADS_FOLDER']):
+        for f in scandir(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures'):
             if f.is_file() and f.name.startswith(file_prefix):
-                remove(path.join(app.config['UPLOADS_FOLDER'], f.name))
+                remove(path.join(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures', f.name))
 
         return jsonify(message='success'), 200
+
+
+@app.route('/scan-receipt', methods=['POST'],
+             strict_slashes=False)
+@jwt_required()
+def scan_receipt():
+    """
+    POST /scan-receipt
+        scans receipts and creates an Expense object
+        with the scanned values
+    """
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
+
+    if 'image' not in request.files:
+        return jsonify(message='No image found in the request'), 400
+
+    file = request.files['image']
+    if not file or file.filename == '':
+        return jsonify(message='No file selected'), 400
+
+    
 
 
 @app.route('/', strict_slashes=False)
