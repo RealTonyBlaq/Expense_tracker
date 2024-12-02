@@ -155,24 +155,3 @@ def disable_2fa():
     current_user.save()
     return jsonify(message='Two-Factor Authentication \
         disabled successfully'), 200
-
-
-@ETapp.route('/scan-receipt', methods=['POST'],
-             strict_slashes=False)
-@jwt_required()
-def scan_receipt():
-    """
-    POST /scan-receipt
-        scans receipts and creates an Expense object
-        with the scanned values
-    """
-    current_user = get_current_user()
-    if not current_user or not current_user.is_authenticated:
-        abort(401)
-
-    if 'image' not in request.files:
-        return jsonify(message='No image found in the request'), 400
-
-    file = request.files['image']
-    if not file or file.filename == '':
-        return jsonify(message='No file selected'), 400
