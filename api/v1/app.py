@@ -219,26 +219,28 @@ def post_profile_picture():
 
 @app.route('/scan_receipt', methods=['POST'],
              strict_slashes=False)
-# @jwt_required()
+@jwt_required()
 def scan_receipt():
     """
     POST /scan-receipt
         scans receipts and creates an Expense object
         with the scanned values
     """
-    # current_user = get_current_user()
-    # if not current_user or not current_user.is_authenticated:
-    #    abort(401)
+    current_user = get_current_user()
+    if not current_user or not current_user.is_authenticated:
+        abort(401)
 
-    category = request.args.get('category')
+    category_name = request.args.get('category')
     category_id = request.args.get('category_id')
-    if category is None and category_id is None:
+    if category_name is None and category_id is None:
         return jsonify(message='category or category_id param is missing'), 400
 
     if category_id:
         category = db.query(Category).filter_by(id=category_id).first()
         if category is None:
             return jsonify(message='category_id is invalid'), 400
+    else:
+        category = Category(name=category_name, user_id=current_user.id)
 
     if 'file' not in request.files:
         return jsonify(message='No image found in the request'), 400
