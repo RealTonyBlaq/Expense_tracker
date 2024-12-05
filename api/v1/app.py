@@ -275,7 +275,7 @@ def scan_receipt():
     if data.get('lineItems', []) != []:
         items = data['lineItems']
         try:
-            expense_date = 
+            expense_date = datetime.strptime(items['dateISO'], )
         for item in items:
             try:
                 amount = float(item['lineTotal'])
