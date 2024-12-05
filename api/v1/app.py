@@ -275,6 +275,7 @@ def scan_receipt():
         items = data['lineItems']
         for item in items:
             try:
+                amount = 
             new_expense = Expense(category_id=category.id,
                                   user_id=current_user.id,
                                   amount=)
