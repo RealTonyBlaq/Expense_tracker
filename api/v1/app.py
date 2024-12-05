@@ -238,7 +238,7 @@ def scan_receipt():
     if category_id:
         cate = db.query(Category).filter_by(id=category_id).first()
         if cate is None:
-            return 
+            return jsonify(message='category_id is invalid'), 400
 
     if 'file' not in request.files:
         return jsonify(message='No image found in the request'), 400
