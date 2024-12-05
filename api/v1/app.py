@@ -269,13 +269,13 @@ def scan_receipt():
     data = r.json()
     if data.get('status', '').lower() != 'done':
         return jsonify(message='upload successful',
-                       data={'status': 'pending', 'process_id': process_id}), 
+                       data={'status': 'pending', 'process_id': process_id}), 202
 
     if data.get('lineItems', []) != []:
         items = data['lineItems']
         for item in items:
             new_expense = Expense()
-    return jsonify(message='Upload successful', data=data), 200
+    return jsonify(message='Upload successful', data=data), 201
 
 
 @app.route('/', strict_slashes=False)
