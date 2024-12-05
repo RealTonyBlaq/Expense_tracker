@@ -233,7 +233,7 @@ def scan_receipt():
 
     category_name = request.args.get('category')
     category_id = request.args.get('category_id')
-    date_occurred = request.args.get('date_occurred')
+    # date_occurred = request.args.get('date_occurred')
     if category_name is None and category_id is None:
         return jsonify(message='category or category_id param is missing'), 400
 
@@ -275,6 +275,7 @@ def scan_receipt():
 
     if data.get('lineItems', []) != []:
         items = data['lineItems']
+        expenses = []
         try:
             expense_date = datetime.strptime(items['dateISO'], "%Y-%m-%dT%H:%M:%S")
         except Exception:
@@ -290,6 +291,9 @@ def scan_receipt():
                                   amount=amount,
                                   date_occurred=expense_date,
                                   description=item.get('desc') or item.get('descClean'))
+            new_expense.save()
+            expenses.append(new_expense.to_dict())
+
     return jsonify(message='Upload successful', data=data), 201
 
 
