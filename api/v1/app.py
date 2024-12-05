@@ -274,7 +274,7 @@ def scan_receipt():
     if data.get('lineItems', []) != []:
         items = data['lineItems']
         for item in items:
-            new_expense = Expense()
+            new_expense = Expense(category_id=)
     return jsonify(message='Upload successful', data=data), 201
 
 
