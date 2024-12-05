@@ -2,6 +2,7 @@
 """ Expense Tracker Flask App """
 
 from api.v1 import ETapp
+from datetime import datetime
 from dotenv import load_dotenv, find_dotenv
 from flask import (abort, Flask, jsonify, request,
                    render_template, send_from_directory, redirect)
@@ -273,6 +274,8 @@ def scan_receipt():
 
     if data.get('lineItems', []) != []:
         items = data['lineItems']
+        try:
+            expense_date = 
         for item in items:
             try:
                 amount = float(item['lineTotal'])
