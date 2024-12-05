@@ -251,6 +251,9 @@ def scan_receipt():
     if not file or file.filename == '':
         return jsonify(message='No file selected'), 400
 
+    if not allowed_receipt(file.filename):
+        return jsonify
+
     filepath = path.join(f'{app.config["UPLOADS_FOLDER"]}/receipts', file.filename)
     file.save(filepath)
 
