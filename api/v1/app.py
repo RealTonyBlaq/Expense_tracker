@@ -236,8 +236,8 @@ def scan_receipt():
         return jsonify(message='category or category_id param is missing'), 400
 
     if category_id:
-        cate = db.query(Category).filter_by(id=category_id).first()
-        if cate is None:
+        category = db.query(Category).filter_by(id=category_id).first()
+        if category is None:
             return jsonify(message='category_id is invalid'), 400
 
     if 'file' not in request.files:
