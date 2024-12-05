@@ -278,7 +278,8 @@ def scan_receipt():
         try:
             expense_date = datetime.strptime(items['dateISO'], "%Y-%m-%dT%H:%M:%S")
         except Exception:
-            return
+            expense_date = datetime.now()
+
         for item in items:
             try:
                 amount = float(item['lineTotal'])
@@ -287,7 +288,7 @@ def scan_receipt():
             new_expense = Expense(category_id=category.id,
                                   user_id=current_user.id,
                                   amount=amount,
-                                  date_occurred=,
+                                  date_occurred=expense_date,
                                   description=item.get('desc') or item.get('descClean'))
     return jsonify(message='Upload successful', data=data), 201
 
