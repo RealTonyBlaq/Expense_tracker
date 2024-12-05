@@ -296,7 +296,7 @@ def scan_receipt():
 
         return jsonify(message='Upload successful', data=expenses), 201
 
-    return jsonify(message='upload successful', data={'status': 'pending', 'process_id': process_id}), 202
+    return jsonify(message='empty dataset'), 204
 
 
 @app.route('/', strict_slashes=False)
