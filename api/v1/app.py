@@ -207,7 +207,7 @@ def post_profile_picture():
             file.save(filepath)
             return jsonify(message='image upload successful!'), 201
 
-        return jsonify(message='File type not allowed'), 400
+        return jsonify(message='File type not allowed'), 415
 
     if request.method == 'DELETE':
         file_prefix = f'User{current_user.id}'
