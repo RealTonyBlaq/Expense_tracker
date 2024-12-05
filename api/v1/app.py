@@ -282,7 +282,7 @@ def scan_receipt():
                                   user_id=current_user.id,
                                   amount=amount,
                                   date_occurred=,
-                                  description=item[''])
+                                  description=item.get('desc') or item.get('descClean'))
     return jsonify(message='Upload successful', data=data), 201
 
 
