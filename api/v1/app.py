@@ -8,6 +8,7 @@ from flask import (abort, Flask, jsonify, request,
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, get_current_user
 from utilities import db
+from models.category import Category
 from models.expense import Expense
 from models.user import User
 from os import getenv, makedirs, path, scandir, remove
@@ -235,7 +236,9 @@ def scan_receipt():
         return jsonify(message='category or category_id param is missing'), 400
 
     if category_id:
-        
+        cate = db.query(Category).filter_by(id=category_id).first()
+        if cate is None:
+            return 
 
     if 'file' not in request.files:
         return jsonify(message='No image found in the request'), 400
