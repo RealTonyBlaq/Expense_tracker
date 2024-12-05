@@ -9,6 +9,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, get_current_user
 from utilities import db
 from models.user import User
+from models.expense import Expense
 from os import getenv, makedirs, path, scandir, remove
 import requests
 import signal
