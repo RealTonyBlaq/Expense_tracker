@@ -233,6 +233,7 @@ def scan_receipt():
 
     category_name = request.args.get('category')
     category_id = request.args.get('category_id')
+    date_occurred = request.args.get('date_occurred')
     if category_name is None and category_id is None:
         return jsonify(message='category or category_id param is missing'), 400
 
