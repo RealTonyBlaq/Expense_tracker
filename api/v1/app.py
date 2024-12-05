@@ -294,7 +294,9 @@ def scan_receipt():
             new_expense.save()
             expenses.append(new_expense.to_dict())
 
-    return jsonify(message='Upload successful', data=data), 201
+        return jsonify(message='Upload successful', data=expenses), 201
+
+    return jsonify(message='upload successful', data={'status': 'pending', 'process_id': process_id}), 202
 
 
 @app.route('/', strict_slashes=False)
