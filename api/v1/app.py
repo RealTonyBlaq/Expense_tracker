@@ -275,10 +275,14 @@ def scan_receipt():
         items = data['lineItems']
         for item in items:
             try:
-                amount = 
+                amount = float(item['lineTotal'])
+            except Exception:
+                continue
             new_expense = Expense(category_id=category.id,
                                   user_id=current_user.id,
-                                  amount=)
+                                  amount=amount,
+                                  date_occurred=,
+                                  description=item[''])
     return jsonify(message='Upload successful', data=data), 201
 
 
