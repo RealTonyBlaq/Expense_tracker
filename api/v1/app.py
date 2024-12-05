@@ -215,20 +215,20 @@ def post_profile_picture():
         return jsonify(message='success'), 200
 
 
-@app.route('/scan-receipt', methods=['POST'],
+@app.route('/scan_receipt', methods=['POST'],
              strict_slashes=False)
-@jwt_required()
+# @jwt_required()
 def scan_receipt():
     """
     POST /scan-receipt
         scans receipts and creates an Expense object
         with the scanned values
     """
-    current_user = get_current_user()
-    if not current_user or not current_user.is_authenticated:
-        abort(401)
+    # current_user = get_current_user()
+    # if not current_user or not current_user.is_authenticated:
+    #    abort(401)
 
-    if 'image' not in request.files:
+    if 'file' not in request.files:
         return jsonify(message='No image found in the request'), 400
 
     file = request.files['file']
@@ -247,11 +247,17 @@ def scan_receipt():
     if 'error' in response_data:
         return jsonify(message='Failed to upload to Tabscanner'), 500
 
-    process_id = response_data['id']
+    # return jsonify(message=response_data), 200
+    process_id = response_data['token']
     RESULT_URL = f"https://api.tabscanner.com/api/result/{process_id}"
 
-    r = requests.post(RESULT_URL, headers=header)
-    return jsonify(message='Upload successful', data=r.json()), 200
+    r = requests.get(RESULT_URL, headers=header)
+    data = r.json()
+    if data.get('status', '').lower() != 'done':
+        return jsonify(message='upload successful',
+                       data={'status': 'pending', 'process_id': process_id})
+        
+    return jsonify(message='Upload successful', data=data), 200
 
 
 @app.route('/', strict_slashes=False)
