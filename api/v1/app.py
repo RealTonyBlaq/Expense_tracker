@@ -229,6 +229,11 @@ def scan_receipt():
     # if not current_user or not current_user.is_authenticated:
     #    abort(401)
 
+    category = request.args.get('category')
+    category_id = request.args.get('category_id')
+
+    
+
     if 'file' not in request.files:
         return jsonify(message='No image found in the request'), 400
 
