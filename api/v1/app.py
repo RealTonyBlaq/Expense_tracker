@@ -274,6 +274,7 @@ def scan_receipt():
     if data.get('lineItems', []) != []:
         items = data['lineItems']
         for item in items:
+            try:
             new_expense = Expense(category_id=category.id,
                                   user_id=current_user.id,
                                   amount=)
