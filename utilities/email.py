@@ -122,13 +122,11 @@ class Email:
         dev_email, dev_password = _get_default_user()
         connect = yagmail.SMTP(dev_email, dev_password)
 
-        # Generate styled HTML for DataFrame
         df_html = Statement.get_html(user)
         df_html = df_html.replace('<table border="1"', '<table class="styled-table"')
 
         subject = "Your statement is ready!"
 
-        # Enhanced HTML email content with reduced whitespace
         content = f"""
         <html>
         <head>
