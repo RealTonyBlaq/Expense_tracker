@@ -232,10 +232,9 @@ def reset():
 @ETapp.route('/resend_otp', strict_slashes=False)
 def resend_otp():
     """ Resends OTP to the Email """
-    try:
-        email_by_param = request.args['email']
-        process = request.args['process']
-    except BadRequestKeyError:
+    email_by_param = request.args.get('email')
+    process = request.args.get('process')
+    if not email_by_param or not process:
         return jsonify(message='Email or process parameter missing'), 400
 
     try:
