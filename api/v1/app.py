@@ -243,6 +243,7 @@ def scan_receipt():
             return jsonify(message='category_id is invalid'), 400
     else:
         category = Category(name=category_name, user_id=current_user.id)
+        category.save()
 
     if 'file' not in request.files:
         return jsonify(message='No image found in the request'), 400
@@ -252,7 +253,7 @@ def scan_receipt():
         return jsonify(message='No file selected'), 400
 
     if not allowed_receipt(file.filename):
-        return jsonify
+        return jsonify(message='File type not supported'), 415
 
     filepath = path.join(f'{app.config["UPLOADS_FOLDER"]}/receipts', file.filename)
     file.save(filepath)
@@ -272,15 +273,16 @@ def scan_receipt():
 
     r = requests.get(RESULT_URL, headers=header)
     data = r.json()
+
     if data.get('status', '').lower() != 'done':
         return jsonify(message='upload successful',
                        data={'status': 'pending', 'process_id': process_id}), 202
 
-    if data.get('lineItems', []) != []:
-        items = data['lineItems']
+    items = data.get('result', {}).get('lineItems', [])
+    if items != []:
         expenses = []
         try:
-            expense_date = datetime.strptime(items['dateISO'], "%Y-%m-%dT%H:%M:%S")
+            expense_date = datetime.strptime(data['result']['dateISO'], "%Y-%m-%dT%H:%M:%S")
         except Exception:
             expense_date = datetime.now()
 
