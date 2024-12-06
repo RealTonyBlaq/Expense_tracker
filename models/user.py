@@ -18,6 +18,7 @@ class User(UserMixin, BaseModel, Base):
     first_name = Column(String(60), nullable=False)
     last_name = Column(String(60), nullable=False)
     email = Column(String(60), nullable=False, unique=True)
+    phone = Column(String(15), unique=True, nullable=True)
     password = Column(String(60), nullable=False)
     last_login_time = Column(DateTime, default=None)
     is_email_verified = Column(Boolean, default=False)
