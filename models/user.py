@@ -7,6 +7,7 @@ from models.base import Base, BaseModel
 from sqlalchemy import String, Column, Boolean, DateTime, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.sqlite import TEXT
+from typing import Dict
 
 
 format = "%a, %b %d"
@@ -49,17 +50,24 @@ class User(UserMixin, BaseModel, Base):
         """ Returns whether a user is logged in """
         return self.is_logged_in
 
-    def generate_statement(self, period=None) -> list:
+    def generate_statement(self, period: Dict[str, str] = None) -> list:
         """ Returns a list of Earning, Expense and RecurringExpense objects """
         earnings = [e.to_dict() for e in self.earnings]
         expenses = [ex.to_dict() for ex in self.expenses]
-        # recurring_expenses = [r.to_dict() for r in self.recurring_expenses]
+        recurring_expenses = [r.to_dict() for r in self.recurring_expenses]
 
         all_txns = earnings + expenses
         txns = [{
             'Type': t.get('type'), 'Amount': float(t.get('amount')),
             'Date_occurred': t.get('date_occurred'),
             'Description': t.get('description')} for t in all_txns]
+        if period:
+            start = datetime.strptime(period['from'], "%Y-%m-%d")
+            end = datetime.strptime(period['to'], "%Y-%m-%d")
+            for book in txns:
+                if book['Date_occurred'] < start or book['Date_occurred'] > end:
+                    del book
+
         sorted_txns = sorted(txns, key=lambda x: x['Date_occurred'], reverse=True)
         for t in sorted_txns:
             t['Date_occurred'] = datetime.strftime(t['Date_occurred'], format)
