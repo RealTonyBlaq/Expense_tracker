@@ -119,6 +119,9 @@ def enable_2fa():
     if not checkpw(password.encode('utf-8'), current_user.password):
         return jsonify(message='Incorrect password'), 400
 
+    if current_user.is_2fa_enabled:
+        return jsonify(message='Two-Factor Authentication already enabled'), 200
+
     current_user.is_2fa_enabled = True
     current_user.save()
     return jsonify(message='Two Factor Authentication enable successfully'), 201
@@ -150,6 +153,9 @@ def disable_2fa():
 
     if not checkpw(password.encode('utf-8'), current_user.password):
         return jsonify(message='Incorrect password'), 400
+
+    if not current_user.is_2fa_enabled:
+        return jsonify(message='Two-Factor Authentication already disabled'), 200
 
     current_user.is_2fa_enabled = False
     current_user.save()
