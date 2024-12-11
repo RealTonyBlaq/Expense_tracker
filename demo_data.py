@@ -2,6 +2,9 @@ import random
 from datetime import datetime, timedelta
 from decimal import Decimal
 from models.category import Category
+from models.recurring_expense import RecurringExpense
+from models.expense import Expense
+from models.earning import Earning
 from models.user import User
 from utilities import db
 
@@ -17,7 +20,7 @@ def random_date():
     end_date = datetime(2024, 12, 31)
     delta = end_date - start_date
     random_days = random.randint(0, delta.days)
-    return (start_date + timedelta(days=random_days)).strftime("%Y-%m-%d")
+    return (start_date + timedelta(days=random_days))
 
 def random_amount():
     return f"{random.uniform(50, 10000):.2f}"
@@ -70,32 +73,60 @@ def create_random_categories(user_id):
         new_category.save()
 
 
-def expense_data(user_id) -> list:
+def create_expenses(user_id) -> list:
     """ Returns a list of auto generated data for a user """
     categories = [c.id for c in db.query(Category).filter_by(user_id=user_id).all()]
 
-    return [
+    expenses = [
         {
             "category_id": random.choice(categories),
             "amount": random_amount(),
             "description": random_description(),
             "date_occurred": random_date(),
+            "user_id": user_id
         }
         for _ in range(40)
     ]
+    for e in expenses:
+        new_expense = Expense(**e)
+        new_expense.save()
+        print('New Expense - {} created'.format(new_expense.id))
 
-def recurring_expense_data(user_id) -> list:
+    print()
+    
+
+def create_recurring_expenses(user_id) -> list:
     """ Generates random recurring expense data """
     categories = [c.id for c in db.query(Category).filter_by(user_id=user_id).all()]
 
-    return [
+    rec_expenses = [
         {
             "category_id": random.choice(categories),
             "amount": random_amount(),
             "description": random_description(),
             "start_date": random_date(),
             "end_date": random_date(),
-            "frequency": random.choice(['daily', 'weekly', 'monthly'])
+            "frequency": random.choice(['daily', 'weekly', 'monthly']),
+            "user_id": user_id
         }
         for _ in range(100)
     ]
+    for e in rec_expenses:
+        new_rec_expense = RecurringExpense(**e)
+        new_rec_expense.save()
+        print(f'Recurring Expense with id - {new_rec_expense.id} created')
+
+    print()
+
+
+if __name__ == "__main__":
+    email = input('Please enter a User email: ').strip()
+    try:
+        user = db.get_user(email)
+    except (ValueError, TypeError):
+        print('Error occurred => Invalid email')
+        exit(1)
+
+    create_random_categories(user.id)
+    create_expenses(user.id)
+    create_recurring_expenses(user.id)
