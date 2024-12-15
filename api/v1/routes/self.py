@@ -86,7 +86,15 @@ def my_statement():
     end = request.args.get('end')
 
     if start is None:
-        return jsonify(message=)
+        return jsonify(message='"from" date is invalid'), 400
+
+    if end is None:
+        return jsonify(message='"from" date is invalid'), 400
+
+    try:
+        date_occurred = datetime.strptime(s, date_format)
+    except (ValueError, TypeError):
+        return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
 
     if not current_user.is_active:
         return jsonify(message='Please verify your email first.'), 403
