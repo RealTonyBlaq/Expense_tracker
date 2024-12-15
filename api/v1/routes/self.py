@@ -82,6 +82,8 @@ def my_statement():
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
+    start = 
+
     if not current_user.is_active:
         return jsonify(message='Please verify your email first.'), 403
 
