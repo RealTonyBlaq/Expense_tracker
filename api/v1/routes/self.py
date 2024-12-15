@@ -92,7 +92,8 @@ def my_statement():
         return jsonify(message='"from" date is invalid'), 400
 
     try:
-        date_occurred = datetime.strptime(s, date_format)
+        start_date = datetime.strptime(start, date_format)
+        end_date = datetime.strptime(end, date_format)
     except (ValueError, TypeError):
         return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
 
