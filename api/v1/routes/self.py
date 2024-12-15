@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ The current user route """
 
-from api.v1 import ETapp
+from api.v1 import ETapp, date_format
 from api.v1.routes.auth import hash_password
 from bcrypt import checkpw
 from datetime import datetime
@@ -82,7 +82,11 @@ def my_statement():
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
-    start = 
+    start = request.args.get('from')
+    end = request.args.get('end')
+
+    if start is None:
+        return jsonify(message=)
 
     if not current_user.is_active:
         return jsonify(message='Please verify your email first.'), 403
