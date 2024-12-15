@@ -23,6 +23,10 @@ class Email:
         """ Sends a confirmation email with token """
         if user and OTP_TIMEOUT:
             dev_email, dev_password = _get_default_user()
+            if not dev_email or not dev_password:
+                print('Email/Password not found in the .env file')
+                exit(1)
+
             connect = yagmail.SMTP(dev_email, dev_password)
 
             subject = "Welcome to Expense Tracker!"
