@@ -54,7 +54,7 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}},
      supports_credentials=True)
 jwt = JWTManager(app)
 ALLOWED_PICTURE_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-ALLOWED_RECEIPT_EXTENSIONS = {'png', 'jpg', 'jpeg', 'pdf'}
+ALLOWED_RECEIPT_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 
 def sig_handler(sig, frame):
@@ -268,7 +268,10 @@ def scan_receipt():
         return jsonify(message='Failed to upload to Tabscanner'), 500
 
     # return jsonify(message=response_data), 200
-    process_id = response_data['token']
+    process_id = response_data.get('token')
+    if not process_id:
+        return jsonify(message='An error occurred',
+                       data={'TabScannerResponse': response_data}), 500
     RESULT_URL = f"https://api.tabscanner.com/api/result/{process_id}"
 
     r = requests.get(RESULT_URL, headers=header)
@@ -276,7 +279,8 @@ def scan_receipt():
 
     if data.get('status', '').lower() != 'done':
         return jsonify(message='upload successful',
-                       data={'status': 'pending', 'process_id': process_id}), 202
+                       data={'status': 'pending', 'process_id': process_id,
+                             'TabscannerResponse': response_data}), 202
 
     items = data.get('result', {}).get('lineItems', [])
     if items != []:
