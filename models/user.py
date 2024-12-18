@@ -10,7 +10,7 @@ from sqlalchemy.dialects.sqlite import TEXT
 from typing import Dict
 
 
-format = "%a, %b %d"
+format = "%d %b, %Y %H:%M:%S"
 
 
 class User(UserMixin, BaseModel, Base):
@@ -56,17 +56,15 @@ class User(UserMixin, BaseModel, Base):
         expenses = [ex.to_dict() for ex in self.expenses]
         recurring_expenses = [r.to_dict() for r in self.recurring_expenses]
 
-        all_txns = earnings + expenses
+        all_txns = earnings + expenses + recurring_expenses
         txns = [{
             'Type': t.get('type'), 'Amount': float(t.get('amount')),
-            'Date_occurred': t.get('date_occurred'),
+            'Date_occurred': t.get('date_occurred') or t.get('start_date'),
             'Description': t.get('description')} for t in all_txns]
-        if period:
-            start = datetime.strptime(period['from'], "%Y-%m-%d")
-            end = datetime.strptime(period['to'], "%Y-%m-%d")
-            for book in txns:
-                if book['Date_occurred'] < start or book['Date_occurred'] > end:
-                    del book
+        if period and 'from' in period and 'to' in period:
+            start = period['from']
+            end = period['to']
+            txns = [book for book in txns if start <= book['Date_occurred'] <= end]
 
         sorted_txns = sorted(txns, key=lambda x: x['Date_occurred'], reverse=True)
         for t in sorted_txns:
