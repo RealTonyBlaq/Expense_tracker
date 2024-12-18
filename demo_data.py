@@ -16,14 +16,19 @@ def random_name():
     return random.choice(names)
 
 def random_date():
-    start_date = datetime(2022, 1, 1)
+    start_date = datetime(2010, 1, 1)
     end_date = datetime(2024, 12, 31)
     delta = end_date - start_date
     random_days = random.randint(0, delta.days)
-    return (start_date + timedelta(days=random_days))
+    random_hours = random.randint(0, 12)
+    random_secs = random.randint(0, 60)
+    return (start_date + timedelta(days=random_days,
+                                   hours=random_hours,
+                                   minutes=random.randint(0, 60),
+                                   seconds=random_secs))
 
 def random_amount():
-    return f"{random.uniform(50, 10000):.2f}"
+    return f"{random.uniform(50, 100000):.2f}"
 
 def random_description():
     descriptions = [
@@ -33,16 +38,26 @@ def random_description():
     ]
     return random.choice(descriptions)
 
-# Generating a list of 50 dictionaries with random values
-earnings_data = [
-    {
-        "name": random_name(),
-        "date_occurred": random_date(),
-        "amount": random_amount(),
-        "description": random_description()
-    }
-    for _ in range(50)
-]
+
+def create_earnings(user_id):
+    """Generating a list of 50 dictionaries with random values"""
+    earnings = [
+        {
+            "name": random_name(),
+            "date_occurred": random_date(),
+            "amount": random_amount(),
+            "description": random_description(),
+            "user_id": user_id
+        }
+        for _ in range(150)
+    ]
+    for e in earnings:
+        new_income = Earning(**e)
+        new_income.save()
+        print('New Income - {} received \nDate - {}'.format(new_income.id, new_income.date_occurred))
+
+    print()
+
 
 def create_random_categories(user_id):
     """ Creates 20 expense categories for a user """
@@ -109,7 +124,7 @@ def create_recurring_expenses(user_id) -> list:
             "frequency": random.choice(['daily', 'weekly', 'monthly']),
             "user_id": user_id
         }
-        for _ in range(100)
+        for _ in range(30)
     ]
     for e in rec_expenses:
         new_rec_expense = RecurringExpense(**e)
@@ -128,5 +143,6 @@ if __name__ == "__main__":
         exit(1)
 
     create_random_categories(user.id)
+    create_earnings(user.id)
     create_expenses(user.id)
     create_recurring_expenses(user.id)
