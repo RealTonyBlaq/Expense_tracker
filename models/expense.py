@@ -3,7 +3,7 @@
 
 from models.associations import expense_tag
 from models.base import Base, BaseModel
-from sqlalchemy import Column, String, ForeignKey, Date, DECIMAL
+from sqlalchemy import Column, String, ForeignKey, DECIMAL, DateTime
 from sqlalchemy.dialects.sqlite import TEXT
 from sqlalchemy.orm import relationship
 
@@ -16,7 +16,7 @@ class Expense(BaseModel, Base):
     user_id = Column(String(60), ForeignKey('users.id', ondelete='CASCADE'),
                          nullable=False)
     amount = Column(DECIMAL(10, 2), nullable=False)
-    date_occurred = Column(Date, nullable=False)
+    date_occurred = Column(DateTime, nullable=False)
     description = Column(TEXT, nullable=True)
 
     # Relationships
