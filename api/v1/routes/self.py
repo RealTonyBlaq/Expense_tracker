@@ -46,6 +46,12 @@ def get_me():
         if data.get('bio', None):
             update_data['bio'] = data.get('bio')
 
+        if data.get('phone'):
+            phone = data.get('phone')
+            if len(phone) < 11:
+                return jsonify(message='Invalid phone number'), 400
+            update_data['phone'] = phone
+
         if data.get('password', None):
             if not data.get('confirm_password'):
                 return jsonify(message='confirm_password missing'), 400
@@ -82,14 +88,17 @@ def my_statement():
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
+    if not current_user.is_active:
+        return jsonify(message='Please verify your email first.'), 403
+
     start = request.args.get('from')
-    end = request.args.get('end')
+    end = request.args.get('to')
 
     if start is None:
-        return jsonify(message='"from" date is invalid'), 400
+        return jsonify(message='"from" date parameter is missing'), 400
 
     if end is None:
-        return jsonify(message='"from" date is invalid'), 400
+        return jsonify(message='"from" date parameter is invalid'), 400
 
     try:
         start_date = datetime.strptime(start, date_format)
@@ -97,10 +106,12 @@ def my_statement():
     except (ValueError, TypeError):
         return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
 
-    if not current_user.is_active:
-        return jsonify(message='Please verify your email first.'), 403
+    if start_date > end_date:
+        return jsonify(message='"from" date should not be higher than "to" date'), 400
 
-    if not Email.send_statement(current_user):
+    period = {'from': start_date, 'to': end_date}
+
+    if not Email.send_statement(current_user, period):
         return jsonify(message='An error occurred. Statement could not be generated.'), 400
 
     return jsonify(message='Statement sent successfully! Please check your inbox.'), 200
