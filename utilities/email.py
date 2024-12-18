@@ -6,13 +6,21 @@ from utilities.statement import Statement
 import yagmail
 from yagmail.error import YagInvalidEmailAddress, YagAddressError
 import re
+from typing import Dict
 
 
 def _get_default_user() -> list:
     """ Helper function to return Default Mail details """
     from api.v1.app import app
 
-    return [app.config['MAIL_DEFAULT_SENDER'], app.config['MAIL_PASSWORD']]
+    dev_email = app.config['MAIL_DEFAULT_SENDER']
+    dev_password = app.config['MAIL_PASSWORD']
+
+    if not dev_email or not dev_password:
+        print('Email/Password not found in the .env file')
+        exit(1)
+
+    return dev_email, dev_password
 
 
 class Email:
@@ -23,9 +31,6 @@ class Email:
         """ Sends a confirmation email with token """
         if user and OTP_TIMEOUT:
             dev_email, dev_password = _get_default_user()
-            if not dev_email or not dev_password:
-                print('Email/Password not found in the .env file')
-                exit(1)
 
             connect = yagmail.SMTP(dev_email, dev_password)
 
@@ -118,15 +123,15 @@ class Email:
         return False
 
     @classmethod
-    def send_statement(self, user):
-        """ Sends the user's full statement to the user """
+    def send_statement(self, user, period: Dict[str, str]):
+        """ Sends the user's full statement to the registered email """
         if not user:
             return False
 
         dev_email, dev_password = _get_default_user()
         connect = yagmail.SMTP(dev_email, dev_password)
 
-        df_html = Statement.get_html(user)
+        df_html, summary = Statement.get_html_statement(user, period)
         df_html = df_html.replace('<table border="1"', '<table class="styled-table"')
 
         subject = "Your statement is ready!"
@@ -256,11 +261,11 @@ class Email:
                         <div class="summary">
                             <div class="money-in">
                                 <p>Money In:</p>
-                                <h4>235,559.67</h4>
+                                <h4>{summary["Total_credit"]}</h4>
                             </div>
                             <div class="money-out">
                                 <p>Money Out:</p>
-                                <h4>46779377</h4>
+                                <h4>{summary["Total_debit"]}</h4>
                             </div>
                         </div>
                     </div>
