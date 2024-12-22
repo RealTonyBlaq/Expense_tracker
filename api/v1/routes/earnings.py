@@ -65,9 +65,11 @@ def create_earning():
             return jsonify(message='Amount must be an integer/float'), 400
 
         try:
-            date_occurred = datetime.strptime(data.get('date_occurred'), date_format)
+            date_occurred = datetime.strptime(data.get('date_occurred'),
+                                              date_format)
         except (ValueError, TypeError) as e:
-            return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+            return jsonify(message="Invalid date format. \
+                Please use 'YYYY-mm-dd'"), 400
 
         if date_occurred > datetime.today():
             return jsonify(message=f'{data.get("date_occurred")} is in the future. Use a valid date'), 400
