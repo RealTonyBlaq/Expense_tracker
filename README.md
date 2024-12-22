@@ -20,7 +20,7 @@ The "Expense Tracker" project is a command-line application built with Python th
 **Installation steps:**
 
 1. Clone the repository: `git clone [Repository URL]`
-2. Navigate to the project directory: `cd expense-tracker`
+2. Navigate to the project directory: `cd Expense_tracker`
 3. Install dependencies: `[Installation Command]` (e.g., `pip install -r requirements.txt`)
 
 ## 3. Usage Instructions
