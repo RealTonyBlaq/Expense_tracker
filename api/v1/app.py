@@ -226,8 +226,7 @@ def post_profile_picture():
         return jsonify(message='success'), 200
 
 
-@app.route('/scan_receipt', methods=['POST'],
-             strict_slashes=False)
+@app.route('/scan_receipt', methods=['POST'], strict_slashes=False)
 @jwt_required()
 def scan_receipt():
     """
@@ -263,7 +262,8 @@ def scan_receipt():
     if not allowed_receipt(file.filename):
         return jsonify(message='File type not supported'), 415
 
-    filepath = path.join(f'{app.config["UPLOADS_FOLDER"]}/receipts', file.filename)
+    filepath = path.join(f'{app.config["UPLOADS_FOLDER"]}/receipts',
+                         file.filename)
     file.save(filepath)
 
     UPLOAD_URL = "https://api.tabscanner.com/api/process"
