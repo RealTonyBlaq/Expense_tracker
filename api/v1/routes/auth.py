@@ -31,6 +31,7 @@ def generate_otp() -> str:
     totp = pyotp.TOTP(secret)
     return totp.now()
 
+
 try:
     OTP_TIMEOUT = int(getenv('OTP_TIMEOUT'))
 except (ValueError, TypeError) as e:
