@@ -108,8 +108,9 @@ def update_category(category_id):
     except BadRequest:
         return jsonify(message='Error parsing JSON data'), 400
 
-    category_obj = db.query(Category).filter_by(id=category_id,
-                                                user_id = current_user.id).first()
+    category_obj = db.query(Category).filter_by(
+        id=category_id,
+        user_id=current_user.id).first()
     if category_obj:
         name = data.get('name').strip()
         if name:
@@ -120,6 +121,7 @@ def update_category(category_id):
 
     updated_data = category_obj.to_dict()
     updated_data['expenses'] = [e.to_dict() for e in category_obj.expenses]
-    updated_data['recurring_expenses'] = [rec.to_dict() for rec in category_obj.recurring_expenses]
+    updated_data['recurring_expenses'] = [rec.to_dict() for rec in
+                                          category_obj.recurring_expenses]
 
     return jsonify(message='success', data=updated_data), 200
