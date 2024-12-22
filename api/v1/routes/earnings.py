@@ -24,7 +24,7 @@ def get_earnings(earning_id=None):
         abort(401)
 
     if earning_id:
-        earning = db.query(Earning).filter_by(id = earning_id, user_id = current_user.id).first()
+        earning = db.query(Earning).filter_by(id =earning_id, user_id = current_user.id).first()
         if earning is not None:
             return jsonify(message='success', data=earning.to_dict()), 200
         abort(404)
