@@ -23,8 +23,8 @@ def get_categories(category_id=None):
         abort(401)
 
     if category_id:
-        category = db.query(Category).filter_by(id=category_id,
-                                                user_id=current_user.id).first()
+        category = db.query(Category).filter_by(
+            id=category_id, user_id=current_user.id).first()
         if category is None:
             abort(404)
 
