@@ -25,7 +25,7 @@ def get_expenses(expense_id=None):
         abort(401)
 
     if expense_id:
-        expense = db.query(Expense).filter_by(id = expense_id, user_id = current_user.id).first()
+        expense = db.query(Expense).filter_by(id =expense_id, user_id = current_user.id).first()
         if expense:
             return jsonify(message='success', data=expense.to_dict()), 200
         abort(404)
