@@ -308,7 +308,8 @@ def scan_receipt():
                                   user_id=current_user.id,
                                   amount=amount,
                                   date_occurred=expense_date,
-                                  description=item.get('desc') oritem.get('descClean'))
+                                  description=item.get('desc') or
+                                  item.get('descClean'))
             new_expense.save()
             expenses.append(new_expense.to_dict())
 
