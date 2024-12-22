@@ -89,7 +89,8 @@ def signup():
         key = f'auth_{OTP}'
         cache.set(key, user.email, OTP_TIMEOUT)
 
-        return jsonify(message='user created successfully. Check your inbox for the OTP'), 201
+        return jsonify(message='user created successfully. \
+            Check your inbox for the OTP'), 201
 
     return jsonify(message='Not a valid JSON'), 400
 
