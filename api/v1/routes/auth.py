@@ -223,13 +223,15 @@ def reset():
 
             OTP = generate_otp()
             if not Email.send_otp(user, OTP, OTP_TIMEOUT):
-                return jsonify(message='An error occurred. OTP send failure'), 400
+                return jsonify(message='An error occurred. OTP send \
+                    failure'), 400
 
             # Cache the OTP
             key = f'auth_{OTP}'
             cache.set(key, email, OTP_TIMEOUT)
 
-            return jsonify(message='OTP sent. Please check your email inbox'), 200
+            return jsonify(message='OTP sent. \
+                Please check your email inbox'), 200
 
         return jsonify(message='Not a Valid JSON'), 400
 
