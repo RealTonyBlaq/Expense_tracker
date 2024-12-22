@@ -53,7 +53,8 @@ def create_recurring_expense(category_id):
         except BadRequest:
             return jsonify(message='Error parsing JSON data'), 400
 
-        category = db.query(Category).filter_by(id=category_id, user_id = current_user.id).first()
+        category = db.query(Category).filter_by(
+            id=category_id, user_id=current_user.id).first()
         if not category:
             abort(404)
 
@@ -69,14 +70,17 @@ def create_recurring_expense(category_id):
         end_date = data.get('end_date')
 
         try:
-            start_date = datetime.strptime(data.get('start_date'), date_format)
+            start_date = datetime.strptime(data.get('start_date'),
+                                           date_format)
             if start_date > datetime.today():
-                return jsonify(message=f'{data.get("start_date")} is in the future. Please use a valid date'), 400
+                return jsonify(message=f'{data.get("start_date")} is in the \
+                    future. Please use a valid date'), 400
 
             if end_date:
                 end_date = datetime.strptime(end_date, date_format)
                 if end_date < datetime.today():
-                    return jsonify(message=f'{data.get("end_date")} is in the past. Please use a future date'), 400
+                    return jsonify(message=f'{data.get("end_date")} is in the \
+                        past. Please use a future date'), 400
         except (ValueError, TypeError):
             return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
 
