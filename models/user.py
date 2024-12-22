@@ -4,13 +4,26 @@
 from datetime import datetime
 from flask_login import UserMixin
 from models.base import Base, BaseModel
-from sqlalchemy import String, Column, Boolean, DateTime, Integer
+from os import getenv
+from sqlalchemy import String, Column, Boolean, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.sqlite import TEXT
-from typing import Dict
+from typing import Dict, Tuple, List
 
 
 format = "%d %b, %Y %H:%M:%S"
+currency = getenv('DEFAULT_CURRENCY', '$')
+
+
+def get_bal_before_period(sorted_txns: List[Dict],
+                          period: Dict[str, str]) -> float:
+    """ Gets the balance brought forward """
+    start_date = period['from']
+    for txn in sorted_txns:
+        if txn['Date_occurred'] < start_date:
+            return txn['Balance']
+
+    return 0.00
 
 
 class User(UserMixin, BaseModel, Base):
@@ -50,24 +63,60 @@ class User(UserMixin, BaseModel, Base):
         """ Returns whether a user is logged in """
         return self.is_logged_in
 
-    def generate_statement(self, period: Dict[str, str] = None) -> list:
-        """ Returns a list of Earning, Expense and RecurringExpense objects """
+    def generate_statement(self, period: Dict[str, str] = None) -> Tuple[list, dict]:
+        """ Return:
+                Sorted list dictionaries of Earning, Expense and RecurringExpense objects
+                    with the necessary transaction details
+                A summary dict containing total credits, total debits and the balance
+        """
         earnings = [e.to_dict() for e in self.earnings]
         expenses = [ex.to_dict() for ex in self.expenses]
         recurring_expenses = [r.to_dict() for r in self.recurring_expenses]
 
         all_txns = earnings + expenses + recurring_expenses
-        txns = [{
-            'Type': t.get('type'), 'Amount': float(t.get('amount')),
-            'Date_occurred': t.get('date_occurred') or t.get('start_date'),
-            'Description': t.get('description')} for t in all_txns]
-        if period and 'from' in period and 'to' in period:
-            start = period['from']
-            end = period['to']
-            txns = [book for book in txns if start <= book['Date_occurred'] <= end]
+        sorted_txns = sorted(all_txns,
+                             key=lambda x: x.get('date_occurred') or x.get('start_date'))
 
-        sorted_txns = sorted(txns, key=lambda x: x['Date_occurred'], reverse=True)
+        txns = []
+        helper_list = []
+        balance = 0.00
+        money_in = 0.00
+        money_out = 0.00
+        start_date = period['from']
+        end_date = period['to']
+
         for t in sorted_txns:
-            t['Date_occurred'] = datetime.strftime(t['Date_occurred'], format)
+            record = {'Type': 'Credit' if t.get('type') == 'Earning' else 'Debit',
+                      'Amount': float(t.get('amount')),
+                      'Date_occurred': t.get('date_occurred') or t.get('start_date'),
+                      'Description': t.get('description'),
+                      'Balance': 0.00}
 
-        return sorted_txns
+            if record['Type'] == 'Credit':
+                balance += record['Amount']
+            else:
+                balance -= record['Amount']
+
+            record['Balance'] = balance
+            helper_list.append(record.copy())
+            if start_date <= record['Date_occurred'] <= end_date:
+                if record['Type'] == 'Credit':
+                    money_in += record['Amount']
+                else:
+                    money_out += record['Amount']
+                record['Date_occurred'] = datetime.strftime(record['Date_occurred'], format)
+                txns.append(record)
+
+        # reverse the lists
+        helper_list.reverse()
+        txns.reverse()
+
+        opening_balance = f'{currency} {get_bal_before_period(helper_list, period):,.2f}'
+        summary = {'Total_credit': f'{currency} {money_in:,.2f}',
+                   'Total_debit': f'{currency} {money_out:,.2f}',
+                   'Opening_balance': opening_balance,
+                   'Closing_balance': f'{currency} {txns[0]["Balance"]:,.2f}' if txns != [] else f'{currency} {0.00}',
+                   'Balance': f'{currency} {money_in - money_out:,.2f}'
+        }
+
+        return txns, summary
