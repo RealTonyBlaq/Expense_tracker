@@ -162,12 +162,15 @@ def update_recurring_expense(id):
 
         if 'end_date' in data:
             try:
-                data['end_date'] = datetime.strptime(data['end_date'], date_format)
+                data['end_date'] = datetime.strptime(data['end_date'],
+                                                     date_format)
             except (ValueError, TypeError):
-                return jsonify(message="Invalid end_date format. Please use 'YYYY-mm-dd'"), 400
+                return jsonify(message="Invalid end_date format. \
+                    Please use 'YYYY-mm-dd'"), 400
 
             if data['end_date'] < datetime.today():
-                return jsonify(message=f'{data.get("end_date")} is in the past. Please use a future date'), 400
+                return jsonify(message=f'{data.get("end_date")} is in the \
+                    past. Please use a future date'), 400
 
         if 'frequency' in data:
             data['frequency'] = data['frequency'].lower()
