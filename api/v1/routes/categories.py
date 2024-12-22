@@ -82,8 +82,7 @@ def delete_category(category_id):
         abort(401)
 
     category_obj = db.query(Category).filter_by(
-        id=category_id,
-        user_id=current_user.id).first()
+        id=category_id, user_id=current_user.id).first()
     if category_obj is None:
         abort(404)
 
@@ -109,8 +108,7 @@ def update_category(category_id):
         return jsonify(message='Error parsing JSON data'), 400
 
     category_obj = db.query(Category).filter_by(
-        id=category_id,
-        user_id=current_user.id).first()
+        id=category_id, user_id=current_user.id).first()
     if category_obj:
         name = data.get('name').strip()
         if name:
