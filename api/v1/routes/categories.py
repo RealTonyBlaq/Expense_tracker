@@ -23,13 +23,15 @@ def get_categories(category_id=None):
         abort(401)
 
     if category_id:
-        category = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
+        category = db.query(Category).filter_by(id=category_id,
+                                                user_id=current_user.id).first()
         if category is None:
             abort(404)
 
         data = category.to_dict()
         data['expenses'] = [expense.to_dict() for expense in category.expenses]
-        data['recurring_expenses'] = [rec.to_dict() for rec in category.recurring_expenses]
+        data['recurring_expenses'] = [rec.to_dict() for rec in
+                                      category.recurring_expenses]
 
         return jsonify(message='success', data=data), 200
 
