@@ -94,7 +94,8 @@ def delete_earnings(earning_id):
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
-    obj = db.query(Earning).filter_by(id = earning_id, user_id = current_user.id).first()
+    obj = db.query(Earning).filter_by(
+        id=earning_id, user_id=current_user.id).first()
     if obj:
         db.delete(obj)
         return jsonify(message='success'), 200
@@ -117,7 +118,8 @@ def update_earning(earning_id):
         except BadRequest:
             return jsonify(message='Error parsing JSON data'), 400
 
-        earning = db.query(Earning).filter_by(id = earning_id, user_id = current_user.id).first()
+        earning = db.query(Earning).filter_by(
+            id=earning_id, user_id=current_user.id).first()
         if not earning:
             abort(404)
 
