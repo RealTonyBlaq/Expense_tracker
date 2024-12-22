@@ -32,7 +32,8 @@ def get_recurring_expense(id=None):
                            data=recurring_expense.to_dict()), 200
         abort(404)
 
-    rec_expenses = db.query(RecurringExpense).filter_by(user_id=current_user.id).all()
+    rec_expenses = db.query(RecurringExpense).filter_by(
+        user_id=current_user.id).all()
     all_recurring = [e.to_dict() for e in rec_expenses]
     return jsonify(message='success', data=all_recurring), 200
 
@@ -52,7 +53,7 @@ def create_recurring_expense(category_id):
         except BadRequest:
             return jsonify(message='Error parsing JSON data'), 400
 
-        category = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
+        category = db.query(Category).filter_by(id=category_id, user_id = current_user.id).first()
         if not category:
             abort(404)
 
