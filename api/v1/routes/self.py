@@ -190,7 +190,8 @@ def disable_2fa():
         return jsonify(message='Incorrect password'), 400
 
     if not current_user.is_2fa_enabled:
-        return jsonify(message='Two-Factor Authentication already disabled'), 200
+        return jsonify(message='Two-Factor Authentication already \
+            disabled'), 200
 
     current_user.is_2fa_enabled = False
     current_user.save()
