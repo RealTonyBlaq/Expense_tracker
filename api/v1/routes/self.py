@@ -120,7 +120,8 @@ def my_statement():
         return jsonify(message='An error occurred. \
             Statement could not be generated.'), 400
 
-    return jsonify(message='Statement sent successfully! Please check your inbox.'), 200
+    return jsonify(message='Statement sent successfully! \
+        Please check your inbox.'), 200
 
 
 @ETapp.route('/me/enable_2fa', methods=['POST'],
@@ -152,11 +153,13 @@ def enable_2fa():
         return jsonify(message='Incorrect password'), 400
 
     if current_user.is_2fa_enabled:
-        return jsonify(message='Two-Factor Authentication already enabled'), 200
+        return jsonify(message='Two-Factor Authentication \
+            already enabled'), 200
 
     current_user.is_2fa_enabled = True
     current_user.save()
-    return jsonify(message='Two Factor Authentication enable successfully'), 201
+    return jsonify(message='Two Factor Authentication enabled \
+        successfully'), 201
 
 
 @ETapp.route('/me/disable_2fa', methods=['POST'],
