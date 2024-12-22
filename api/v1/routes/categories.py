@@ -72,7 +72,8 @@ def create_category():
     return jsonify(message='Not a valid JSON'), 400
 
 
-@ETapp.route('/categories/<category_id>', methods=['DELETE'], strict_slashes=False)
+@ETapp.route('/categories/<category_id>', methods=['DELETE'],
+             strict_slashes=False)
 @jwt_required()
 def delete_category(category_id):
     """ Deletes a user-created category from storage """
@@ -80,7 +81,9 @@ def delete_category(category_id):
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
-    category_obj = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
+    category_obj = db.query(Category).filter_by(
+        id=category_id,
+        user_id=current_user.id).first()
     if category_obj is None:
         abort(404)
 
