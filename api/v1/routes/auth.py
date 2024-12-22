@@ -48,7 +48,8 @@ def signup():
         except BadRequest:
             return jsonify(message='Error parsing JSON data'), 400
 
-        for key in ['first_name', 'last_name', 'email', 'password', 'confirm_password']:
+        for key in ['first_name', 'last_name', 'email', 'password',
+                    'confirm_password']:
             if not data.get(key):
                 return jsonify(message=f'{key} missing'), 400
 
