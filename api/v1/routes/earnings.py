@@ -126,11 +126,12 @@ def update_earning(earning_id):
         if 'date_occurred' in data:
             date_occurred = data['date_occurred']
             try:
-                data['date_occurred'] = datetime.strptime(date_occurred, date_format)
+                data['date_occurred'] = datetime.strptime(date_occurred,
+                                                          date_format)
             except (ValueError, TypeError) as e:
                 return jsonify(message="Invalid date format. \
                     Please use 'YYYY-mm-dd'"), 400
-    
+
             if data['date_occurred'] > datetime.today():
                 return jsonify(message=f'{data["date_occurred"]} is in the \
                     future. Use a valid date'), 400
