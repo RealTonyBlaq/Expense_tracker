@@ -25,7 +25,7 @@ def get_recurring_expense(id=None):
         abort(401)
 
     if id:
-        recurring_expense = db.query(RecurringExpense).filter_by(id = id, user_id = current_user.id).first()
+        recurring_expense = db.query(RecurringExpense).filter_by(id= id, user_id = current_user.id).first()
         if recurring_expense:
             return jsonify(message='success', data=recurring_expense.to_dict()), 200
         abort(404)
