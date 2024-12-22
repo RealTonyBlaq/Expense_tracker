@@ -6,7 +6,8 @@ from api.v1.routes.auth import hash_password
 from bcrypt import checkpw
 from datetime import datetime
 from flask import abort, jsonify, request
-from flask_jwt_extended import jwt_required, get_current_user, unset_jwt_cookies
+from flask_jwt_extended import (jwt_required, get_current_user,
+                                unset_jwt_cookies)
 from utilities.email import Email
 from werkzeug.exceptions import BadRequest
 
