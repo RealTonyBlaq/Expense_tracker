@@ -141,10 +141,12 @@ def update_expense(expense_id):
             try:
                 data['date_occurred'] = datetime.strptime(date_occurred, date_format)
             except (ValueError, TypeError):
-                return jsonify(message="Invalid date format. \Please use 'YYYY-mm-dd'"), 400
+                return jsonify(message="Invalid date format. \
+                    Please use 'YYYY-mm-dd'"), 400
 
             if data['date_occurred'] > datetime.today():
-                return jsonify(message=f'{data["date_occurred"]} is in the future. Use a valid date'), 400
+                return jsonify(message=f'{data["date_occurred"]} is in the \
+                    future. Use a valid date'), 400
 
         for key, value in data.items():
             if key in ['date_occurred', 'amount', 'description']:
