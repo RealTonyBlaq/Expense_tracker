@@ -59,8 +59,7 @@ def get_me():
             if not data.get('confirm_password'):
                 return jsonify(message='confirm_password missing'), 400
 
-            if data.get('password').strip() != data.get(
-                'confirm_password').strip():
+            if data['password'].strip() != data['confirm_password'].strip():
                 return jsonify(message='password mismatch'), 400
 
             update_data['password'] = hash_password(data['password'].strip())
