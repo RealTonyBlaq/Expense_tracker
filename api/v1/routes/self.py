@@ -107,15 +107,18 @@ def my_statement():
         start_date = datetime.strptime(start, date_format)
         end_date = datetime.strptime(end, date_format)
     except (ValueError, TypeError):
-        return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+        return jsonify(message="Invalid date format. \
+            Please use 'YYYY-mm-dd'"), 400
 
     if start_date > end_date:
-        return jsonify(message='"from" date should not be higher than "to" date'), 400
+        return jsonify(message='"from" date should not be higher \
+            than "to" date'), 400
 
     period = {'from': start_date, 'to': end_date}
 
     if not Email.send_statement(current_user, period):
-        return jsonify(message='An error occurred. Statement could not be generated.'), 400
+        return jsonify(message='An error occurred. \
+            Statement could not be generated.'), 400
 
     return jsonify(message='Statement sent successfully! Please check your inbox.'), 200
 
