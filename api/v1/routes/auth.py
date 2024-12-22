@@ -123,13 +123,14 @@ def login():
                 return jsonify(message="Incorrect password"), 401
 
             if not user.is_active:
-                return jsonify(message='Please verify your email to login'), 401
+                return jsonify(message='Please verify your email to \
+                    login'), 401
 
             if user.is_2fa_enabled:
                 OTP = generate_otp()
 
                 if not Email.send_otp(user, OTP, OTP_TIMEOUT):
-                    return jsonify(message='An error occurred. OTP send failure.')
+                    return jsonify(message='An error occurred. OTP send failure.'), 500
                 # Cache the OTP
                 key = f'auth_{OTP}'
                 cache.set(key, user.email, OTP_TIMEOUT)
