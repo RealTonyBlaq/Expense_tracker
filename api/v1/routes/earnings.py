@@ -72,7 +72,8 @@ def create_earning():
                 Please use 'YYYY-mm-dd'"), 400
 
         if date_occurred > datetime.today():
-            return jsonify(message=f'{data.get("date_occurred")} is in the future. Use a valid date'), 400
+            return jsonify(message=f'{data.get("date_occurred")} is in the \
+                future. Use a valid date'), 400
 
         user_earning = Earning(name=name,
                                date_occurred=date_occurred,
