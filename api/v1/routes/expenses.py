@@ -139,7 +139,8 @@ def update_expense(expense_id):
         if 'date_occurred' in data:
             date_occurred = data['date_occurred']
             try:
-                data['date_occurred'] = datetime.strptime(date_occurred, date_format)
+                data['date_occurred'] = datetime.strptime(date_occurred,
+                                                          date_format)
             except (ValueError, TypeError):
                 return jsonify(message="Invalid date format. \
                     Please use 'YYYY-mm-dd'"), 400
