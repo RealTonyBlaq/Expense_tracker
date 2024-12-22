@@ -26,10 +26,12 @@ def get_me():
 
     if request.method == 'GET':
         user_dict = current_user.to_dict()
-        user_dict['categories'] = [cat.to_dict() for cat in current_user.categories]
+        user_dict['categories'] = [cat.to_dict() for cat in
+                                   current_user.categories]
         user_dict['earnings'] = [e.to_dict() for e in current_user.earnings]
         user_dict['expenses'] = [ex.to_dict() for ex in current_user.expenses]
-        user_dict['recurring_expenses'] = [rec.to_dict() for rec in current_user.recurring_expenses]
+        user_dict['recurring_expenses'] = [rec.to_dict() for rec in
+                                           current_user.recurring_expenses]
         user_dict['tags'] = [tag.to_dict() for tag in current_user.tags]
 
         return jsonify(message='success', data=user_dict), 200
