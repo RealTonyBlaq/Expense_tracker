@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 """ Email service for Expense Tracker """
 
+import base64
 from datetime import datetime
 from utilities.statement import Statement
 import yagmail
 from yagmail.error import YagInvalidEmailAddress, YagAddressError
 import re
+from smtplib import SMTPConnectError, SMTPServerDisconnected
 from typing import Dict
 
 
-def _get_default_user() -> list:
+def _get_default_user() -> set:
     """ Helper function to return Default Mail details """
     from api.v1.app import app
 
@@ -21,6 +23,14 @@ def _get_default_user() -> list:
         exit(1)
 
     return dev_email, dev_password
+
+
+def get_logo_b64(path: str = "static/images/logo.png") -> str:
+    """ Returns the B64 version of the logo """
+    with open(path, 'rb') as img:
+        enc_img = base64.b64encode(img.read()).decode('utf-8')
+
+    return enc_img
 
 
 class Email:
@@ -40,7 +50,7 @@ class Email:
             <body style="font-family: Arial, sans-serif; background-color: #f5f5f5; color: #333; margin: 0; padding: 20px;">
                 <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
                     <div style="background-color: #4CAF50; color: #ffffff; padding: 10px; text-align: center; border-radius: 10px 10px 0 0;">
-                        <h2 style="margin: 0; font-size: 24px;">Expense Tracker</h2>
+                        <img src="data:image/png;base64,{get_logo_b64()}" alt="Expense Tracker Logo" style="width: 150px; height: auto;">
                     </div>
                     <div style="padding: 20px;">
                         <p style="font-size: 16px; line-height: 1.6; margin: 10px 0;">Dear {user.first_name} {user.last_name},</p>
@@ -85,8 +95,8 @@ class Email:
             <html>
             <body style="font-family: Arial, sans-serif; background-color: #f5f5f5; color: #333; margin: 0; padding: 20px;">
                 <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-                    <div style="background-color: #4CAF50; color: #ffffff; padding: 10px; text-align: center; border-radius: 10px 10px 0 0;">
-                        <h2 style="margin: 0; font-size: 24px;">Expense Tracker</h2>
+                    <div style="background-color: transparent; padding: 10px; text-align: center; border-radius: 10px 10px 0 0;">
+                        <img src="data:image/png;base64,{get_logo_b64()}" alt="Expense Tracker Logo" style="width: 150px; height: auto;">
                     </div>
                     <div style="padding: 20px;">
                         <p style="font-size: 16px; line-height: 1.6; margin: 10px 0;">Dear {user.first_name} {user.last_name},</p>
@@ -97,7 +107,7 @@ class Email:
                         </div>
 
                         <p style="font-size: 16px; line-height: 1.6; margin: 10px 0;">If you have any questions or need assistance, feel free to reach out to us.</p>
-                        <a href="http://127.0.0.1:5000/support" style="display: inline-block; background-color: #4CAF50; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px; font-size: 16px;">Contact Support</a>
+                        <a href="http://127.0.0.1:5000/support" style="display: inline-block; background-color: #4CAF50; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 10px; margin-top: 20px; font-size: 16px;">Contact Support</a>
                         <p style="font-style: italic; color: #555; font-size: 14px; line-height: 1.6; margin: 20px 0;">
                             Kindly note that the OTP expires after {OTP_TIMEOUT} minutes.
                         </p>
@@ -156,15 +166,11 @@ class Email:
                     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 }}
                 .header {{
-                    background-color: #4CAF50;
+                    background-color: transparent;
                     color: #ffffff;
                     padding: 10px;
                     text-align: center;
                     border-radius: 10px 10px 0 0;
-                }}
-                .header h2 {{
-                    margin: 0;
-                    font-size: 24px;
                 }}
                 .content {{
                     padding: 20px;
@@ -250,7 +256,7 @@ class Email:
         <body>
             <div class="email-container">
                 <div class="header">
-                    <h2>Expense Tracker</h2>
+                    <img src="data:image/png;base64,{get_logo_b64()}" alt="Expense Tracker Logo" style="width: 150px; height: auto;">
                 </div>
                 <div class="content">
                     <p>Dear {user.first_name},</p>
@@ -258,6 +264,10 @@ class Email:
                     <div class="statement-container">
                         <h3>Name:</h3> <p>{user.first_name} {user.last_name} </p>
                         <h3>Email Address:</h3> <p> {user.email} </p>
+                        <h3>Duration:</h3> <p> {datetime.strftime(period["from"], "%Y-%m-%d")} to {datetime.strftime(period["to"], "%Y-%m-%d")} </p>
+                        <h3>Opening Balance: {summary["Opening_balance"]}</h3>
+                        <h3>Closing Balance: {summary["Closing_balance"]}</h3>
+
                         <div class="summary">
                             <div class="money-in">
                                 <p>Money In:</p>
@@ -293,5 +303,8 @@ class Email:
             connect.send(user.email, subject=subject, contents=content)
             connect.close()
             return True
-        except (YagAddressError, YagInvalidEmailAddress):
+        except (YagAddressError,
+                YagInvalidEmailAddress,
+                SMTPConnectError,
+                SMTPServerDisconnected):
             return False
