@@ -25,12 +25,14 @@ def get_recurring_expense(id=None):
         abort(401)
 
     if id:
-        recurring_expense = db.query(RecurringExpense).filter_by(id= id, user_id = current_user.id).first()
+        recurring_expense = db.query(RecurringExpense).filter_by(
+            id=id, user_id=current_user.id).first()
         if recurring_expense:
-            return jsonify(message='success', data=recurring_expense.to_dict()), 200
+            return jsonify(message='success',
+                           data=recurring_expense.to_dict()), 200
         abort(404)
 
-    rec_expenses = db.query(RecurringExpense).filter_by(user_id = current_user.id).all()
+    rec_expenses = db.query(RecurringExpense).filter_by(user_id=current_user.id).all()
     all_recurring = [e.to_dict() for e in rec_expenses]
     return jsonify(message='success', data=all_recurring), 200
 
