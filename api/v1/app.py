@@ -23,7 +23,7 @@ load_dotenv(app_env)
 
 app = Flask(__name__,
             template_folder='../../web_flask/templates',
-            static_folder='../../web_flask/static')
+            static_folder='../../static')
 
 
 app.config['JWT_SECRET_KEY'] = getenv('SECRET_KEY')
@@ -178,12 +178,14 @@ def post_profile_picture():
 
     if request.method == 'GET':
         file_prefix = f'User{current_user.id}'
-        files = [f.name for f in scandir(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures')
+        files = [f.name for f in scandir(
+            f'{app.config["UPLOADS_FOLDER"]}/profile_pictures')
                  if f.is_file() and f.name.startswith(file_prefix)]
 
         if len(files) == 0:
             abort(404)
-        return send_from_directory(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures', files[0])
+        return send_from_directory(
+            f'{app.config["UPLOADS_FOLDER"]}/profile_pictures', files[0])
 
     if request.method == 'POST':
         if 'image' not in request.files:
@@ -196,14 +198,18 @@ def post_profile_picture():
         if allowed_picture(file.filename):
             # check for previous uploaded picture and delete it
             file_prefix = f'User{current_user.id}'
-            for f in scandir(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures'):
+            for f in scandir(
+                 f'{app.config["UPLOADS_FOLDER"]}/profile_pictures'):
                 if f.is_file() and f.name.startswith(file_prefix):
-                    remove(path.join(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures', f.name))
+                    remove(path.join(
+                        f'{app.config["UPLOADS_FOLDER"]}/profile_pictures',
+                        f.name))
 
             # Save the picture to the server
             file_ext = file.filename.rsplit('.', 1)[1]
             filename = f'User{current_user.id}.{file_ext}'
-            filepath = path.join(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures', filename)
+            filepath = path.join(
+                f'{app.config["UPLOADS_FOLDER"]}/profile_pictures', filename)
             file.save(filepath)
             return jsonify(message='image upload successful!'), 201
 
@@ -213,7 +219,9 @@ def post_profile_picture():
         file_prefix = f'User{current_user.id}'
         for f in scandir(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures'):
             if f.is_file() and f.name.startswith(file_prefix):
-                remove(path.join(f'{app.config["UPLOADS_FOLDER"]}/profile_pictures', f.name))
+                remove(path.join(
+                    f'{app.config["UPLOADS_FOLDER"]}/profile_pictures',
+                    f.name))
 
         return jsonify(message='success'), 200
 
