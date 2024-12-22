@@ -82,11 +82,13 @@ def create_recurring_expense(category_id):
                     return jsonify(message=f'{data.get("end_date")} is in the \
                         past. Please use a future date'), 400
         except (ValueError, TypeError):
-            return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+            return jsonify(message="Invalid date format. \
+                Please use 'YYYY-mm-dd'"), 400
 
         frequency = data.get('frequency').lower()
         if frequency not in ['daily', 'weekly', 'monthly']:
-            return jsonify(message='Frequency must be daily, weekly or monthly'), 400
+            return jsonify(message='Frequency must be daily, weekly \
+                or monthly'), 400
 
         # Create the recurring expense
         recurring_expense = RecurringExpense(
