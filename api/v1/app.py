@@ -294,7 +294,8 @@ def scan_receipt():
     if items != []:
         expenses = []
         try:
-            expense_date = datetime.strptime(data['result']['dateISO'], "%Y-%m-%dT%H:%M:%S")
+            expense_date = datetime.strptime(data['result']['dateISO'],
+                                             "%Y-%m-%dT%H:%M:%S")
         except Exception:
             expense_date = datetime.now()
 
@@ -307,7 +308,7 @@ def scan_receipt():
                                   user_id=current_user.id,
                                   amount=amount,
                                   date_occurred=expense_date,
-                                  description=item.get('desc') or item.get('descClean'))
+                                  description=item.get('desc') oritem.get('descClean'))
             new_expense.save()
             expenses.append(new_expense.to_dict())
 
