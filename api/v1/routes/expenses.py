@@ -101,7 +101,8 @@ def delete_expense(expense_id):
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
-    my_expense = db.query(Expense).filter_by(id = expense_id, user_id = current_user.id).first()
+    my_expense = db.query(Expense).filter_by(
+        id=expense_id, user_id=current_user.id).first()
     if my_expense:
         my_expense.delete()
         return jsonify(message='success'), 200
@@ -124,7 +125,8 @@ def update_expense(expense_id):
         except BadRequest:
             return jsonify(message='Error parsing JSON data'), 400
 
-        my_expense = db.query(Expense).filter_by(id = expense_id, user_id = current_user.id).first()
+        my_expense = db.query(Expense).filter_by(
+            id=expense_id, user_id=current_user.id).first()
         if not my_expense:
             abort(400)
 
@@ -139,7 +141,7 @@ def update_expense(expense_id):
             try:
                 data['date_occurred'] = datetime.strptime(date_occurred, date_format)
             except (ValueError, TypeError):
-                return jsonify(message="Invalid date format. Please use 'YYYY-mm-dd'"), 400
+                return jsonify(message="Invalid date format. \Please use 'YYYY-mm-dd'"), 400
 
             if data['date_occurred'] > datetime.today():
                 return jsonify(message=f'{data["date_occurred"]} is in the future. Use a valid date'), 400
