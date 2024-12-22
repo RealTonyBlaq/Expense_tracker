@@ -100,7 +100,8 @@ def create_recurring_expense(category_id):
         )
         recurring_expense.save()
 
-        return jsonify(message='success', data=recurring_expense.to_dict()), 201
+        return jsonify(message='success',
+                       data=recurring_expense.to_dict()), 201
     return jsonify(message='Not a valid JSON'), 400
 
 
@@ -113,7 +114,8 @@ def delete_recurring_expense(id):
     if not current_user or not current_user.is_authenticated:
         abort(401)
 
-    rec_expense = db.query(RecurringExpense).filter_by(id = id, user_id = current_user.id).first()
+    rec_expense = db.query(RecurringExpense).filter_by(
+        id=id, user_id=current_user.id).first()
     if rec_expense:
         rec_expense.delete()
         return jsonify(message='success'), 200
@@ -135,7 +137,7 @@ def update_recurring_expense(id):
         except BadRequest:
             return jsonify(message='Error parsing JSON data'), 400
 
-        rec_expense = db.query(RecurringExpense).filter_by(id = id, user_id = current_user.id).first()
+        rec_expense = db.query(RecurringExpense).filter_by(id= id, user_id = current_user.id).first()
         if rec_expense is None:
             abort(404)
 
