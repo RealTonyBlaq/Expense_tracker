@@ -91,7 +91,8 @@ def delete_category(category_id):
     return jsonify(message='success'), 200
 
 
-@ETapp.route('/categories/<category_id>', methods=['PUT'], strict_slashes=False)
+@ETapp.route('/categories/<category_id>', methods=['PUT'],
+             strict_slashes=False)
 @jwt_required()
 def update_category(category_id):
     """ Updates a category object with data """
@@ -107,7 +108,8 @@ def update_category(category_id):
     except BadRequest:
         return jsonify(message='Error parsing JSON data'), 400
 
-    category_obj = db.query(Category).filter_by(id = category_id, user_id = current_user.id).first()
+    category_obj = db.query(Category).filter_by(id=category_id,
+                                                user_id = current_user.id).first()
     if category_obj:
         name = data.get('name').strip()
         if name:
