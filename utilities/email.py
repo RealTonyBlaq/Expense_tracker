@@ -198,7 +198,7 @@ class Email:
                     border-radius: 10px;
                     background-color: #f9f9f9;
                 }}
-                .money-in, .money-out {{
+                .money-in, .money-out, .balance {{
                     flex: 1;
                     text-align: center;
                     padding: 10px;
@@ -207,7 +207,7 @@ class Email:
                     background-color: #e8f5e9;
                     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                 }}
-                .money-in h4, .money-out h4 {{
+                .money-in h4, .money-out h4, .balance h4 {{
                     margin: 5px 0;
                     font-size: 20px;
                     color: #2e7d32;
@@ -215,7 +215,7 @@ class Email:
                 .money-out h4 {{
                     color: #c62828;
                 }}
-                .money-in p, .money-out p {{
+                .money-in p, .money-out p, .balance p {{
                     font-size: 16px;
                     margin: 0;
                     color: #555;
@@ -261,6 +261,9 @@ class Email:
                     display: flex;
                     gap: 10px;
                 }}
+                .X, .IG {{
+                    flex: 1;
+                }}
             </style>
         </head>
         <body>
@@ -287,6 +290,10 @@ class Email:
                                 <p>Money Out:</p>
                                 <h4>{summary["Total_debit"]}</h4>
                             </div>
+                            <div class="balance">
+                                <p>Balance:</p>
+                                <h4>{summary["Balance"]}</h4>
+                            </div>
                         </div>
                     </div>
                     <div class="statement-container">
@@ -299,11 +306,11 @@ class Email:
                     </p>
                 </div>
                 <div class="socials">
-                    <a href="https://x.com/{X_username}">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X logo" width="30"/>
+                    <a href="https://x.com/{X_username}" class="X">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X logo" width="20"/>
                     </a>
-                    <a href="https://instagram.com/{IG_username}/">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Instagram-Gradient-Logo-PNG.png" alt="Instagram logo" width="30"/>
+                    <a href="https://instagram.com/{IG_username}/" class="IG">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Instagram-Gradient-Logo-PNG.png" alt="Instagram logo" width="20"/>
                     </a>
                 </div>
                 <div class="footer">
