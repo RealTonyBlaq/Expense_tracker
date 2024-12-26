@@ -288,7 +288,11 @@ class Email:
                         If you did not request this statement, please reset your password or contact our support team for further assistance.
                     </p>
                 </div>
-                <div>
+                <div class="socials">
+                    <a href="">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X" width="30"/>
+                    </a>
+                </div>
                 <div class="footer">
                     &copy; {datetime.now().year} Expense Tracker. All rights reserved.
                 </div>
