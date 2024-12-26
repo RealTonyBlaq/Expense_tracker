@@ -259,6 +259,7 @@ class Email:
                 .socials {{
                     align-items: center;
                     display: flex;
+                    gap: 10px;
                 }}
             </style>
         </head>
