@@ -12,7 +12,7 @@ from smtplib import SMTPConnectError, SMTPServerDisconnected
 from typing import Dict
 
 
-x_username = getenv('X_USERNAME')
+X_username = getenv('X_USERNAME')
 IG_username = getenv('IG_USERNAME')
 
 
@@ -294,11 +294,11 @@ class Email:
                     </p>
                 </div>
                 <div class="socials">
-                    <a href="https://x.com/{x_username}">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X" width="30"/>
+                    <a href="https://x.com/{X_username}">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X logo" width="30"/>
                     </a>
                     <a href="https://instagram.com/{IG_username}/">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X" width="30"/>
+                        <img src="" alt="Instagram logo" width="30"/>
                     </a>
                 </div>
                 <div class="footer">
