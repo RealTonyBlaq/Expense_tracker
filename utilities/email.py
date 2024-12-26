@@ -71,6 +71,22 @@ class Email:
                             Kindly note that the OTP expires after {OTP_TIMEOUT} minutes.
                         </p>
                     </div>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <table align="center" style="margin: 0 auto;">
+                            <tr>
+                                <td style="padding: 0 5px;">
+                                    <a href="https://x.com/{X_username}" target="_blank">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X logo" width="20" style="display: block;"/>
+                                    </a>
+                                </td>
+                                <td style="padding: 0 5px;">
+                                    <a href="https://instagram.com/{IG_username}" target="_blank">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Instagram-Gradient-Logo-PNG.png" alt="Instagram logo" width="20" style="display: block;"/>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                     <div style="text-align: center; font-size: 12px; color: #888; padding: 10px; border-top: 1px solid #ddd;">
                         &copy; {datetime.now().year} Expense Tracker. All rights reserved.
                     </div>
@@ -119,6 +135,22 @@ class Email:
                         <p style="font-style: italic; color: #555; font-size: 14px; line-height: 1.6; margin: 20px 0;">
                             If you did not initiate this request, please ignore and proceed to change your password.
                         </p>
+                    </div>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <table align="center" style="margin: 0 auto;">
+                            <tr>
+                                <td style="padding: 0 5px;">
+                                    <a href="https://x.com/{X_username}" target="_blank">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X logo" width="20" style="display: block;"/>
+                                    </a>
+                                </td>
+                                <td style="padding: 0 5px;">
+                                    <a href="https://instagram.com/{IG_username}" target="_blank">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Instagram-Gradient-Logo-PNG.png" alt="Instagram logo" width="20" style="display: block;"/>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                     <div style="text-align: center; font-size: 12px; color: #888; padding: 10px; border-top: 1px solid #ddd;">
                         &copy; {datetime.now().year} Expense Tracker. All rights reserved.
@@ -256,14 +288,6 @@ class Email:
                     font-style: italic;
                     color: #555;
                 }}
-                .socials {{
-                    align-items: center;
-                    display: flex;
-                    gap: 10px;
-                }}
-                .X, .IG {{
-                    flex: 1;
-                }}
             </style>
         </head>
         <body>
@@ -305,13 +329,21 @@ class Email:
                         If you did not request this statement, please reset your password or contact our support team for further assistance.
                     </p>
                 </div>
-                <div class="socials">
-                    <a href="https://x.com/{X_username}" class="X">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X logo" width="20"/>
-                    </a>
-                    <a href="https://instagram.com/{IG_username}/" class="IG">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Instagram-Gradient-Logo-PNG.png" alt="Instagram logo" width="20"/>
-                    </a>
+                <div style="text-align: center; margin-top: 10px;">
+                    <table align="center" style="margin: 0 auto;">
+                        <tr>
+                            <td style="padding: 0 5px;">
+                                <a href="https://x.com/{X_username}" target="_blank">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X logo" width="20" style="display: block;"/>
+                                </a>
+                            </td>
+                            <td style="padding: 0 5px;">
+                                <a href="https://instagram.com/{IG_username}" target="_blank">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Instagram-Gradient-Logo-PNG.png" alt="Instagram logo" width="20" style="display: block;"/>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="footer">
                     &copy; {datetime.now().year} Expense Tracker. All rights reserved.
