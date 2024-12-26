@@ -71,7 +71,7 @@ class Email:
                             Kindly note that the OTP expires after {OTP_TIMEOUT} minutes.
                         </p>
                     </div>
-                    <div style="text-align: center; margin-top: 10px;">
+                    <div style="text-align: center;">
                         <table align="center" style="margin: 0 auto;">
                             <tr>
                                 <td style="padding: 0 5px;">
@@ -94,6 +94,9 @@ class Email:
             </body>
             </html>
             """
+
+            # Minify the HTML content to reduce whitespace
+            content = re.sub(r'\s+', ' ', content.strip())
 
             try:
                 connect.send(user.email, subject=subject, contents=content)
@@ -136,7 +139,7 @@ class Email:
                             If you did not initiate this request, please ignore and proceed to change your password.
                         </p>
                     </div>
-                    <div style="text-align: center; margin-top: 10px;">
+                    <div style="text-align: center;">
                         <table align="center" style="margin: 0 auto;">
                             <tr>
                                 <td style="padding: 0 5px;">
@@ -159,6 +162,9 @@ class Email:
             </body>
             </html>
             """
+
+            # Minify the HTML content to reduce whitespace
+            content = re.sub(r'\s+', ' ', content.strip())
 
             try:
                 connect.send(user.email, subject=subject, contents=content)
