@@ -12,8 +12,8 @@ from smtplib import SMTPConnectError, SMTPServerDisconnected
 from typing import Dict
 
 
-X_username = getenv('X_USERNAME')
-IG_username = getenv('IG_USERNAME')
+X_username = getenv('X_USERNAME', "AIIkpenyi")
+IG_username = getenv('IG_USERNAME', "ifeanyianthony")
 
 
 def _get_default_user() -> set:
@@ -298,7 +298,7 @@ class Email:
                         <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X logo" width="30"/>
                     </a>
                     <a href="https://instagram.com/{IG_username}/">
-                        <img src="" alt="Instagram logo" width="30"/>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Instagram-Gradient-Logo-PNG.png" alt="Instagram logo" width="30"/>
                     </a>
                 </div>
                 <div class="footer">
