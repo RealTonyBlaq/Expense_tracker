@@ -256,6 +256,10 @@ class Email:
                     font-style: italic;
                     color: #555;
                 }}
+                .socials {{
+                    align-items: center;
+                    display: flex;
+                }}
             </style>
         </head>
         <body>
