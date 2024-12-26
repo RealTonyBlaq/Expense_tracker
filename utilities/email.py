@@ -294,10 +294,10 @@ class Email:
                     </p>
                 </div>
                 <div class="socials">
-                    <a href="https://x.com/">
+                    <a href="https://x.com/{x_username}">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X" width="30"/>
                     </a>
-                    <a href="">
+                    <a href="https://instagram.com/{IG_username}/">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="X" width="30"/>
                     </a>
                 </div>
