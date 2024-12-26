@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}">
+    <title>Expense Tracker - create account</title>
+
+        <!-- Oswald font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+
+        <!-- Montserrat font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+        <!-- link to my CSS -->
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  </head>
+  <body>
+
+    <div class="wrapper">
+        <header class="ex">
+            <a href="{{ url_for('home') }}" style="text-decoration: none;"><h1 id="logo">Expense Tracker</h1></a>
+        </header>
+        <div>
+            <div class="signin">
+                <form action="/signup" method="post" id="accountForm">
+                    <label for="first">
+                        first name:
+                    </label>
+                    <input type="text"
+                    id="firstName"
+                    name="firstName"
+                    placeholder="Enter your first name" required>
+                    <div id="checkFirstName"></div>
+
+                    <label for="first">
+                        last name:
+                    </label>
+                    <input type="text"
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Enter your last name" required>
+                    <div id="checkLastName"></div>
+
+                    <label for="first">
+                        email:
+                    </label>
+                    <input type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email address" required>
+                    <div id="emailAvailability"></div>
+
+                    <label for="password">
+                        password:
+                    </label>
+                    <input type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password">
+                    <div id="smallLetter"></div>
+                    <div id="capLetter"></div>
+                    <div id="number"></div>
+                    <div id="specialCharacter"></div>
+                    <div id="pwdLength"></div>
+
+        
+                    <div class="sign-btn">
+                        <button id="submitBtn" type="submit">
+                        submit
+                        </button>
+                    </div>
+                    
+                </form>
+                <p>
+                    registered?
+                    <a href="{{ url_for('signin') }}"
+                    style="text-decoration: none;">
+                    signin to your account         
+                    </a>
+                </p>
+            </div>
+           
+        </div>
+       
+    </div>
+    <script type="text/javascript" src="../static/scripts/create_script.js"></script>
+  </body>
+</html>
