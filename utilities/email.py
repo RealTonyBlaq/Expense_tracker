@@ -3,12 +3,17 @@
 
 import base64
 from datetime import datetime
+from os import getenv
 from utilities.statement import Statement
 import yagmail
 from yagmail.error import YagInvalidEmailAddress, YagAddressError
 import re
 from smtplib import SMTPConnectError, SMTPServerDisconnected
 from typing import Dict
+
+
+x_username = getenv('X_USERNAME')
+IG_username = getenv('IG_USERNAME')
 
 
 def _get_default_user() -> set:
