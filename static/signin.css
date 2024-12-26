@@ -1,0 +1,181 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0eaea;
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.logo {
+    background-image: url("../static/img/logo.png");
+    background-repeat: no-repeat;
+    width: 45px;
+    height: 40px;
+    margin-right: 10px;
+    border: none;
+}
+
+.box {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(77, 71, 70, 0.1);
+    width: 100%;
+    max-width: 400px;
+    height: 380px;
+}
+
+.box-signup {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(77, 71, 70, 0.1);
+    width: 100%;
+    max-width: 400px;
+    height: 560px;
+}
+
+.box-reset {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(77, 71, 70, 0.1);
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+}
+
+.signin {
+    font-size: 30px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.signin a {
+    text-decoration: none;
+    color: black;
+}
+
+.input-container, .password-container {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.input-container input, .password-container input {
+    width: 100%;
+    padding: 10px;
+    padding-right: 40px; /* Reserve space for the icon */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.code-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.code-container input {
+    width: 120%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.password-container .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.password-container .toggle-password i {
+    font-size: 14px;
+    color: gray;
+}
+
+#firstName, #lastName, #email, #password {
+    border-bottom: 2px solid blue;
+    border-right: 2px solid;
+}
+
+#password-check {
+    text-align: justify;
+    font-size: 10px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+label {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.remember-me input {
+    margin-right: 10px;
+}
+
+#redirect {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: green;
+    font-size: 14px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: blue;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: darkblue;
+}
+
+.link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.link a {
+    text-decoration: none;
+    color: blue;
+    font-size: 14px;
+}
+
+.link a:hover {
+    text-decoration: underline;
+}
