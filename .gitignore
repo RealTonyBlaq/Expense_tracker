@@ -1,3 +1,4 @@
 __pycache__/
 *env
 et.db
+api/v1/uploads
