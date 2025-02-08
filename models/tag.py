@@ -10,7 +10,6 @@ from sqlalchemy.orm import relationship
 class Tag(BaseModel, Base):
     """ Tags provides additional categorization/labelling for an expense """
     __tablename__ = 'tags'
-
     name = Column(String(60), nullable=False, unique=True)
     user_id = Column(String(60),
                      ForeignKey('users.id', ondelete='CASCADE'),
@@ -19,3 +18,9 @@ class Tag(BaseModel, Base):
     # Relationships
     user = relationship('User', back_populates='tags')
     expenses = relationship('Expense', secondary=expense_tag, back_populates='tags')
+
+
+    @property
+    def creator(self) -> str:
+        """ Returns the Tag's creator name """
+        return f'{self.user.first_name} {self.user.last_name}'
