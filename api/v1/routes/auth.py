@@ -224,7 +224,7 @@ def reset():
             OTP = generate_otp()
             if not Email.send_otp(user, OTP, OTP_TIMEOUT):
                 return jsonify(message='An error occurred. OTP send \
-                    failure'), 400
+                    failure'), 500
 
             # Cache the OTP
             key = f'auth_{OTP}'
