@@ -31,6 +31,11 @@ class User(UserMixin, BaseModel, Base):
     __tablename__ = "users"
     first_name = Column(String(60), nullable=False)
     last_name = Column(String(60), nullable=False)
+    address = Column(String(100), nullable=True)
+    city = Column(String(60), nullable=True)
+    state = Column(String(60), nullable=True)
+    country = Column(String(60), nullable=True)
+    postal_code = Column(String(10), nullable=True)
     email = Column(String(60), nullable=False, unique=True)
     phone = Column(String(15), unique=True, nullable=True)
     password = Column(String(60), nullable=False)
