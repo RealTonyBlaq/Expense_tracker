@@ -19,3 +19,4 @@ verify-email==2.4.3
 Flask-JWT-Extended==4.6.0
 pandas==2.2.3
 openpyxl==3.1.5
+pillow==11.2.1
