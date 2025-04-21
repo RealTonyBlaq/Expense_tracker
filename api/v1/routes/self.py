@@ -101,7 +101,7 @@ def my_statement():
         return jsonify(message='"from" date parameter is missing'), 400
 
     if end is None:
-        return jsonify(message='"from" date parameter is invalid'), 400
+        return jsonify(message='"to" date parameter is missing'), 400
 
     try:
         start_date = datetime.strptime(start, date_format)
