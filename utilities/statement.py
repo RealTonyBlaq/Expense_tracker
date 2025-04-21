@@ -30,37 +30,53 @@ class Statement:
             'Balance': [b['Balance'] for b in txns]
         })
 
+        # Setup the intro data
+        summary_df = pd.DataFrame({
+            'Description': ['User Name', 'Email', 'From', 'To', 'Credits', 'Debits',
+                'Opening Balance', 'Closing Balance', 'Balance'],
+            'Result': [f'{user.first_name} {user.last_name}', user.email,
+                period['from'], period['to'], summary['Total_credit'],
+                summary['Total_debit'], summary['Opening_balance'],
+                summary['Closing_balance'], summary['Balance']]
+            })
+
         df['Date of Transaction'] = pd.to_datetime(df['Date of Transaction'])
 
         with pd.ExcelWriter('statement.xlsx', engine='openpyxl', mode='w') as writer:
-            worksheet = writer.book.create_sheet('Statement')
+            # Write dataframes to Excel first
+            summary_df.to_excel(writer, index=False, sheet_name='Statement', startrow=7)
+            df.to_excel(writer, index=False, sheet_name='Statement', startrow=18)
 
-            # Add a logo to the worksheet
+            # Get the actual worksheet created by pandas
+            worksheet = writer.sheets['Statement']
+
+            # Add a logo
             logo = Image('static/images/logo.png')
-            logo.width = logo.width * 0.5
-            logo.height = logo.height * 0.5
+            logo.width *= 0.5
+            logo.height *= 0.3
             logo.anchor = 'A1'
             worksheet.add_image(logo)
 
-            # Setup the intro data
-            summary_df = pd.DataFrame({
-                'Description': ['User Name', 'Email', 'From', 'To', 'Credits', 'Debits',
-                    'Opening Balance', 'Closing Balance', 'Balance'],
-                'Result': [f'{user.first_name} {user.last_name}', user.email,
-                    period['from'], period['to'], summary['Total_credit'],
-                    summary['Total_debit'], summary['Opening_balance'],
-                    summary['Closing_balance'], summary['Balance']]
-            })
-
-            # Write data to the xlsx file
-            summary_df.to_excel(writer, index=False, sheet_name='Statement', startrow=5)
-            df.to_excel(writer, index=False, sheet_name='Statement', startrow=16)
-
-            # Quick number formatting
-            values_col_idx = df.columns.get_loc('Balance') + 1
+            # Conditional formatting for negative balances
+            values_col_idx = df.columns.get_loc('Balance') + 1  # 1-based
+            start_row = 18
+            end_row = start_row + len(df) - 1
             column_letter = get_column_letter(values_col_idx)
-            cell_range = f'{column_letter}17:{column_letter}{len(df) + 1}'
+            cell_range = f'{column_letter}{start_row}:{column_letter}{end_row}'
+
             red_font = Font(color='9C0006')
-            worksheet.conditional_formatting.add(cell_range,
-                CellIsRule(operator='lessThan', formula=['0'], stopIfTrue=True, font=red_font))
-            worksheet.column_dimensions[column_letter].number_format = numbers.FORMAT_CURRENCY_USD_SIMPLE
+            worksheet.conditional_formatting.add(
+                cell_range,
+                CellIsRule(operator='lessThan', formula=['0'], font=red_font)
+            )
+
+            # Apply currency formatting
+            for row in range(start_row, end_row + 1):
+                cell = worksheet.cell(row=row, column=values_col_idx)
+                cell.number_format = numbers.FORMAT_CURRENCY_USD_SIMPLE
+
+            # Auto-adjust column widths
+            for idx, col in enumerate(df.columns, start=1):
+                col_letter = get_column_letter(idx)
+                max_length = max(df[col].astype(str).map(len).max(), len(col))
+                worksheet.column_dimensions[col_letter].width = max_length + 2
