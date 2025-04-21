@@ -113,12 +113,17 @@ def my_statement():
     if start_date > end_date:
         return jsonify(message='"from" date should not be higher \
             than "to" date'), 400
+    
+    if start_date > datetime.now():
+        return jsonify(message='"from" date should not be in the future'), 400
+    if end_date > datetime.now():
+        return jsonify(message='"to" date should not be in the future'), 400
 
     period = {'from': start_date, 'to': end_date}
 
     if not Email.send_statement(current_user, period):
         return jsonify(message='An error occurred. \
-            Statement could not be generated.'), 400
+            Statement could not be generated.'), 500
 
     return jsonify(message='Statement sent successfully! \
         Please check your inbox.'), 200
