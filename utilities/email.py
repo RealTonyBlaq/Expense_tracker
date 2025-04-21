@@ -9,7 +9,7 @@ import yagmail
 from yagmail.error import YagInvalidEmailAddress, YagAddressError
 import re
 from smtplib import SMTPConnectError, SMTPServerDisconnected
-from typing import Dict
+from typing import Dict, Literal
 
 
 X_username = getenv('X_USERNAME', "AIIkpenyi")
@@ -176,7 +176,8 @@ class Email:
         return False
 
     @classmethod
-    def send_statement(self, user, period: Dict[str, str]):
+    def send_statement(self, user, period: Dict[str, str],
+                       send_as: Literal['xlsx', 'pdf'] = 'xlsx') -> bool:
         """ Sends the user's full statement to the registered email """
         if not user:
             return False
@@ -184,8 +185,7 @@ class Email:
         dev_email, dev_password = _get_default_user()
         connect = yagmail.SMTP(dev_email, dev_password)
 
-        df_html, summary = Statement.get_html_statement(user, period)
-        df_html = df_html.replace('<table border="1"', '<table class="styled-table"')
+        Statement.prepare_statement(user, period, send_as)
 
         subject = "Your statement is ready!"
 
@@ -223,57 +223,6 @@ class Email:
                     line-height: 1.6;
                     margin: 10px 0;
                 }}
-                .statement-container {{
-                    margin: 20px 0;
-                }}
-                .summary {{
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin: 20px 0;
-                    padding: 10px;
-                    border: 1px solid #ddd;
-                    border-radius: 10px;
-                    background-color: #f9f9f9;
-                }}
-                .money-in, .money-out, .balance {{
-                    flex: 1;
-                    text-align: center;
-                    padding: 10px;
-                    margin: 0 10px;
-                    border-radius: 10px;
-                    background-color: #e8f5e9;
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                }}
-                .money-in h4, .money-out h4, .balance h4 {{
-                    margin: 5px 0;
-                    font-size: 20px;
-                    color: #2e7d32;
-                }}
-                .money-out h4 {{
-                    color: #c62828;
-                }}
-                .money-in p, .money-out p, .balance p {{
-                    font-size: 16px;
-                    margin: 0;
-                    color: #555;
-                }}
-                .styled-table {{
-                    width: 100%;
-                    border-collapse: collapse;
-                    font-size: 14px;
-                    text-align: left;
-                }}
-                .styled-table th, .styled-table td {{
-                    border: 1px solid #ddd;
-                    padding: 8px;
-                }}
-                .styled-table th {{
-                    background-color: #f4f4f4;
-                }}
-                .styled-table tr:nth-child(even) {{
-                    background-color: #f9f9f9;
-                }}
                 .footer {{
                     text-align: center;
                     font-size: 12px;
@@ -303,32 +252,8 @@ class Email:
                 </div>
                 <div class="content">
                     <p>Dear {user.first_name},</p>
-                    <p>We are pleased to inform you that your expense statement has been successfully generated. You can review your detailed expense report below:</p>
-                    <div class="statement-container">
-                        <h3>Name:</h3> <p>{user.first_name} {user.last_name} </p>
-                        <h3>Email Address:</h3> <p> {user.email} </p>
-                        <h3>Duration:</h3> <p> {datetime.strftime(period["from"], "%Y-%m-%d")} to {datetime.strftime(period["to"], "%Y-%m-%d")} </p>
-                        <h3>Opening Balance: {summary["Opening_balance"]}</h3>
-                        <h3>Closing Balance: {summary["Closing_balance"]}</h3>
-
-                        <div class="summary">
-                            <div class="money-in">
-                                <p>Money In:</p>
-                                <h4>{summary["Total_credit"]}</h4>
-                            </div>
-                            <div class="money-out">
-                                <p>Money Out:</p>
-                                <h4>{summary["Total_debit"]}</h4>
-                            </div>
-                            <div class="balance">
-                                <p>Balance:</p>
-                                <h4>{summary["Balance"]}</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="statement-container">
-                        {df_html}
-                    </div>
+                    <p>We are pleased to inform you that your expense statement has been successfully generated. You can now review your detailed expense report.</p>
+                    <p>Please find the attached statement.</p>
                     <p>If you have any questions or need assistance, feel free to reach out to us.</p>
                     <a href="http://127.0.0.1:5000/support" class="button">Contact Support</a>
                     <p class="italic">
@@ -363,7 +288,7 @@ class Email:
         content = re.sub(r'\s+', ' ', content.strip())
 
         try:
-            connect.send(user.email, subject=subject, contents=content)
+            connect.send(user.email, subject=subject, contents=content, attachments=['statement.xlsx'])
             connect.close()
             return True
         except (YagAddressError,
