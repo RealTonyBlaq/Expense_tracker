@@ -4,7 +4,11 @@
 import pandas as pd
 from models.user import User
 from os import getenv
-from typing import Dict
+from openpyxl.drawing.image import Image
+from openpyxl.utils import get_column_letter
+from openpyxl.formatting.rule import CellIsRule
+from openpyxl.styles import numbers, Font
+from typing import Dict, Literal
 
 
 currency = getenv('DEFAULT_CURRENCY', '$')
@@ -14,7 +18,7 @@ class Statement:
     """ The statement class """
 
     @classmethod
-    def get_html_statement(self, user: User, period:Dict[str, str] = None):
+    def prepare_statement(self, user: User, period:Dict[str, str] = None, format: Literal['xlsx', 'pdf'] = 'xlsx') -> None:
         """ Returns the HTML Excel workbook """
         txns, summary = user.generate_statement(period)
 
@@ -26,17 +30,37 @@ class Statement:
             'Balance': [b['Balance'] for b in txns]
         })
 
-        def format_with_color(value):
-            """ Format value with red color if negative """
-            formatted = f"{value:,.2f}"
-            if value < 0:
-                return f'<span style="color:red;">{currency} {formatted}</span>'
-            return f"{currency} {formatted}"
+        df['Date of Transaction'] = pd.to_datetime(df['Date of Transaction'])
 
+        with pd.ExcelWriter('statement.xlsx', engine='openpyxl', mode='w') as writer:
+            worksheet = writer.book.create_sheet('Statement')
 
-        df['Amount'] = df['Amount'].apply(format_with_color)
-        df['Balance'] = df['Balance'].apply(format_with_color)
+            # Add a logo to the worksheet
+            logo = Image('static/images/logo.png')
+            logo.width = logo.width * 0.5
+            logo.height = logo.height * 0.5
+            logo.anchor = 'A1'
+            worksheet.add_image(logo)
 
-        html = df.to_html(index=False, classes='styled-table', border=0, escape=False)
+            # Setup the intro data
+            summary_df = pd.DataFrame({
+                'Description': ['User Name', 'Email', 'From', 'To', 'Credits', 'Debits',
+                    'Opening Balance', 'Closing Balance', 'Balance'],
+                'Result': [f'{user.first_name} {user.last_name}', user.email,
+                    period['from'], period['to'], summary['Total_credit'],
+                    summary['Total_debit'], summary['Opening_balance'],
+                    summary['Closing_balance'], summary['Balance']]
+            })
 
-        return html, summary
+            # Write data to the xlsx file
+            summary_df.to_excel(writer, index=False, sheet_name='Statement', startrow=5)
+            df.to_excel(writer, index=False, sheet_name='Statement', startrow=16)
+
+            # Quick number formatting
+            values_col_idx = df.columns.get_loc('Balance') + 1
+            column_letter = get_column_letter(values_col_idx)
+            cell_range = f'{column_letter}17:{column_letter}{len(df) + 1}'
+            red_font = Font(color='9C0006')
+            worksheet.conditional_formatting.add(cell_range,
+                CellIsRule(operator='lessThan', formula=['0'], stopIfTrue=True, font=red_font))
+            worksheet.column_dimensions[column_letter].number_format = numbers.FORMAT_CURRENCY_USD_SIMPLE
