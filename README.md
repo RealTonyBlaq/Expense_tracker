@@ -4,15 +4,14 @@ This project is a simple and user-friendly application designed to help users tr
 
 ## Getting Started
 
-Set up config as in `.env.example` named `.env`
+* Set up config as in `.env.example` named `.env`
+* Install dependencies 
+```python
+pip install -r requirements.txt
+```
+* Start the application
 
-The "Expense Tracker" project is a command-line application built with Python that enables users to:
 
-* **Add expenses:**  Record details like date, amount, category, and optional notes for each expense.
-* **View expenses:**  Display a list of expenses by date, category, or amount.
-* **Generate reports:**  Create summaries of expenses for specific time periods, including total spending by category.
-* **Set budgets:**  Define limits for different expense categories to monitor spending.
-* **Export data:**  Save expense data in various formats for further analysis or sharing.
 
 ## 2. Installation Instructions
 
