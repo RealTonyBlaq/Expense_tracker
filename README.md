@@ -16,13 +16,14 @@ python3 -m api.v1.app
 
 ## API Endpoints
 
-| Files | Endpoints | Basic Operations | P
-| ----- | ----- | ------ |
+| Files | Endpoints | Basic Operations | Payload |
+| ----- | ----- | ------ | ----- |
 | `admin.py` | `/tags` | `POST` - Creates a new Tag. Only an admin can do this.
 | | `/tags/<tag_id>` | `GET` - Retrieves one Tag or all Tags created by the admin if no tag_id was passed |
 | | | `PUT` - Updates a Tag object |
 | | | `DELETE` - Deletes a Tag object |
-| `auth.py` |  `/signup` | `POST` - Creates a new User
+| `auth.py` |  `/signup` | `POST` - Creates a new User | ```{'first_name', 'last_name', 'email', 'password','confirm_password'} ``` |
+
 
 
 
