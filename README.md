@@ -16,8 +16,8 @@ python3 -m api.v1.app
 
 ## API Endpoints
 
-| Endpoints | Basic Operations |
-| ----- | ------ |
+| Files | Endpoints | Basic Operations |
+| ----- | ----- | ------ |
 
 
 
