@@ -22,6 +22,8 @@ python3 -m api.v1.app
 | | `/tags/<tag_id>` | `GET` - Retrieves one Tag or all Tags created by the admin if no tag_id was passed |
 | | | `PUT` - Updates a Tag object |
 | | | `DELETE` - Deletes a Tag object |
+| | | |
+| `auth.py` | 
 
 
 
