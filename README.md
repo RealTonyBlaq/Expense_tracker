@@ -18,8 +18,10 @@ python3 -m api.v1.app
 
 | Files | Endpoints | Basic Operations |
 | ----- | ----- | ------ |
-| `admin.py` | `/tags/<tag_id>` | `GET` - Retrieves one tag or all tags created by the admin if no tag_id was passed |
-| | | ` 
+| `admin.py` | `/tags` | `POST` - Creates a new Tag. Only an admin can do this.
+| | `/tags/<tag_id>` | `GET` - Retrieves one Tag or all Tags created by the admin if no tag_id was passed |
+| | | `PUT` - Updates a Tag object |
+| | | `DELETE` - Deletes a Tag object |
 
 
 
