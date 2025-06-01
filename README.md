@@ -33,10 +33,10 @@ python3 -m api.v1.app
 | | `/categories/<category_id>` | `GET` - Retrieves all Category objects created by the user or one Category if the `category_id` was passed. |
 | | | `PUT` - Updates a Category object with data |
 | | | `DELETE` - Deletes a Category object |
-| `earnings.py` | `/earnings` | `POST` - Creates a new Earning object | ``` {'name', '} ``` |
-| | `/earnings/<id>` | `GET` - Retrieves all Category objects created by the user or one Category if the `category_id` was passed. |
-| | | `PUT` - Updates a Category object with data |
-| | | `DELETE` - Deletes a Category object |
+| `earnings.py` | `/earnings` | `POST` - Creates a new Earning object | ``` {'name', 'date_occurred', 'amount'} ``` |
+| | `/earnings/<earning_id>` | `GET` - Retrieves all Earning objects created by the user or one object if the `earning_id` was passed. |
+| | | `PUT` - Updates an Earning object with data |
+| | | `DELETE` - Deletes an Earning object |
 
 
 
