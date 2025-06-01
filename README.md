@@ -23,7 +23,7 @@ python3 -m api.v1.app
 | | | `PUT` - Updates a Tag object |
 | | | `DELETE` - Deletes a Tag object |
 | | | |
-| `auth.py` | 
+| `auth.py` |  `/`
 
 
 
