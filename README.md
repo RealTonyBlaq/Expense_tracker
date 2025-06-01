@@ -10,25 +10,16 @@ This project is a simple and user-friendly application designed to help users tr
 pip install -r requirements.txt
 ```
 * Start the application
+```cmd
+python3 -m api.v1.app
+```
+
+## API Endpoints
+
+-- Endpoint | Basic Operations --
 
 
 
-## 2. Installation Instructions
-
-**Prerequisites:**
-
-
-**Installation steps:**
-
-1. Clone the repository: `git clone [Repository URL]`
-2. Navigate to the project directory: `cd Expense_tracker`
-3. Install dependencies: `[Installation Command]` (e.g., `pip install -r requirements.txt`)
-
-## 3. Usage Instructions
-
-**Start the application:**
-
-* Run the main script: `[Script Execution Command]` (e.g., `python main.py`)
 
 **Basic operations:**
 
