@@ -18,6 +18,7 @@ python3 -m api.v1.app
 
 | Files | Endpoints | Basic Operations |
 | ----- | ----- | ------ |
+| `admin.py` | GET `/tags` \n
 
 
 
