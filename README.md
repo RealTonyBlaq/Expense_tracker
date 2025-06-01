@@ -25,7 +25,7 @@ python3 -m api.v1.app
 | `auth.py` |  `/signup` | `POST` - Creates a new User | ```{'first_name', 'last_name', 'email', 'password','confirm_password'} ``` |
 | | `/login` | `POST` - Creates a new session for the user and returns a JSON payload |
 | | `/logout` | `GET` - Logs a user out from the session |
-
+| | `/reset-password` | `POST`
 
 
 
