@@ -1,8 +1,10 @@
-## Expense Tracker
+## **Expense Tracker**
 
-This project is a simple and user-friendly application designed to help users track their expenses efficiently.  It allows you to categorize your spending, set budgets, and analyze your financial habits to make informed decisions.
+This project is a simple and user-friendly application designed to help users track their expenses efficiently.  It allows you to categorize your spending, get transaction statements and spending reports, and analyze your financial habits to make informed decisions.
 
-## 1. Project Description
+## Getting Started
+
+Set up config as in `.env.example` named `.env`
 
 The "Expense Tracker" project is a command-line application built with Python that enables users to:
 
