@@ -25,8 +25,12 @@ python3 -m api.v1.app
 | `auth.py` |  `/signup` | `POST` - Creates a new User | ```{'first_name', 'last_name', 'email', 'password','confirm_password'} ``` |
 | | `/login` | `POST` - Creates a new session for the user and returns a JSON payload |
 | | `/logout` | `GET` - Logs a user out from the session |
-| | `/reset-password` | `POST`
-
+| | `/reset-password` | `POST` - Creates a password reset request which sends OTP to the registered email | ```{'email'}``` |
+| | | `PATCH` - Updates the user password after OTP has been verified. | |
+| | `/resend_otp` | Resends otp based on the value of the `process` parameter.
+| | `/auth/verify/<process>/<otp>` | Verifies the OTP
+| `categories.py` | `/categories` | `POST` - Creates a new Category of Expenses | ``` {'name'} ``` |
+| | `/categories/<category_id>` |
 
 
 ## 4. Contributing Guidelines
