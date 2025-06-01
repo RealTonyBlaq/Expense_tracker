@@ -31,7 +31,13 @@ python3 -m api.v1.app
 | | `/auth/verify/<process>/<otp>` | Verifies the OTP
 | `categories.py` | `/categories` | `POST` - Creates a new Category of Expenses | ``` {'name'} ``` |
 | | `/categories/<category_id>` | `GET` - Retrieves all Category objects created by the user or one Category if the `category_id` was passed. |
-| | | `PUT` - Updates a category object with data
+| | | `PUT` - Updates a Category object with data |
+| | | `DELETE` - Deletes a Category object |
+| `earnings.py` | `/earnings` | `POST` - Creates a new Earning object | ``` {'name', '} ``` |
+| | `/earnings/<id>` | `GET` - Retrieves all Category objects created by the user or one Category if the `category_id` was passed. |
+| | | `PUT` - Updates a Category object with data |
+| | | `DELETE` - Deletes a Category object |
+
 
 
 ## 4. Contributing Guidelines
