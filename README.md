@@ -18,8 +18,8 @@ python3 -m api.v1.app
 
 | Files | Endpoints | Basic Operations |
 | ----- | ----- | ------ |
-| `admin.py` | GET `/tags` \n
-
+| `admin.py` | GET `/tags/<tag_id>` | Retrieves one tag or all tags created by the admin if no tag_id was passed |
+| | 
 
 
 
