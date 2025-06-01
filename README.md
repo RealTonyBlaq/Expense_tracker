@@ -30,7 +30,8 @@ python3 -m api.v1.app
 | | `/resend_otp` | Resends otp based on the value of the `process` parameter.
 | | `/auth/verify/<process>/<otp>` | Verifies the OTP
 | `categories.py` | `/categories` | `POST` - Creates a new Category of Expenses | ``` {'name'} ``` |
-| | `/categories/<category_id>` |
+| | `/categories/<category_id>` | `GET` - Retrieves all Category objects created by the user or one Category if the `category_id` was passed. |
+| | | `PUT` - Updates a category object with data
 
 
 ## 4. Contributing Guidelines
