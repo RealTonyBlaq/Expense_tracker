@@ -25,20 +25,6 @@ python3 -m api.v1.app
 | `auth.py` |  `/signup` | `POST` - Creates a new User | ```{'first_name', 'last_name', 'email', 'password','confirm_password'} ``` |
 
 
-
-
-**Basic operations:**
-
-* **Add expense:**  Enter the expense details through prompts in the console.
-* **View expenses:**  Use the "view" command followed by optional filters (e.g., "view date", "view category").
-* **Generate report:**  Enter the "report" command and specify the time period (e.g., "report monthly", "report weekly").
-* **Set budget:**  Use the "budget" command followed by the category and limit.
-* **Export data:**  Use the "export" command and select the desired format.
-
-**Refer to the help menu:**
-
-* Enter the "help" command for a detailed list of available commands and options.
-
 ## 4. Contributing Guidelines
 
 We welcome contributions from the community! Here are some ways you can get involved:
