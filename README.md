@@ -23,7 +23,8 @@ python3 -m api.v1.app
 | | | `PUT` - Updates a Tag object |
 | | | `DELETE` - Deletes a Tag object |
 | `auth.py` |  `/signup` | `POST` - Creates a new User | ```{'first_name', 'last_name', 'email', 'password','confirm_password'} ``` |
-| | `/login`
+| | `/login` | `POST` - Creates a new session for the user and returns a JSON payload |
+| | `/logout` | `GET` - DE
 
 
 ## 4. Contributing Guidelines
