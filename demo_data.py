@@ -1,3 +1,4 @@
+from api.v1.routes.auth import hash_password
 import random
 from datetime import datetime, timedelta
 from decimal import Decimal
@@ -7,6 +8,12 @@ from models.expense import Expense
 from models.earning import Earning
 from models.user import User
 from utilities import db
+import os
+import requests
+from dotenv import load_dotenv, find_dotenv
+from sqlalchemy.exc import IntegrityError
+
+load_dotenv(find_dotenv())
 
 
 # Helper functions to generate random values
@@ -83,12 +90,12 @@ def create_random_categories(user_id):
         "Personal Care",
         "Gifts & Donations"
     ]
-    for expense_name in expense_types:
-        new_category = Category(name=expense_name, user_id=user_id)
+    for name in expense_types:
+        new_category = Category(name=name, user_id=user_id)
         new_category.save()
 
 
-def create_expenses(user_id) -> list:
+def create_expenses(user_id):
     """ Returns a list of auto generated data for a user """
     categories = [c.id for c in db.query(Category).filter_by(user_id=user_id).all()]
 
@@ -110,7 +117,7 @@ def create_expenses(user_id) -> list:
     print()
     
 
-def create_recurring_expenses(user_id) -> list:
+def create_recurring_expenses(user_id):
     """ Generates random recurring expense data """
     categories = [c.id for c in db.query(Category).filter_by(user_id=user_id).all()]
 
@@ -135,14 +142,30 @@ def create_recurring_expenses(user_id) -> list:
 
 
 if __name__ == "__main__":
-    email = input('Please enter a User email: ').strip()
-    try:
-        user = db.get_user(email)
-    except (ValueError, TypeError):
-        print('Error occurred => Invalid email')
-        exit(1)
-
-    create_random_categories(user.id)
-    create_earnings(user.id)
-    create_expenses(user.id)
-    create_recurring_expenses(user.id)
+    api_key = os.getenv('API_NINJA_KEY')
+    header = {"X-API-Key": api_key}
+    for _ in range(20):
+        URL = "https://api.api-ninjas.com/v1/randomuser"
+        r = requests.get(URL, headers=header)
+        if r.status_code == requests.codes.ok:
+            data = r.json()
+            first_name, last_name = data['name'].split(' ')
+            email = data['email']
+            password = hash_password(email)
+            address = data['address']
+            try:
+                user = User(
+                    first_name=first_name,
+                    last_name=last_name,
+                    email=email,
+                    password=password,
+                    address=address)
+                user.save()
+            except IntegrityError:
+                print(f'User with email {email} already exists')
+                continue
+            print(f'User {user.first_name} {user.last_name} created with id - {user.id}')
+            create_random_categories(user.id)
+            create_earnings(user.id)
+            create_expenses(user.id)
+            create_recurring_expenses(user.id)
