@@ -37,19 +37,3 @@ python3 -m api.v1.app
 | | `/earnings/<earning_id>` | `GET` - Retrieves all Earning objects created by the user or one object if the `earning_id` was passed. |
 | | | `PUT` - Updates an Earning object with data |
 | | | `DELETE` - Deletes an Earning object |
-
-
-
-## 4. Contributing Guidelines
-
-We welcome contributions from the community! Here are some ways you can get involved:
-
-* **Report issues:**  If you encounter any bugs or have feature requests, please create an issue on the GitHub repository.
-* **Submit pull requests:**  If you have code improvements or new features, create a pull request with clear descriptions and tests.
-* **Document your code:**  Ensure that any code you write is properly documented for others to understand.
-* **Follow the code style:**  Adhere to the existing code style guidelines to maintain consistency.
-
-## 5. License Information
-
-This project is licensed under the [License Name] license. See the `LICENSE` file for more details.
-
