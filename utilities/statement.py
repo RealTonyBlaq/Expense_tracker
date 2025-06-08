@@ -18,7 +18,7 @@ class Statement:
     """ The statement class """
 
     @classmethod
-    def prepare_statement(self, user: User, period:Dict[str, str] = None, format: Literal['xlsx', 'pdf'] = 'xlsx') -> None:
+    def prepare_statement(cls, user: User, period:Dict[str, str], format: Literal['xlsx', 'pdf'] = 'xlsx') -> None:
         """ Returns the HTML Excel workbook """
         txns, summary = user.generate_statement(period)
 
