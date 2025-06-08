@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" The Base Model for other classes/models """
+""" Base Model for other classes/models """
 
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
@@ -16,7 +16,7 @@ class BaseModel:
     created_at = Column(DateTime, nullable=False)
     updated_at = Column(DateTime, nullable=False)
 
-    def __init__(self, **kwargs: dict) -> None:
+    def __init__(self, **kwargs) -> None:
         """ """
         self.id = str(uuid4())
         self.created_at = datetime.now()
